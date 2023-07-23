@@ -4,7 +4,7 @@
   "description": "The Trinity Continuum system for FoundryVTT.",
   "version": "0.3.9",
   "minimumCoreVersion": "9.249",
-  "compatibleCoreVersion": "9",
+  "compatibleCoreVersion": "11",
   "templateVersion": 2,
   "author": "Scott Martin",
   "esmodules": ["module/trinity.js"],
