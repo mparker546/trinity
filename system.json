@@ -2,11 +2,11 @@
   "name": "trinity",
   "title": "Trinity Continuum",
   "description": "The Trinity Continuum system for FoundryVTT.",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "minimumCoreVersion": "9.249",
   "compatibleCoreVersion": "11",
   "templateVersion": 2,
-  "author": "Scott Martin",
+  "author": "Scott Martin, Michael Parker",
   "esmodules": ["module/trinity.js"],
   "styles": ["css/trinity.css"],
   "scripts": [],
@@ -37,8 +37,22 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": null,
   "secondaryTokenAttribute": null,
-  "url": "https://github.com/randomcard/trinity/",
-  "manifest": "https://github.com/Ianmward/trinity/releases/download/0.9/system.json",
-  "download": "https://github.com/Ianmward/trinity/releases/download/0.9/trinity.zip",
-  "license": "LICENSE.txt"
+  "url": "https://github.com/mparker546/trinity/",
+  "manifest": "https://github.com/mparker546/trinity/releases/download/0.9/system.json",
+  "download": "https://github.com/mparker546/trinity/releases/download/0.9/trinity.zip",
+  "license": "LICENSE.txt",
+  "media": [
+    {
+      "type": "cover",
+      "url": "https://raw.githubusercontent.com/mparker546/trinity/main/TC_package_image.webp",
+      "loop": false,
+      "caption": "Cover Images for the Unofficial Trinity Continuum package."
+    },
+    {
+      "type": "setup",
+      "url": "https://raw.githubusercontent.com/mparker546/trinity/main/TC_package_image.webp",
+      "thumbnail": "https://raw.githubusercontent.com/mparker546/trinity/main/TC_package_image_thumb.webp"
+    }
+  ]
+}
 }

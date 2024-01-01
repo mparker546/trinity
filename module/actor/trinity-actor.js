@@ -12,12 +12,12 @@ export class TrinityActor extends Actor {
    static async create(data, options) {
 
      // Populate Health Details, if empty
-     // if ( typeof data.data.health.details === "undefined" || Object.keys(data.data.health.details).length === 0) {
-     if ( typeof data.data === "undefined") {
+     // if ( typeof data.system.health.details === "undefined" || Object.keys(data.system.health.details).length === 0) {
+     if ( typeof data.system === "undefined") {
        let modelName = game.settings.get("trinity", "healthModel");
        let ifNPC = (data.type === "TrinityNPC") ? "NPC" : "";
        let model = modelSetup(`${modelName}${ifNPC}`); // Expand this for NPCs
-       data.data = {
+       data.system = {
          health : {
            details : JSON.parse(JSON.stringify(model))
          }
@@ -73,19 +73,23 @@ export class TrinityActor extends Actor {
   async prepareData() {
     super.prepareData();
 
-    const actorData = this.data;
-    const data = actorData.data;
-    const flags = actorData.flags;
+//    Old v9 data structure
+//    const actorData = this.data;
+//    const data = actorData.system;
+//    const flags = actorData.flags;
+
+    const actorData = this.system;
+     const flags = actorData.flags;
 
     // Default roll Settings:
-    actorData.data.rollSettings.succ.value = actorData.data.rollSettings.succ.value || game.settings.get("trinity", "defaultSuccess");
-    // actorData.data.rollSettings.fail.value = actorData.data.rollSettings.fail.value || game.settings.get("trinity", "defaultFail");
-    actorData.data.rollSettings.expl.value = actorData.data.rollSettings.expl.value || game.settings.get("trinity", "defaultExplode");
-    actorData.data.rollSettings.nsca.value = actorData.data.rollSettings.nsca.value || game.settings.get("trinity", "defaultNScale");
-    actorData.data.rollSettings.dsca.value = actorData.data.rollSettings.dsca.value || game.settings.get("trinity", "defaultDScale");
+    actorData.system.rollSettings.succ.value = actorData.system.rollSettings.succ.value || game.settings.get("trinity", "defaultSuccess");
+    // actorData.system.rollSettings.fail.value = actorData.system.rollSettings.fail.value || game.settings.get("trinity", "defaultFail");
+    actorData.system.rollSettings.expl.value = actorData.system.rollSettings.expl.value || game.settings.get("trinity", "defaultExplode");
+    actorData.system.rollSettings.nsca.value = actorData.system.rollSettings.nsca.value || game.settings.get("trinity", "defaultNScale");
+    actorData.system.rollSettings.dsca.value = actorData.system.rollSettings.dsca.value || game.settings.get("trinity", "defaultDScale");
 
     // Health Setup
-    if ( actorData.data.health.details ) {
+    if ( actorData.system.health.details ) {
       await setHealth(actorData);
       // setHealth doesn't trigger a redraw of token bars - this does it manually
       if ( typeof canvas.tokens !== "undefined" ) {
@@ -128,7 +132,7 @@ export class TrinityActor extends Actor {
    */
 
   _prepareTrinityCharacterData(actorData) {
-    const data = actorData.data;
+    const data = actorData.system;
 
     // Make modifications to data here. For example:
 
