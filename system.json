@@ -3,8 +3,11 @@
   "title": "Trinity Continuum",
   "description": "The Trinity Continuum system for FoundryVTT.",
   "version": "0.4.0",
-  "minimumCoreVersion": "9.249",
-  "compatibleCoreVersion": "11",
+  "compatibility": {
+    "minimum": 10,
+    "verified": "11.313",
+    "maximum": 11
+  },
   "templateVersion": 2,
   "author": "Scott Martin, Michael Parker",
   "esmodules": ["module/trinity.js"],
@@ -55,4 +58,4 @@
     }
   ]
 }
-}
+

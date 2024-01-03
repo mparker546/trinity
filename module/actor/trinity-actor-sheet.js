@@ -209,26 +209,26 @@ export class TrinityActorSheet extends ActorSheet {
     const actions = [];
 
     /* Old Healthbox code
-    for (let hb of Object.keys(this.actor.data.data.healthboxes)) {
+    for (let hb of Object.keys(this.actor.system.healthboxes)) {
       // console.log("Heathbox Logging - hb:", hb);
-      let injuries = Object.keys(this.actor.data.items.filter(h => h.data.data.flags.isInjury && (h.data.data.injury.value === this.actor.data.data.healthboxes[hb].conditionLevel))).length;
+      let injuries = Object.keys(this.actor.data.items.filter(h => h.system.data.flags.isInjury && (h.system.data.injury.value === this.actor.system.healthboxes[hb].conditionLevel))).length;
       //console.log("Heathbox Logging - injuries:", injuries);
       // add if - add the property if not already in healthboxes
       if (typeof healthBoxes[hb] === 'undefined' || healthBoxes[hb] === null) {
         // console.log("Heathbox Logging - check to add");
         healthBoxes[hb] = {};
         // console.log("Heathbox Logging - Added to healthBoxes:", healthBoxes);
-        healthBoxes[hb].name = this.actor.data.data.healthboxes[hb].name;
-        // healthBoxes[hb].push(this.actor.data.data.healthboxes[hb].name);
+        healthBoxes[hb].name = this.actor.system.healthboxes[hb].name;
+        // healthBoxes[hb].push(this.actor.system.healthboxes[hb].name);
       }
-      if ((this.actor.data.data.healthboxes[hb].value > 0) || (injuries > 0)) {
+      if ((this.actor.system.healthboxes[hb].value > 0) || (injuries > 0)) {
         // console.log("Heathbox Logging - add injuries");
-        if (injuries <= this.actor.data.data.healthboxes[hb].value) {
+        if (injuries <= this.actor.system.healthboxes[hb].value) {
           healthBoxes[hb].filled = injuries;
-          healthBoxes[hb].empty = this.actor.data.data.healthboxes[hb].value - healthBoxes[hb].filled;
+          healthBoxes[hb].empty = this.actor.system.healthboxes[hb].value - healthBoxes[hb].filled;
           healthBoxes[hb].extra = 0;
         } else {
-          healthBoxes[hb].extra = injuries - this.actor.data.data.healthboxes[hb].value;
+          healthBoxes[hb].extra = injuries - this.actor.system.healthboxes[hb].value;
           healthBoxes[hb].filled = injuries - healthBoxes[hb].extra;
           healthBoxes[hb].empty = 0;
         }
@@ -243,11 +243,11 @@ export class TrinityActorSheet extends ActorSheet {
     */
 
     // Identify Saved Rolls w/ Initiative Flagged
-    for (let sRoll of Object.keys(this.actor.data.data.savedRolls)) {
+    for (let sRoll of Object.keys(this.actor.system.savedRolls)) {
       // IF check for compatibility w/ new savedRolls styles
-      if (typeof this.actor.data.data.savedRolls[sRoll].elements !== 'undefined') {
-        if (typeof this.actor.data.data.savedRolls[sRoll].elements.init !== 'undefined' && this.actor.data.data.savedRolls[sRoll].elements.init !== null) {
-          if (this.actor.data.data.savedRolls[sRoll].elements.init.value) {
+      if (typeof this.actor.system.savedRolls[sRoll].elements !== 'undefined') {
+        if (typeof this.actor.system.savedRolls[sRoll].elements.init !== 'undefined' && this.actor.system.savedRolls[sRoll].elements.init !== null) {
+          if (this.actor.system.savedRolls[sRoll].elements.init.value) {
             initRolls.push(sRoll);
           }
         }
@@ -255,15 +255,15 @@ export class TrinityActorSheet extends ActorSheet {
     }
 
     // Check that Default Initiative Roll is still valid
-    if (this.actor.data.data.initiativeRollID !== "") {
-      if(typeof this.actor.data.data.savedRolls[this.actor.data.data.initiativeRollID] === 'undefined') {
-        this.actor.data.data.initiativeRollID = "";
+    if (this.actor.system.initiativeRollID !== "") {
+      if(typeof this.actor.system.savedRolls[this.actor.system.initiativeRollID] === 'undefined') {
+        this.actor.system.initiativeRollID = "";
       }
     }
 
     // Get / Set All Items Filter
-    if (typeof actorData.data.data.allItemsFilter === 'undefined') {
-      actorData.data.data.allItemsFilter = "All";
+    if (typeof actorData.system.allItemsFilter === 'undefined') {
+      actorData.system.allItemsFilter = "All";
       // console.log("Set/Reset allItemsFilter to empty.")
     }
 
@@ -357,7 +357,7 @@ export class TrinityActorSheet extends ActorSheet {
       }
       if (typeof(i.data.stunts) !== "undefined" && Object.keys(i.data.stunts).length > 0  && i.type !== 'action') { stunts.push(i); }
 
-      // if (i.type === actorData.data.data.allItemsFilter) { allItems.push(i); }
+      // if (i.type === actorData.system.allItemsFilter) { allItems.push(i); }
       allItems.push(i);
 
     }
@@ -500,7 +500,7 @@ export class TrinityActorSheet extends ActorSheet {
     // ex:
     // obj = this.actor.data
     // desc = data.tolerance.value
-    // returns = this.actor.data.data.tolerance.value
+    // returns = this.actor.system.tolerance.value
     function getDescendantProp(obj, desc) {
       var arr = desc.split('.');
       while (arr.length) {
@@ -603,7 +603,7 @@ export class TrinityActorSheet extends ActorSheet {
       console.log("item-favorite click:", ev);
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.update({ 'data.flags.isFavorite': !item.data.data.flags.isFavorite });
+      item.update({ 'data.flags.isFavorite': !item.system.data.flags.isFavorite });
     });
 
     // Output Item Description to Chat
@@ -614,8 +614,8 @@ export class TrinityActorSheet extends ActorSheet {
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
-        flavor: (item.data.data.typeName + " Description"),
-        content: ("<h2>"+item.data.name+"</h2>"+item.data.data.description)
+        flavor: (item.system.data.typeName + " Description"),
+        content: ("<h2>"+item.data.name+"</h2>"+item.system.data.description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -632,9 +632,9 @@ export class TrinityActorSheet extends ActorSheet {
       // let ownerItem =
       // console.log("chat output:", this, ev, li, liID);
       let ownerName = item.data.name;
-      let addinfo = (item.data.data.subItems[liID].type === "stunt") ? item.data.data.subItems[liID].costDescription : item.data.data.subItems[liID].tagValue;
-      let subItemName = item.data.data.subItems[liID].name+" ("+addinfo+")";
-      let subItemDesc = item.data.data.subItems[liID].description;
+      let addinfo = (item.system.data.subItems[liID].type === "stunt") ? item.system.data.subItems[liID].costDescription : item.system.data.subItems[liID].tagValue;
+      let subItemName = item.system.data.subItems[liID].name+" ("+addinfo+")";
+      let subItemDesc = item.system.data.subItems[liID].description;
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
@@ -716,7 +716,7 @@ export class TrinityActorSheet extends ActorSheet {
       console.log("Init Roll Changed:", ev);
       let rValue = ev.currentTarget.value;
       let aID = this.actor.id;
-      this.actor.data.data.initiativeRollID = rValue;
+      this.actor.system.initiativeRollID = rValue;
       game.actors.get(aID).update({"data.initiativeRollID": rValue});
     });
     */
@@ -762,8 +762,8 @@ export class TrinityActorSheet extends ActorSheet {
       itemData.data.flags.isInjury = true;
       itemData.data.flags.isComplication = true;
       itemData.data.complication = {};
-      itemData.data.complication.value = Object.values(this.actor.data.data.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-      itemData.data.injury.value = Object.values(this.actor.data.data.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+      itemData.data.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+      itemData.data.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
 
       // pop-out new condition, bypass normal process
       delete itemData.data["type"];
@@ -777,9 +777,9 @@ export class TrinityActorSheet extends ActorSheet {
     // Model S handling: Update state
     let header = event.currentTarget;
     let hKey = header.dataset.healthkey;
-    let hStates = this.actor.data.data.health.details[hKey].states;
+    let hStates = this.actor.system.health.details[hKey].states;
     let hStateIndex = header.dataset.healthstate;
-    let hState = this.actor.data.data.health.details[hKey].states[hStateIndex];
+    let hState = this.actor.system.health.details[hKey].states[hStateIndex];
 
     if ( hState < 3 ) {
       hStates[hStateIndex] = ++hState;
@@ -799,9 +799,9 @@ export class TrinityActorSheet extends ActorSheet {
     // Model S handling: Update state
     let header = event.currentTarget;
     let hKey = header.dataset.healthkey;
-    let hStates = this.actor.data.data.health.details[hKey].states;
+    let hStates = this.actor.system.health.details[hKey].states;
     let hStateIndex = header.dataset.healthstate;
-    let hState = this.actor.data.data.health.details[hKey].states[hStateIndex];
+    let hState = this.actor.system.health.details[hKey].states[hStateIndex];
 
     if ( hState > 0 ) {
       hStates[hStateIndex] = --hState;
@@ -857,8 +857,8 @@ export class TrinityActorSheet extends ActorSheet {
         itemData.data.flags.isInjury = true;
         itemData.data.flags.isComplication = true;
         itemData.data.complication = {};
-        itemData.data.complication.value = Object.values(this.actor.data.data.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-        itemData.data.injury.value = Object.values(this.actor.data.data.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+        itemData.data.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+        itemData.data.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
 
         // pop-out new condition, bypass normal process
         delete itemData.data["type"];
@@ -885,7 +885,7 @@ export class TrinityActorSheet extends ActorSheet {
     console.log(event);
     event.preventDefault();
     if (event.currentTarget.classList.contains("saved-roll")) {
-      let rollData = this.actor.data.data.savedRolls[event.currentTarget.dataset.rollid];
+      let rollData = this.actor.system.savedRolls[event.currentTarget.dataset.rollid];
       console.log("rollData found: ", rollData);
       // trinityRoll(this.actor, passElements, event);
       new RollForm(this.actor, {event:event}, rollData).render(true);
