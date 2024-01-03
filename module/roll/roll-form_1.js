@@ -117,11 +117,11 @@ export class RollForm extends FormApplication {
       const item = this.actor.items.get(event.currentTarget.id);
       var rollData = this.object;
       var note = "";
-      var itemValue = item.data.data.flags.isEnhancement ? item.data.data.enhancement.value : item.data.data.value;
-      if (item.type === "attribute" && item.data.data.flags.isMain === true) {
-        note = item.data.data.arena + "/" + item.data.data.approach;
+      var itemValue = item.data.system.flags.isEnhancement ? item.data.system.enhancement.value : item.data.system.value;
+      if (item.type === "attribute" && item.data.system.flags.isMain === true) {
+        note = item.data.system.arena + "/" + item.data.system.approach;
       } else {
-        note = item.data.data.enhancement.relevance;
+        note = item.data.system.enhancement.relevance;
       }
       if (item.id in rollData.items) {
         rollData.items[item.id].multiplier += 1;
@@ -131,7 +131,7 @@ export class RollForm extends FormApplication {
           name : item.name,
           SourceType : item.type,
           note : note,
-          isDice : !item.data.data.flags.isEnhancement,
+          isDice : !item.data.system.flags.isEnhancement,
           multiplier : 1,
           id : item.id
         }
@@ -173,9 +173,9 @@ export class RollForm extends FormApplication {
     this.itemList = [];
     for (let i of this.actor.items) {
       if (i.name === type) { this.itemList.push(i); continue; }
-      if (i.type === "attribute" && i.data.data.flags.isMain === false) { continue; }
+      if (i.type === "attribute" && i.data.system.flags.isMain === false) { continue; }
       if (i.type === type) { this.itemList.push(i); }
-      if (type === "enhancement" && i.data.data.flags.isEnhancement === true) { this.itemList.push(i); }
+      if (type === "enhancement" && i.data.system.flags.isEnhancement === true) { this.itemList.push(i); }
     }
   }
 

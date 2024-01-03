@@ -2,40 +2,40 @@
   <div class="grid grid-5col center-text options">
     <div class="">
       <label class="center-text resource-label" for="core" id="core-label">Core</label><br>
-      <input class="" type="checkbox" id="core" name="data.flags.isMain" value="{{data.data.flags.isMain}}" data-dtype="Boolean" {{checked data.data.flags.isMain}}/>
+      <input class="" type="checkbox" id="core" name="data.flags.isMain" value="{{data.system.flags.isMain}}" data-dtype="Boolean" {{checked data.system.flags.isMain}}/>
     </div>
     <div class="">
       <label class="center-text resource-label" for="facet" id="facet-label">Facet</label><br>
-      <input class="" type="checkbox" id="facet" name="data.flags.isFacet" value="{{data.data.flags.isFacet}}" data-dtype="Boolean" {{checked data.data.flags.isFacet}}/>
+      <input class="" type="checkbox" id="facet" name="data.flags.isFacet" value="{{data.system.flags.isFacet}}" data-dtype="Boolean" {{checked data.system.flags.isFacet}}/>
     </div>
     <div class="">
       <label class="center-text resource-label" for="psi" id="psi-label">Psi</label><br>
-      <input class="" type="checkbox" id="psi" name="data.flags.isPsi" value="{{data.data.flags.isPsi}}" data-dtype="Boolean" {{checked data.data.flags.isPsi}}/>
+      <input class="" type="checkbox" id="psi" name="data.flags.isPsi" value="{{data.system.flags.isPsi}}" data-dtype="Boolean" {{checked data.system.flags.isPsi}}/>
     </div>
     <div class="">
       <label class="center-text resource-label" for="quantum" id="quantum-label">Quantum</label><br>
-      <input class="" type="checkbox" id="quantum" name="data.flags.isQuantum" value="{{data.data.flags.isQuantum}}" data-dtype="Boolean" {{checked data.data.flags.isQuantum}}/>
+      <input class="" type="checkbox" id="quantum" name="data.flags.isQuantum" value="{{data.system.flags.isQuantum}}" data-dtype="Boolean" {{checked data.system.flags.isQuantum}}/>
     </div>
     <div class="">
       <label class="center-text resource-label" for="custom" id="custom-label">Custom</label><br>
-      <input class="" type="checkbox" id="custom" name="data.flags.isCustom" value="{{data.data.flags.isCustom}}" data-dtype="Boolean" {{checked data.data.flags.isCustom}}/>
+      <input class="" type="checkbox" id="custom" name="data.flags.isCustom" value="{{data.system.flags.isCustom}}" data-dtype="Boolean" {{checked data.system.flags.isCustom}}/>
     </div>
   </div>
 
   <div>
     <label class="resource-label" for="arena-text">Arena</label>
-    <input class="resource" type="text" id="arena-text" name="data.arena" value="{{data.data.arena}}" data-dtype="String"/>
+    <input class="resource" type="text" id="arena-text" name="data.arena" value="{{data.system.arena}}" data-dtype="String"/>
   </div>
   <div>
     <label class="resource-label" for="approach-text">Approach</label>
-    <input class="resource" type="text" id="approach-text" name="data.approach" value="{{data.data.approach}}" data-dtype="String"/>
+    <input class="resource" type="text" id="approach-text" name="data.approach" value="{{data.system.approach}}" data-dtype="String"/>
   </div>
   <div>
     <label class="resource-label" for="npcDescription-text">NPC Description</label>
-    <input class="resource" type="text" id="npcDescription-text" name="data.npcDescription" value="{{data.data.npcDescription}}" data-dtype="String"/>
+    <input class="resource" type="text" id="npcDescription-text" name="data.npcDescription" value="{{data.system.npcDescription}}" data-dtype="String"/>
   </div>
   <div>
     <label class="resource-label" for="sortNum-value">Sort Order</label>
-    <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="sortNum-value" name="data.sortNum" value="{{data.data.sortNum}}" data-dtype="Number"/>
+    <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="sortNum-value" name="data.sortNum" value="{{data.system.sortNum}}" data-dtype="Number"/>
   </div>
 </div>

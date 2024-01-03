@@ -4,12 +4,12 @@
         <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
         <div class="left-vcenter"> {{! Type & Flagged Info }}
           <span class="trait">
-            <span class="small icons">{{#if item.data.data.flags.hasDots}}{{{toDots item.data.data.value}}}{{/if}}</span>
-            {{item.data.data.typeName}}
+            <span class="small icons">{{#if item.data.system.flags.hasDots}}{{{toDots item.data.system.value}}}{{/if}}</span>
+            {{item.data.system.typeName}}
           </span>
           {{! Flagged Info }}
-          {{#if item.data.data.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
-          {{#if item.data.data.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
+          {{#if item.data.system.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
+          {{#if item.data.system.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
         </div>
       </div>
     </header>
@@ -25,7 +25,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable}}
+            {{editor content=data.system.description target="data.description" button=true owner=owner editable=editable}}
         </div>
 
         {{!-- Attributes Tab --}}
@@ -33,26 +33,26 @@
             {{!-- As you add new fields, add them in here! --}}
             <div class="">
               <label class="resource-label" for="approach">Approach</label>
-              <input type="text" id="approach" name="data.approach" value="{{item.data.data.approach}}" data-dtype="String"/>
+              <input type="text" id="approach" name="data.approach" value="{{item.data.system.approach}}" data-dtype="String"/>
             </div>
             <div class="">
               <label class="resource-label" for="arena">Arena</label>
-              <input type="text" id="arena" name="data.arena" value="{{item.data.data.arena}}" data-dtype="String"/>
+              <input type="text" id="arena" name="data.arena" value="{{item.data.system.arena}}" data-dtype="String"/>
             </div>
             <div class="">
               <label class="resource-label" for="sort">Sort Order</label>
-              <input type="number" id="sort" name="data.sortNum" value="{{item.data.data.sortNum}}" data-dtype="Number"/>
+              <input type="number" id="sort" name="data.sortNum" value="{{item.data.system.sortNum}}" data-dtype="Number"/>
             </div>
             <div class="">
               <label class="resource-label" for="megaValue">Mega Value</label>
-              <input type="number" id="megaValue" name="data.megaValue" value="{{item.data.data.megaValue}}" data-dtype="Number"/>
+              <input type="number" id="megaValue" name="data.megaValue" value="{{item.data.system.megaValue}}" data-dtype="Number"/>
             </div>
             <div class="">
-              <input class="left-vcenter" type="checkbox" id="mainFlag" name="data.flags.isMain" value="{{data.data.flags.isMain}}" data-dtype="Boolean" {{checked data.data.flags.isMain}}/>
+              <input class="left-vcenter" type="checkbox" id="mainFlag" name="data.flags.isMain" value="{{data.system.flags.isMain}}" data-dtype="Boolean" {{checked data.system.flags.isMain}}/>
               <label class="resource-label left-vcenter" for="mainFlag">Standard Attribute</label>
             </div>
             <div class="">
-              <input class="left-vcenter" type="checkbox" id="quantumFlag" name="data.flags.isQuantum" value="{{data.data.flags.isQuantum}}" data-dtype="Boolean" {{checked data.data.flags.isQuantum}}/>
+              <input class="left-vcenter" type="checkbox" id="quantumFlag" name="data.flags.isQuantum" value="{{data.system.flags.isQuantum}}" data-dtype="Boolean" {{checked data.system.flags.isQuantum}}/>
               <label class="resource-label left-vcenter" for="quantumFlag">Quantum Attribute</label>
             </div>
 

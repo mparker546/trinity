@@ -13,9 +13,9 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="description">Description</a>
-        {{#if item.data.data.stunts}}<a class="item" data-tab="stunts">Stunts</a>{{/if}}
-        {{#if item.data.data.tags}}<a class="item" data-tab="tags">Tags</a>{{/if}}
-        {{#if item.data.data.modePowers}}<a class="item" data-tab="powers">Powers</a>{{/if}}
+        {{#if item.data.system.stunts}}<a class="item" data-tab="stunts">Stunts</a>{{/if}}
+        {{#if item.data.system.tags}}<a class="item" data-tab="tags">Tags</a>{{/if}}
+        {{#if item.data.system.modePowers}}<a class="item" data-tab="powers">Powers</a>{{/if}}
         <a class="item" data-tab="attributes">Attributes</a>
     </nav>
 
@@ -24,7 +24,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable}}
+            {{editor content=data.system.description target="data.description" button=true owner=owner editable=editable}}
         </div>
 
         {{!-- Stunts Tab --}}
@@ -52,7 +52,7 @@
             {{#if (isEqual item.data.type "edge" "power") }}
             <div class="boxed fit">
               <div class="left-vcenter">
-                <input class="left-vcenter" type="checkbox" name="data.flags.hasDots" value="{{data.data.flags.hasDots}}" data-dtype="Boolean" {{checked data.data.flags.hasDots}}/>
+                <input class="left-vcenter" type="checkbox" name="data.flags.hasDots" value="{{data.system.flags.hasDots}}" data-dtype="Boolean" {{checked data.system.flags.hasDots}}/>
                 <label class="resource-label left-vcenter" for="data.flags.hasDots">Dots</label>
               </div>
             </div>
@@ -67,20 +67,20 @@
             {{! Complication Box }}
             <div class="boxed fit">
               <div class="left-vcenter">
-                <input class="left-vcenter" type="checkbox" name="data.flags.isComplication" value="{{data.data.flags.isComplication}}" data-dtype="Boolean" {{checked data.data.flags.isComplication}}/>
+                <input class="left-vcenter" type="checkbox" name="data.flags.isComplication" value="{{data.system.flags.isComplication}}" data-dtype="Boolean" {{checked data.system.flags.isComplication}}/>
                 <label class="resource-label left-vcenter" for="data.flags.isComplication">Complication</label>
               </div>
-              {{#if data.data.flags.isComplication}}
+              {{#if data.system.flags.isComplication}}
               <hr>
               {{#unless (isEqual item.data.type "condition") }}
               <div>
                 <label class="resource-label" for="complication-value">Complication Value</label>
-                <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="complication-value" name="data.complication.value" value="{{data.data.complication.value}}" data-dtype="Number"/>
+                <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="complication-value" name="data.complication.value" value="{{data.system.complication.value}}" data-dtype="Number"/>
               </div>
               {{/unless}}
               <div>
                 <label class="resource-label" for="complication-condition">Complication Condition</label>
-                <input class="resource" type="text" id="complication-condition" name="data.complication.relevance" value="{{data.data.complication.relevance}}" data-dtype="String"/>
+                <input class="resource" type="text" id="complication-condition" name="data.complication.relevance" value="{{data.system.complication.relevance}}" data-dtype="String"/>
               </div>
               {{/if}}
             </div>

@@ -5,7 +5,7 @@ Saved Rolls
 <button type="button" id="rollButton" class="actor-roll-button">New Roll</button>
 </h2>
 <div class="saved-rolls grid grid-4col">
-  {{#each data.data.savedRolls as |roll key|}}
+  {{#each data.system.savedRolls as |roll key|}}
     <div class="flexcol flex-group-center boxed" id="{{key}}">
       <div class="resource-label rollable saved-roll" data-rollID="{{key}}"> {{roll.name}} </div>
       <div class="flexcol flex-parent-wide">

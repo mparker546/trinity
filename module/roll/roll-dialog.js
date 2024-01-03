@@ -31,11 +31,11 @@ export async function rollDialog(targetActor, rollData, event, force) {
   var itemList = [];
 
   for (let i of targetActor.items) {
-    if (i.type === 'attribute' && i.data.data.flags.isMain) { attributes.push(i); }
+    if (i.type === 'attribute' && i.data.system.flags.isMain) { attributes.push(i); }
     if (i.type === 'skill') { skills.push(i); }
-    if (i.type === 'attribute' && i.data.data.flags.isQuantum) { quantum.push(i); }
-    if (i.type === 'quantumPower' && i.data.data.flags.isDice) { powers.push(i); }
-    if (i.data.data.flags.isEnhancement) { enhancements.push(i); }
+    if (i.type === 'attribute' && i.data.system.flags.isQuantum) { quantum.push(i); }
+    if (i.type === 'quantumPower' && i.data.system.flags.isDice) { powers.push(i); }
+    if (i.data.system.flags.isEnhancement) { enhancements.push(i); }
   }
 
 

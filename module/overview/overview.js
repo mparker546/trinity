@@ -76,7 +76,7 @@ this.state.momentum.spent = game.settings.get("trinity", "momentum-spent");
     }
 
     actors = actors.map(actor => {
-      const data = actor.data.data;
+      const data = actor.data.system;
       return this.getActorDetails(actor);
     });
 
@@ -121,13 +121,13 @@ this.state.momentum.spent = game.settings.get("trinity", "momentum-spent");
   }
 
   getActorDetails(actor) {
-    const data = actor.data.data;
+    const data = actor.data.system;
 
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
         name: actor.name,
-        aspirations: actor.data.data.aspirations
+        aspirations: actor.data.system.aspirations
       };
 
   }
@@ -138,7 +138,7 @@ this.state.momentum.spent = game.settings.get("trinity", "momentum-spent");
     // Change Momentum
 
     html.find('.momentum').change(ev => {
-      // this.actor.update({ 'data.inspiration.value': ++this.actor.data.data.inspiration.value });
+      // this.actor.update({ 'data.inspiration.value': ++this.actor.data.system.inspiration.value });
       // console.log("Momentum Change");
       // console.log(this.state.momentum.max, this.state.momentum.current, this.state.momentum.spent);
       // game.settings.set("trinity", "momentum-max", this.state.momentum.max);

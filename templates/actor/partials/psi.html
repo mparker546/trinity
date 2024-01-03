@@ -27,17 +27,17 @@
             <div class="flex-child resource-label">Current</div>
             <div class="flex-parent-nowrap-center">
               <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.psi.points.value"></i>
-              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.psi.points.value" value="{{this.actor.data.data.psi.points.value}}" data-dtype="Number"/>
+              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.psi.points.value" value="{{this.actor.data.system.psi.points.value}}" data-dtype="Number"/>
               <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.psi.points.value"></i>
             </div>
           </div>
           <div class="flex-child resource-label">&nbsp;/&nbsp;</div>
           <div class="flex-parent-center-column flex-child">
             <div class="flex-child resource-label">Max</div>
-            <div class="flex-child resource can-hide">{{this.actor.data.data.psi.points.max}}</div>
+            <div class="flex-child resource can-hide">{{this.actor.data.system.psi.points.max}}</div>
             <div class="flex-parent-nowrap-center edit-area can-hide hidden">
               <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.psi.points.max"></i>
-              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.psi.points.max" value="{{this.actor.data.data.psi.points.max}}" data-dtype="Number"/>
+              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.psi.points.max" value="{{this.actor.data.system.psi.points.max}}" data-dtype="Number"/>
               <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.psi.points.max"></i>
             </div>
           </div>
@@ -46,10 +46,10 @@
       <hr>
       <div class="flex-parent-center-column">
         <div class="flex-child resource-label">Max Tolerance</div>
-        <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.data.psi.tolerance.max}}}</div>
+        <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.system.psi.tolerance.max}}}</div>
         <div class="flex-parent-nowrap-center edit-area can-hide hidden">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.psi.tolerance.max"></i>
-          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.psi.tolerance.max" value="{{data.data.psi.tolerance.max}}" data-dtype="Number"/>
+          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.psi.tolerance.max" value="{{data.system.psi.tolerance.max}}" data-dtype="Number"/>
           <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.psi.tolerance.max"></i>
         </div>
       </div>
@@ -58,7 +58,7 @@
         <div class="flex-parent-center-column flex-child">
           <div class="flex-child big icons">
             <i class="clickable sub-value far fa-caret-square-left" data-target="data.psi.tolerance.value"></i>
-            {{{to10Boxes this.actor.data.data.psi.tolerance.value}}}
+            {{{to10Boxes this.actor.data.system.psi.tolerance.value}}}
             <i class="clickable add-value far fa-caret-square-right" data-target="data.psi.tolerance.value"></i>
           </div>
           <div class="flex-child resource-label">Tolerance</div>

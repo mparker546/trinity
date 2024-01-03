@@ -72,11 +72,11 @@ export class RollForm extends FormApplication {
     }
 
     // Model S: Check for penalties, add if needed.
-    if ( game.settings.get("trinity", "healthModel") === "modelS" && actor.data.data.health.summary.penalty < 0 ) {
+    if ( game.settings.get("trinity", "healthModel") === "modelS" && actor.data.system.health.summary.penalty < 0 ) {
       let rollItemID = randomID(16);
       this.object.items[rollItemID] = {
-        value : actor.data.data.health.summary.penalty,
-        name : actor.data.data.health.summary.status,
+        value : actor.data.system.health.summary.penalty,
+        name : actor.data.system.health.summary.status,
         SourceType : "Injury",
         note : "Injury Penalty",
         isDice : true,
@@ -220,11 +220,11 @@ export class RollForm extends FormApplication {
     this.itemListType = type;
     this.itemList = [];
     for (let i of this.actor.items) {
-      if (i.data.data.flags.isFacet && !this.actor.data.data.flags.isTalent) { continue; }
-      if (type === "enhancement" && i.data.data.flags.isEnhancement === true) { this.itemList.push(i); continue; }
-      if (type === "attribute" && i.type === "attribute" && i.data.data.flags.isMain === true) { this.itemList.push(i); continue; }
+      if (i.data.system.flags.isFacet && !this.actor.data.system.flags.isTalent) { continue; }
+      if (type === "enhancement" && i.data.system.flags.isEnhancement === true) { this.itemList.push(i); continue; }
+      if (type === "attribute" && i.type === "attribute" && i.data.system.flags.isMain === true) { this.itemList.push(i); continue; }
       if (i.name === type) { this.itemList.push(i); continue; }
-      if (type !== "attribute" && i.type === type && i.data.data.flags.isEnhancement === false) { this.itemList.push(i); }
+      if (type !== "attribute" && i.type === type && i.data.system.flags.isEnhancement === false) { this.itemList.push(i); }
     }
   }
 
@@ -251,15 +251,15 @@ export class RollForm extends FormApplication {
     } else {
       const item = this.actor.items.get(id);
       rollItemID = item.id;
-      itemValue = item.data.data.flags.isEnhancement ? item.data.data.enhancement.value : item.data.data.value;
+      itemValue = item.data.system.flags.isEnhancement ? item.data.system.enhancement.value : item.data.system.value;
       itemName = item.name;
-      isDice = !item.data.data.flags.isEnhancement;
+      isDice = !item.data.system.flags.isEnhancement;
       sourceType = item.type;
       // Note:
-      if (item.type === "attribute" && item.data.data.flags.isMain === true) {
-        note = item.data.data.arena + "/" + item.data.data.approach;
+      if (item.type === "attribute" && item.data.system.flags.isMain === true) {
+        note = item.data.system.arena + "/" + item.data.system.approach;
       } else {
-        note = item.data.data.enhancement.relevance;
+        note = item.data.system.enhancement.relevance;
       }
       // Multiplier:
       if (item.id in this.object.items) {
@@ -358,16 +358,16 @@ export class RollForm extends FormApplication {
         return total;
       },
       settings : {
-        expl : this.actor.data.data.rollSettings.expl.value,
-        succ : this.actor.data.data.rollSettings.succ.value,
-        nsca : this.actor.data.data.rollSettings.nsca.value, // Narrative Scale (Absolute)
-        dsca : this.actor.data.data.rollSettings.dsca.value, // Dramatic Scale (Difference)
+        expl : this.actor.data.system.rollSettings.expl.value,
+        succ : this.actor.data.system.rollSettings.succ.value,
+        nsca : this.actor.data.system.rollSettings.nsca.value, // Narrative Scale (Absolute)
+        dsca : this.actor.data.system.rollSettings.dsca.value, // Dramatic Scale (Difference)
         fail : game.settings.get("trinity", "defaultFail"), // Fail value, for old-school homebrew
         doub : game.settings.get("trinity", "defaultDouble"), // Double Success value, for old-school homebrew
         init : false // For Compatibility
       },
       flags : {
-        fail : this.actor.data.data.flags.isMage,
+        fail : this.actor.data.system.flags.isMage,
         doub : false
       },
       favorite : false

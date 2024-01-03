@@ -631,7 +631,7 @@ export class TrinityActorSheet extends ActorSheet {
       console.log(".sub-item-chat listener li, liID, item: ", li, liID, item);
       // let ownerItem =
       // console.log("chat output:", this, ev, li, liID);
-      let ownerName = item.data.name;
+      let ownerName = item.name;
       let addinfo = (item.system.data.subItems[liID].type === "stunt") ? item.system.data.subItems[liID].costDescription : item.system.data.subItems[liID].tagValue;
       let subItemName = item.system.data.subItems[liID].name+" ("+addinfo+")";
       let subItemDesc = item.system.data.subItems[liID].description;
@@ -756,17 +756,17 @@ export class TrinityActorSheet extends ActorSheet {
         data: data
       };
 
-      itemData.data.injury = {};
-      itemData.data.injury.type = +header.dataset.healthtype;
-      itemData.data.flags = {};
-      itemData.data.flags.isInjury = true;
-      itemData.data.flags.isComplication = true;
-      itemData.data.complication = {};
-      itemData.data.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-      itemData.data.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+      itemData.system.injury = {};
+      itemData.system.injury.type = +header.dataset.healthtype;
+      itemData.system.flags = {};
+      itemData.system.flags.isInjury = true;
+      itemData.system.flags.isComplication = true;
+      itemData.system.complication = {};
+      itemData.system.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+      itemData.system.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
 
       // pop-out new condition, bypass normal process
-      delete itemData.data["type"];
+      delete itemData.system["type"];
 
       console.log("injury create itemdata bottom", itemData);
       this.actor.createEmbeddedDocuments('Item', [itemData], { renderSheet: true });
@@ -841,8 +841,8 @@ export class TrinityActorSheet extends ActorSheet {
     // Subtype / Flag handling
     if (typeof header.dataset.flag !== 'undefined' && header.dataset.flag !== null) {
       console.log("Create Item Flag Handling");
-      itemData.data.flags = {};
-      itemData.data.flags[header.dataset.flag] = true;
+      itemData.system.flags = {};
+      itemData.system.flags[header.dataset.flag] = true;
     }
 
     // Injury Handling
@@ -851,17 +851,17 @@ export class TrinityActorSheet extends ActorSheet {
     if (typeof header.dataset.healthtype !== 'undefined' && header.dataset.healthtype !== null) {
       if (game.settings.get("trinity", "healthModel") === "modelT") {
         console.log("Create Item - Injury");
-        itemData.data.injury = {};
-        itemData.data.injury.type = +header.dataset.healthtype;
-        itemData.data.flags = {};
-        itemData.data.flags.isInjury = true;
-        itemData.data.flags.isComplication = true;
-        itemData.data.complication = {};
-        itemData.data.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-        itemData.data.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+        itemData.system.injury = {};
+        itemData.system.injury.type = +header.dataset.healthtype;
+        itemData.system.flags = {};
+        itemData.system.flags.isInjury = true;
+        itemData.system.flags.isComplication = true;
+        itemData.system.complication = {};
+        itemData.system.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
+        itemData.system.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
 
         // pop-out new condition, bypass normal process
-        delete itemData.data["type"];
+        delete itemData.system["type"];
 
         console.log("injury create itemdata bottom", itemData);
         this.actor.createEmbeddedDocuments('Item', [itemData], { renderSheet: true });
@@ -874,7 +874,7 @@ export class TrinityActorSheet extends ActorSheet {
     console.log(itemData);
 
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+    delete itemData.system["type"];
 
     // Finally, create the item!
     return this.actor.createEmbeddedDocuments('Item',[itemData]);

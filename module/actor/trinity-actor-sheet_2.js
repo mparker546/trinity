@@ -70,7 +70,7 @@ export class TrinityActorSheet extends ActorSheet {
   getData() {
     const data = super.getData();
     data.dtypes = ["String", "Number", "Boolean"];
-//    for (let attr of Object.values(data.data.attributes)) {
+//    for (let attr of Object.values(data.system.attributes)) {
 //      attr.isCheckbox = attr.dtype === "Boolean";
 //    }
 
@@ -175,16 +175,16 @@ if (content.style.maxHeight){
 /* Removed to test new HB iteration
     const healthBoxes = {
       bruised : {
-        name : this.actor.data.data.healthboxes.bru.name
+        name : this.actor.data.system.healthboxes.bru.name
       },
       injured : {
-        name : this.actor.data.data.healthboxes.inj.name
+        name : this.actor.data.system.healthboxes.inj.name
       },
       maimed : {
-        name : this.actor.data.data.healthboxes.mai.name
+        name : this.actor.data.system.healthboxes.mai.name
       },
       takenOut : {
-        name : this.actor.data.data.healthboxes.tak.name
+        name : this.actor.data.system.healthboxes.tak.name
       }
     };
 */
@@ -193,38 +193,38 @@ if (content.style.maxHeight){
 
 /*
     healthBoxes.bruised = [];
-    healthBoxes.bruised.name = this.actor.data.data.healthboxes.bru.name;
+    healthBoxes.bruised.name = this.actor.data.system.healthboxes.bru.name;
     healthBoxes.injured = [];
-    healthBoxes.injured.name = this.actor.data.data.healthboxes.inj.name;
+    healthBoxes.injured.name = this.actor.data.system.healthboxes.inj.name;
     healthBoxes.maimed = [];
-    healthBoxes.maimed.name = this.actor.data.data.healthboxes.mai.name;
+    healthBoxes.maimed.name = this.actor.data.system.healthboxes.mai.name;
     healthBoxes.takenOut = [];
-    healthBoxes.takenOut.name = this.actor.data.data.healthboxes.tak.name;
+    healthBoxes.takenOut.name = this.actor.data.system.healthboxes.tak.name;
 */
 
     // Create healthboxes
     // Get # of injuries - Turn this into a loop to reduce code...
 
-    for (let hb of Object.keys(this.actor.data.data.healthboxes)) {
+    for (let hb of Object.keys(this.actor.data.system.healthboxes)) {
       // console.log("Heathbox Logging - hb:", hb);
-      let injuries = Object.keys(this.actor.data.items.filter(h => h.data.data.flags.isInjury && (h.data.data.injury.value === this.actor.data.data.healthboxes[hb].conditionLevel))).length;
+      let injuries = Object.keys(this.actor.data.items.filter(h => h.data.system.flags.isInjury && (h.data.system.injury.value === this.actor.data.system.healthboxes[hb].conditionLevel))).length;
       //console.log("Heathbox Logging - injuries:", injuries);
       // add if - add the property if not already in healthboxes
       if (typeof healthBoxes[hb] === 'undefined' || healthBoxes[hb] === null) {
         // console.log("Heathbox Logging - check to add");
         healthBoxes[hb] = {};
         // console.log("Heathbox Logging - Added to healthBoxes:", healthBoxes);
-        healthBoxes[hb].name = this.actor.data.data.healthboxes[hb].name;
-        // healthBoxes[hb].push(this.actor.data.data.healthboxes[hb].name);
+        healthBoxes[hb].name = this.actor.data.system.healthboxes[hb].name;
+        // healthBoxes[hb].push(this.actor.data.system.healthboxes[hb].name);
       }
-      if ((this.actor.data.data.healthboxes[hb].value > 0) || (injuries > 0)) {
+      if ((this.actor.data.system.healthboxes[hb].value > 0) || (injuries > 0)) {
         // console.log("Heathbox Logging - add injuries");
-        if (injuries <= this.actor.data.data.healthboxes[hb].value) {
+        if (injuries <= this.actor.data.system.healthboxes[hb].value) {
           healthBoxes[hb].filled = injuries;
-          healthBoxes[hb].empty = this.actor.data.data.healthboxes[hb].value - healthBoxes[hb].filled;
+          healthBoxes[hb].empty = this.actor.data.system.healthboxes[hb].value - healthBoxes[hb].filled;
           healthBoxes[hb].extra = 0;
         } else {
-          healthBoxes[hb].extra = injuries - this.actor.data.data.healthboxes[hb].value;
+          healthBoxes[hb].extra = injuries - this.actor.data.system.healthboxes[hb].value;
           healthBoxes[hb].filled = injuries - healthBoxes[hb].extra;
           healthBoxes[hb].empty = 0;
         }
@@ -238,22 +238,22 @@ if (content.style.maxHeight){
     }
 
     // Idenify Saved Rolls w/ Initiative Flagged
-    for (let sRoll of Object.keys(this.actor.data.data.savedRolls)) {
+    for (let sRoll of Object.keys(this.actor.data.system.savedRolls)) {
       console.log(sRoll);
-      console.log(this.actor.data.data.savedRolls[sRoll]);
+      console.log(this.actor.data.system.savedRolls[sRoll]);
       console.log(this.actor);
 
-      if (typeof this.actor.data.data.savedRolls[sRoll].elements.init !== 'undefined' && this.actor.data.data.savedRolls[sRoll].elements.init !== null) {
-        if (this.actor.data.data.savedRolls[sRoll].elements.init.value) {
-          // initRolls.push(this.actor.data.data.savedRolls[sRoll]);
+      if (typeof this.actor.data.system.savedRolls[sRoll].elements.init !== 'undefined' && this.actor.data.system.savedRolls[sRoll].elements.init !== null) {
+        if (this.actor.data.system.savedRolls[sRoll].elements.init.value) {
+          // initRolls.push(this.actor.data.system.savedRolls[sRoll]);
           initRolls.push(sRoll);
         }
       }
     }
 
     // Check that Default Initiative Roll is still valid
-        if(typeof this.actor.data.data.savedRolls[this.actor.data.data.initiativeRollID] === 'undefined' || this.actor.data.data.savedRolls[this.actor.data.data.initiativeRollID].elements.init.value === false) {
-      this.actor.data.data.initiativeRollID = "";
+        if(typeof this.actor.data.system.savedRolls[this.actor.data.system.initiativeRollID] === 'undefined' || this.actor.data.system.savedRolls[this.actor.data.system.initiativeRollID].elements.init.value === false) {
+      this.actor.data.system.initiativeRollID = "";
     }
 
 
@@ -263,45 +263,45 @@ if (content.style.maxHeight){
     /* -------------------------Removed to test new HB iteration-----------------
     // Bruised (1)
     let bruisedNum = Object.keys(this.actor.data.items.filter(h => h.data.flags.isInjury && (h.data.injury.value === 1))).length;
-    if (bruisedNum <= this.actor.data.data.healthboxes.bru.value) {
+    if (bruisedNum <= this.actor.data.system.healthboxes.bru.value) {
       healthBoxes.bruised.filled = bruisedNum;
-      healthBoxes.bruised.empty = this.actor.data.data.healthboxes.bru.value - healthBoxes.bruised.filled;
+      healthBoxes.bruised.empty = this.actor.data.system.healthboxes.bru.value - healthBoxes.bruised.filled;
       healthBoxes.bruised.extra = 0;
     } else {
-      healthBoxes.bruised.extra = bruisedNum - this.actor.data.data.healthboxes.bru.value;
+      healthBoxes.bruised.extra = bruisedNum - this.actor.data.system.healthboxes.bru.value;
       healthBoxes.bruised.filled = bruisedNum - healthBoxes.bruised.extra;
       healthBoxes.bruised.empty = 0;
     }
 
     // Injured (2)
     let injuredNum = Object.keys(this.actor.data.items.filter(h => h.data.flags.isInjury && (h.data.injury.value === 2))).length;
-    if (injuredNum <= this.actor.data.data.healthboxes.inj.value) {
+    if (injuredNum <= this.actor.data.system.healthboxes.inj.value) {
       healthBoxes.injured.filled = injuredNum;
-      healthBoxes.injured.empty = this.actor.data.data.healthboxes.inj.value - healthBoxes.injured.filled;
+      healthBoxes.injured.empty = this.actor.data.system.healthboxes.inj.value - healthBoxes.injured.filled;
     } else {
-      healthBoxes.injured.extra = injuredNum - this.actor.data.data.healthboxes.inj.value;
+      healthBoxes.injured.extra = injuredNum - this.actor.data.system.healthboxes.inj.value;
       healthBoxes.injured.filled = injuredNum - healthBoxes.injured.extra;
       healthBoxes.injured.empty = 0;
     }
 
     // Maimed (Value 3, Condition level 4)
     let maimedNum = Object.keys(this.actor.data.items.filter(h => h.data.flags.isInjury && (h.data.injury.value === 3 ))).length;
-    if (maimedNum <= this.actor.data.data.healthboxes.mai.value) {
+    if (maimedNum <= this.actor.data.system.healthboxes.mai.value) {
       healthBoxes.maimed.filled = maimedNum;
-      healthBoxes.maimed.empty = this.actor.data.data.healthboxes.mai.value - healthBoxes.maimed.filled;
+      healthBoxes.maimed.empty = this.actor.data.system.healthboxes.mai.value - healthBoxes.maimed.filled;
     } else {
-      healthBoxes.maimed.extra = maimedNum - this.actor.data.data.healthboxes.mai.value;
+      healthBoxes.maimed.extra = maimedNum - this.actor.data.system.healthboxes.mai.value;
       healthBoxes.maimed.filled = maimedNum - healthBoxes.maimed.extra;
       healthBoxes.maimed.empty = 0;
     }
 
     // Taken Out (Value 4, Condition Level "Taken Out")
     let takenOutNum = Object.keys(this.actor.data.items.filter(h => h.data.flags.isInjury && (h.data.injury.value === 4 ))).length;
-    if (takenOutNum <= this.actor.data.data.healthboxes.tak.value) {
+    if (takenOutNum <= this.actor.data.system.healthboxes.tak.value) {
       healthBoxes.takenOut.filled = takenOutNum;
-      healthBoxes.takenOut.empty = this.actor.data.data.healthboxes.tak.value - healthBoxes.takenOut.filled;
+      healthBoxes.takenOut.empty = this.actor.data.system.healthboxes.tak.value - healthBoxes.takenOut.filled;
     } else {
-      healthBoxes.takenOut.extra = takenOutNum - this.actor.data.data.healthboxes.tak.value;
+      healthBoxes.takenOut.extra = takenOutNum - this.actor.data.system.healthboxes.tak.value;
       healthBoxes.takenOut.filled = takenOutNum - healthBoxes.takenOut.extra;
       healthBoxes.takenOut.empty = 0;
     }
@@ -430,9 +430,9 @@ if (content.style.maxHeight){
 
     // Remove Inspiration
     html.find('.remove-inspiration').click(ev => {
-      if (this.actor.data.data.inspiration.value > 0) {
-        // --this.actor.data.data.inspiration.value;
-        this.actor.update({ 'data.inspiration.value': --this.actor.data.data.inspiration.value });
+      if (this.actor.data.system.inspiration.value > 0) {
+        // --this.actor.data.system.inspiration.value;
+        this.actor.update({ 'data.inspiration.value': --this.actor.data.system.inspiration.value });
 
         this.render(true);
       }
@@ -440,8 +440,8 @@ if (content.style.maxHeight){
 
     // Add Inspiration
     html.find('.add-inspiration').click(ev => {
-      // ++this.actor.data.data.inspiration.value;
-      this.actor.update({ 'data.inspiration.value': ++this.actor.data.data.inspiration.value });
+      // ++this.actor.data.system.inspiration.value;
+      this.actor.update({ 'data.inspiration.value': ++this.actor.data.system.inspiration.value });
       this.render(true);
     });
 
@@ -463,8 +463,8 @@ if (content.style.maxHeight){
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
-        flavor: (item.data.data.typeName + " Description"),
-        content: ("<h2>"+item.data.name+"</h2>"+item.data.data.description)
+        flavor: (item.data.system.typeName + " Description"),
+        content: ("<h2>"+item.data.name+"</h2>"+item.data.system.description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -538,7 +538,7 @@ if (content.style.maxHeight){
       console.log(ev);
       let passElements = {};
       if (ev.currentTarget.classList.contains("saved-roll")) {
-        passElements = this.actor.data.data.savedRolls[event.currentTarget.id].elements;
+        passElements = this.actor.data.system.savedRolls[event.currentTarget.id].elements;
         console.log("Elements found: ", passElements);
       }
       let rollFunction = this._onRoll.bind(this);
@@ -589,8 +589,8 @@ if (content.style.maxHeight){
     // Subtype / Flag handling
     if (typeof header.dataset.flag !== 'undefined' && header.dataset.flag !== null) {
       console.log("Create Item Flag Handling");
-      itemData.data.flags = {};
-      itemData.data.flags[header.dataset.flag] = true;
+      itemData.system.flags = {};
+      itemData.system.flags[header.dataset.flag] = true;
     }
 
     // Injury Handling
@@ -608,16 +608,16 @@ if (content.style.maxHeight){
         case "Taken Out":
           value = 5; break;
       }
-      itemData.data.injury = {};
-      itemData.data.injury.value = value;
-      itemData.data.flags = {};
-      itemData.data.flags.isInjury = true;
-      itemData.data.flags.isComplication = true;
-      itemData.data.complication = {};
-      itemData.data.complication.value = value;
+      itemData.system.injury = {};
+      itemData.system.injury.value = value;
+      itemData.system.flags = {};
+      itemData.system.flags.isInjury = true;
+      itemData.system.flags.isComplication = true;
+      itemData.system.complication = {};
+      itemData.system.complication.value = value;
 
       // pop-out new condition, bypass normal process
-      delete itemData.data["type"];
+      delete itemData.system["type"];
       // let newItem = await this.actor.createOwnedItem(itemData);
       // console.log(this.actor);
       // console.log(itemData);
@@ -639,7 +639,7 @@ if (content.style.maxHeight){
     console.log(itemData);
 
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+    delete itemData.system["type"];
 
     // Finally, create the item!
     return this.actor.createEmbeddedDocuments('Item',[itemData]);
@@ -650,7 +650,7 @@ if (content.style.maxHeight){
     console.log(event);
     event.preventDefault();
     if (event.currentTarget.classList.contains("saved-roll")) {
-      let passElements = this.actor.data.data.savedRolls[event.currentTarget.dataset.rollid].elements;
+      let passElements = this.actor.data.system.savedRolls[event.currentTarget.dataset.rollid].elements;
       console.log("Elements found: ", passElements);
       trinityRoll(this.actor, passElements, event);
     } else {

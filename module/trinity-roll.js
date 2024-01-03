@@ -40,7 +40,7 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
 
   // Attribute info
   if (typeof dataset.attrname !== 'undefined' && dataset.attrname !== null) {
-    targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
+    targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
     pickedElements.attr = targetAttr;
     console.log("Picked Elements:");
     console.log(pickedElements);
@@ -56,7 +56,7 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
     targetSkill = targetActor.data.items.get(dataset.skillid);
     console.log(targetSkill);
     pickedElements.skil.name = targetSkill.name;
-    pickedElements.skil.value = targetSkill.data.data.value; // Added .data - Why? Something with v7 to v9 ?
+    pickedElements.skil.value = targetSkill.data.system.value; // Added .data - Why? Something with v7 to v9 ?
     console.log("Found Skill Info:");
     console.log(targetSkill);
   }
@@ -153,13 +153,13 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
 
         let uniqueRollNumber = randomID(16);
 
-        targetActor.data.data.savedRolls[uniqueRollNumber] = {
+        targetActor.data.system.savedRolls[uniqueRollNumber] = {
           name: results,
           elements: pickedElements,
         };
 
         // console.log(results);
-        console.log("Saved Roll:", targetActor.data.data.savedRolls);
+        console.log("Saved Roll:", targetActor.data.system.savedRolls);
         return;
         }
       }

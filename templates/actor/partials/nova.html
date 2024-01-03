@@ -27,17 +27,17 @@
             <div class="flex-child resource-label">Current</div>
             <div class="flex-parent-nowrap-center">
               <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.quantum.points.value"></i>
-              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quantum.points.value" value="{{this.actor.data.data.quantum.points.value}}" data-dtype="Number"/>
+              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quantum.points.value" value="{{this.actor.data.system.quantum.points.value}}" data-dtype="Number"/>
               <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.quantum.points.value"></i>
             </div>
           </div>
           <div class="flex-child resource-label">&nbsp;/&nbsp;</div>
           <div class="flex-parent-center-column flex-child">
             <div class="flex-child resource-label">Max</div>
-            <div class="flex-child resource can-hide">{{this.actor.data.data.quantum.points.max}}</div>
+            <div class="flex-child resource can-hide">{{this.actor.data.system.quantum.points.max}}</div>
             <div class="flex-parent-nowrap-center edit-area can-hide hidden">
               <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.quantum.points.max"></i>
-              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quantum.points.max" value="{{this.actor.data.data.quantum.points.max}}" data-dtype="Number"/>
+              <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quantum.points.max" value="{{this.actor.data.system.quantum.points.max}}" data-dtype="Number"/>
               <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.quantum.points.max"></i>
             </div>
           </div>
@@ -47,7 +47,7 @@
       <div class="flex-parent-center-column flex-child">
         <div class="flex-child big icons">
           <i class="clickable sub-value far fa-caret-square-left" data-target="data.flux"></i>
-          {{{to10Boxes this.actor.data.data.flux}}}
+          {{{to10Boxes this.actor.data.system.flux}}}
           <i class="clickable add-value far fa-caret-square-right" data-target="data.flux"></i>
         </div>
         <div class="flex-child resource-label">Flux</div>
@@ -56,7 +56,7 @@
       <div class="flex-parent-center-column flex-child">
         <div class="flex-child big icons">
           <i class="clickable sub-value far fa-caret-square-left" data-target="data.transcendence"></i>
-          {{{to10Boxes this.actor.data.data.transcendence}}}
+          {{{to10Boxes this.actor.data.system.transcendence}}}
           <i class="clickable add-value far fa-caret-square-right" data-target="data.transcendence"></i>
         </div>
         <div class="flex-child resource-label">Transcendence</div>

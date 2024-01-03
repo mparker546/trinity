@@ -122,8 +122,8 @@ game.settings.register("trinity", "healthModel", {
       let model = modelSetup(`${value}${ifNPC}`); // Expand this for NPCs
       // let model = modelSetup(value); // Expand this for NPCs
 
-      // console.log("Health Model Flag False, Resetting Details/Model:", actorData.data.health.models[modelName], actorData.data.flags.isHealthModelUpdated);
-      // actorData.data.health.details = JSON.parse(JSON.stringify(actorData.data.health.models[modelName])); // JSON Deep Copy
+      // console.log("Health Model Flag False, Resetting Details/Model:", actorData.system.health.models[modelName], actorData.system.flags.isHealthModelUpdated);
+      // actorData.system.health.details = JSON.parse(JSON.stringify(actorData.system.health.models[modelName])); // JSON Deep Copy
       // item.update({ "data.health.details": JSON.parse(JSON.stringify(model)) }, { recursive: false, diff: false }); // Is a deep copy needed here?
       // item.update({ "data.health.details": JSON.parse(JSON.stringify(model)) }, { recursive: false }); // Is a deep copy needed here?
       await actor.update({ "data.health.-=details": null });

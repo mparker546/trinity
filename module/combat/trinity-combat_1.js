@@ -20,7 +20,7 @@ export class TrinityCombat extends Combat
       var ini = "";
 
       // Actors w/o an initiative roll
-      if (combatant.actor.data.data.initiativeRollID === "") {
+      if (combatant.actor.data.system.initiativeRollID === "") {
         ini = 0;
         let chatData = {
           content: `${combatant.actor.data.name} has no initiative roll selected.`
@@ -29,8 +29,8 @@ export class TrinityCombat extends Combat
       } else {
 
       // Actors w/ an initiative roll selected
-        let pickedElements = combatant.actor.data.data.savedRolls[combatant.actor.data.data.initiativeRollID].elements;
-        let breaker = combatant.actor.data.data.savedRolls[combatant.actor.data.data.initiativeRollID].dice;
+        let pickedElements = combatant.actor.data.system.savedRolls[combatant.actor.data.system.initiativeRollID].elements;
+        let breaker = combatant.actor.data.system.savedRolls[combatant.actor.data.system.initiativeRollID].dice;
 
 
         let combatRoll = await trinityRoll(combatant.actor, pickedElements, {}, true);

@@ -78,8 +78,8 @@ export class TrinityActor extends Actor {
 //    const data = actorData.system;
 //    const flags = actorData.flags;
 
-    const actorData = this.system;
-    const data = actorData.system;
+const actorData = this;
+    const data = actorData.data;
      const flags = actorData.flags;
 
     // Default roll Settings:

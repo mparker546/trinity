@@ -30,8 +30,8 @@ export class TrinityRoll {
 // STEP 1: Check for available info from actor and process it.
 // Actor info
 /*    if (typeof targetActor !== 'undefined' ) {
-      targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
-      // targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
+      targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
+      // targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
       console.log("Found Attribute Info:");
       console.log(targetAttr);
       // If the dataset has dataset.attrname, use it get full actor attrib data
@@ -40,7 +40,7 @@ export class TrinityRoll {
 
 // Attribute info
     if (typeof dataset.attrname !== 'undefined' && dataset.attrname !== null) {
-      targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
+      targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
       // targetAttr.id = targetAttr.name;
       pickedElements.attr = targetAttr;
       console.log("Picked Elements:");
@@ -53,7 +53,7 @@ export class TrinityRoll {
         arena: app
       };
       */
-      // targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
+      // targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
       console.log("Found Attribute Info:");
       console.log(targetAttr);
       // If the dataset has dataset.attrname, use it get full actor attrib data
@@ -116,11 +116,11 @@ export class TrinityRoll {
     console.log(targetActor);
     console.log("dataset.attr");
     console.log(dataset.attr);
-    console.log(Object.values(targetActor.data.data.attributes));
+    console.log(Object.values(targetActor.data.system.attributes));
 //    console.log(Object.values(users).filter(user => user.user_id === 1));
-    let targetAttr = Object.values(targetActor.data.data.attributes).filter(attribute => attribute.name === dataset.attrname);
-//    let targetAttr = targetActor.data.data.attributes.filter(attribute => attributes.name === dataset.attr);
-//    const targetAttr = targetActor.data.data.attributes.find(a => a.name === dataset.attr);
+    let targetAttr = Object.values(targetActor.data.system.attributes).filter(attribute => attribute.name === dataset.attrname);
+//    let targetAttr = targetActor.data.system.attributes.filter(attribute => attributes.name === dataset.attr);
+//    const targetAttr = targetActor.data.system.attributes.find(a => a.name === dataset.attr);
     console.log(targetAttr[0]);
 
 //    const targetSkill = targetActor.data.items.find(i => i._id === dataset.skillid);

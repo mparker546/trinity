@@ -93,7 +93,7 @@ export class OverviewApp extends Application {
     }
 
     actors = actors.map(actor => {
-      const data = actor.data.data;
+      const data = actor.data.system;
       return this.getActorDetails(actor);
     });
 
@@ -185,29 +185,29 @@ export class OverviewApp extends Application {
   }
 
   getActorDetails(actor) {
-    const data = actor.data.data;
+    const data = actor.data.system;
 
     if (game.system.id === 'trinity') {
       // let armor
       /*
-      if (actor.data.data.stats.toughness.armor > 0) {
-        armor = actor.data.data.stats.toughness.armor
+      if (actor.data.system.stats.toughness.armor > 0) {
+        armor = actor.data.system.stats.toughness.armor
       }
       */
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
         name: actor.name,
-        aspirations: actor.data.data.aspirations
+        aspirations: actor.data.system.aspirations
         /*
         ,
-        current_wounds: actor.data.data.wounds.value,
-        max_wounds: actor.data.data.wounds.max,
-        current_fatigue: actor.data.data.fatigue.value,
-        max_fatigue: actor.data.data.fatigue.max,
-        bennies: actor.data.data.bennies.value,
-        parry: actor.data.data.stats.parry.value,
-        toughness: actor.data.data.stats.toughness.value,
+        current_wounds: actor.data.system.wounds.value,
+        max_wounds: actor.data.system.wounds.max,
+        current_fatigue: actor.data.system.fatigue.value,
+        max_fatigue: actor.data.system.fatigue.max,
+        bennies: actor.data.system.bennies.value,
+        parry: actor.data.system.stats.parry.value,
+        toughness: actor.data.system.stats.toughness.value,
         armor: armor
         */
       };
@@ -337,20 +337,20 @@ export class OverviewApp extends Application {
 
     if (game.system.id === 'swade') {
       let armor
-      if (actor.data.data.stats.toughness.armor > 0) {
-        armor = actor.data.data.stats.toughness.armor
+      if (actor.data.system.stats.toughness.armor > 0) {
+        armor = actor.data.system.stats.toughness.armor
       }
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
         name: actor.name,
-        current_wounds: actor.data.data.wounds.value,
-        max_wounds: actor.data.data.wounds.max,
-        current_fatigue: actor.data.data.fatigue.value,
-        max_fatigue: actor.data.data.fatigue.max,
-        bennies: actor.data.data.bennies.value,
-        parry: actor.data.data.stats.parry.value,
-        toughness: actor.data.data.stats.toughness.value,
+        current_wounds: actor.data.system.wounds.value,
+        max_wounds: actor.data.system.wounds.max,
+        current_fatigue: actor.data.system.fatigue.value,
+        max_fatigue: actor.data.system.fatigue.max,
+        bennies: actor.data.system.bennies.value,
+        parry: actor.data.system.stats.parry.value,
+        toughness: actor.data.system.stats.toughness.value,
         armor: armor
       };
     }

@@ -26,7 +26,7 @@ export class Picker {
         html = await renderTemplate("systems/trinity/templates/pickers/pick-skil.html", {items: pItems, actor: targetActor});
         break;
       case "enha":
-        pItems = targetActor.items.filter(f => f.data.data.flags.isEnhancement === true);
+        pItems = targetActor.items.filter(f => f.data.system.flags.isEnhancement === true);
         pickedElements.enha = {};
         Object.assign(pickedElements.enha, pickedElementsProto.enha);
         html = await renderTemplate("systems/trinity/templates/pickers/pick-enha.html", {items: pItems, actor: targetActor});
@@ -51,7 +51,7 @@ export class Picker {
                 if (i.checked) {  // maybe i[0], might not work with Enha/Checkbox
                   switch(pickType) {
                     case "attr":
-                      pickedElements.attr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === i.value) || pickedElements.attr;
+                      pickedElements.attr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === i.value) || pickedElements.attr;
                       break;
                     case "skil":
                       pickedElements.skil = targetActor.items.find(item => item.id === i.id).data || pickedElements.skil;
@@ -88,7 +88,7 @@ export class Picker {
               let h = html.find('.input');
               Array.prototype.forEach.call(h, function(i) {
                 if (i.checked) {  // maybe i[0]
-                  pickedElements.attr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === i.value);
+                  pickedElements.attr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === i.value);
                   console.log("Picker, Update button, pickedElement:");
                   console.log(pickedElements);
                 }
@@ -99,7 +99,7 @@ export class Picker {
 /*
               for (let i of html.filter('.input')) {
                 if (i.checked) {  // maybe i[0]
-                  pickedElements.attr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === i.value);
+                  pickedElements.attr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === i.value);
                   console.log("Picker, Update button, pickedElement:");
                   console.log(pickedElements);
                 }
@@ -108,7 +108,7 @@ export class Picker {
 
 
 /* Various useful code snippets
-targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
+targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
 pickedElements.attr = targetAttr;
 
               if (html.find('#'+i._id)[0].checked) {

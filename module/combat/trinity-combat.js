@@ -77,7 +77,7 @@ export class TrinityCombat extends Combat
       if ( !combatant?.isOwner ) return results;
 
       // Actors w/o an initiative roll
-      if (typeof combatant.actor.data.data.linkedRolls.initiative === "undefined" || combatant.actor.data.data.linkedRolls.initiative === "") {
+      if (typeof combatant.actor.data.system.linkedRolls.initiative === "undefined" || combatant.actor.data.system.linkedRolls.initiative === "") {
         let chatData = {
           content: `${combatant.actor.data.name} has no initiative roll selected.`
         };
@@ -91,7 +91,7 @@ export class TrinityCombat extends Combat
       } else {
 
       // Actors w/ an initiative roll selected
-        let p = combatant.actor.data.data.savedRolls[combatant.actor.data.data.linkedRolls.initiative];
+        let p = combatant.actor.data.system.savedRolls[combatant.actor.data.system.linkedRolls.initiative];
         let breaker = p.diceTotal * 0.01;
         let initModel = game.settings.get("trinity", "initModel");
         let rollFormula = "";

@@ -67,8 +67,8 @@ export class TrinityItemSheet extends ItemSheet {
     const stunts = [];
     const tags = [];
 
-    for (let i of Object.keys(this.item.data.data.subItems)) {
-      let subItem = this.item.data.data.subItems[i];
+    for (let i of Object.keys(this.item.data.system.subItems)) {
+      let subItem = this.item.data.system.subItems[i];
       if (subItem.type === 'stunt') { stunts.push(subItem); }
       if (subItem.type === 'tag') { tags.push(subItem); }
     }
@@ -152,9 +152,9 @@ export class TrinityItemSheet extends ItemSheet {
       // let ownerItem =
       // console.log("chat output:", this, ev, li, liID);
       let ownerName = this.item.data.name;
-      let addinfo = (this.item.data.data.subItems[liID].type === "stunt") ? this.item.data.data.subItems[liID].costDescription : this.item.data.data.subItems[liID].tagValue;
-      let subItemName = this.item.data.data.subItems[liID].name+" ("+addinfo+")";
-      let subItemDesc = this.item.data.data.subItems[liID].description;
+      let addinfo = (this.item.data.system.subItems[liID].type === "stunt") ? this.item.data.system.subItems[liID].costDescription : this.item.data.system.subItems[liID].tagValue;
+      let subItemName = this.item.data.system.subItems[liID].name+" ("+addinfo+")";
+      let subItemDesc = this.item.data.system.subItems[liID].description;
       console.log("chat output:", this, ownerName, subItemName, subItemDesc);
       let chatData = {
         user: game.user.id,
@@ -171,7 +171,7 @@ export class TrinityItemSheet extends ItemSheet {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
         flavor: ("From "+item.data.name),
-        content: ("<h2>"+item.data.data.subItems[liID].name+"</h2>"+item.data.data.subItems[liID].description)
+        content: ("<h2>"+item.data.system.subItems[liID].name+"</h2>"+item.data.system.subItems[liID].description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -276,7 +276,7 @@ export class TrinityItemSheet extends ItemSheet {
         case "stunt":
           // console.log("_onDropGetInfo this-in-loop", this);
           // console.log("_onDropGetInfo droppedItem-in-loop", droppedItem);
-          subItems = this.item.data.data.subItems;
+          subItems = this.item.data.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,
@@ -287,7 +287,7 @@ export class TrinityItemSheet extends ItemSheet {
           this.item.update({'data.subItems': subItems});
           break;
         case "tag":
-          subItems = this.item.data.data.subItems;
+          subItems = this.item.data.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,
@@ -298,7 +298,7 @@ export class TrinityItemSheet extends ItemSheet {
           this.item.update({'data.subItems': subItems});
           break;
         case "modePower":
-          subItems = this.item.data.data.subItems;
+          subItems = this.item.data.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,

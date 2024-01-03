@@ -7,19 +7,19 @@
         <div class="grid grid-2col">
           <button type="button" id="attribute" class="selector">Attributes <i class="fas fa-dice"></i></button>
           <button type="button" id="skill" class="selector">Skills <i class="fas fa-dice"></i></button>
-          {{#if this.actor.data.data.flags.isNova}}
+          {{#if this.actor.data.system.flags.isNova}}
           <button type="button" id="Quantum" class="selector">Quantum <i class="fas fa-dice"></i></button>
           <button type="button" id="quantumPower" class="selector">Powers <i class="fas fa-dice"></i></button>
           {{/if}}
-          {{#if this.actor.data.data.flags.isPsion}}
+          {{#if this.actor.data.system.flags.isPsion}}
           <button type="button" id="Psi" class="selector">Psi <i class="fas fa-dice"></i></button>
           <button type="button" id="mode" class="selector">Mode <i class="fas fa-dice"></i></button>
           {{/if}}
-          {{#if this.actor.data.data.flags.isOther}}
+          {{#if this.actor.data.system.flags.isOther}}
           <button type="button" id="Source" class="selector">Source <i class="fas fa-dice"></i></button>
           <button type="button" id="power" class="selector">Powers <i class="fas fa-dice"></i></button>
           {{/if}}
-          {{#if this.actor.data.data.flags.isMage}}
+          {{#if this.actor.data.system.flags.isMage}}
           <button type="button" id="Arete" class="selector">Arete <i class="fas fa-dice"></i></button>
           <button type="button" id="quantumPower" class="selector">Spheres <i class="fas fa-dice"></i></button>
           {{/if}}

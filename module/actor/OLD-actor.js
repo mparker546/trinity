@@ -11,7 +11,7 @@ export class BasicActor extends Actor {
     super.prepareData();
 
     const actorData = this.data;
-    const data = actorData.data;
+    const data = actorData.system;
     const flags = actorData.flags;
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
@@ -24,7 +24,7 @@ export class BasicActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
-    const data = actorData.data;
+    const data = actorData.system;
 
     // Make modifications to data here. For example:
 
@@ -36,7 +36,7 @@ export class BasicActor extends Actor {
   }
 
   _prepareTrinityCharacterData(actorData) {
-    const data = actorData.data;
+    const data = actorData.system;
 
     // Make modifications to data here. For example:
 

@@ -4,10 +4,10 @@
 
     <div class="flex-parent-center-column">
       <div class="flex-child resource-label">Max Inspiration</div>
-      <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.data.inspiration.max}}}</div>
+      <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.system.inspiration.max}}}</div>
       <div class="flex-parent-nowrap-center edit-area can-hide hidden">
         <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.inspiration.max"></i>
-        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.inspiration.max" value="{{data.data.inspiration.max}}" data-dtype="Number"/>
+        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.inspiration.max" value="{{data.system.inspiration.max}}" data-dtype="Number"/>
         <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.inspiration.max"></i>
       </div>
     </div>
@@ -15,7 +15,7 @@
     <div class="flex-parent-center-column">
       <div class="flex-child big icons">
         <i class="clickable sub-value far fa-caret-square-left" data-target="data.inspiration.value"></i>
-        {{{to10Boxes this.actor.data.data.inspiration.value}}}
+        {{{to10Boxes this.actor.data.system.inspiration.value}}}
         <i class="clickable add-value far fa-caret-square-right" data-target="data.inspiration.value"></i>
       </div>
       <div class="flex-child resource-label">Current Inspiration</div>

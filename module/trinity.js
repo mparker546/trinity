@@ -187,7 +187,7 @@ Hooks.once( "init", function() {
 async function createTrinityMacro(data, slot) {
   if (data.type !== "Item") return;
   if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
-  const item = data.data;
+  const item = data.system;
 
   // Create the macro command
   const command = `game.trinity.rollItemMacro("${item.name}");`;

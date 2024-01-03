@@ -17,7 +17,7 @@ export function handlebarHelpers() {
 
   // Used for the HealthBox edit - in need of FIXME / TODO
   Handlebars.registerHelper('hbPathFixer', function(str, act) {
-    return act.data.data.healthboxes[str].value;
+    return act.data.system.healthboxes[str].value;
   });
 
   /* Not used now, fixed template
@@ -136,7 +136,7 @@ export function handlebarHelpers() {
 
   /* No longer needed
   Handlebars.registerHelper('lookupSavedRoll', function(rollID, context) {
-    let name = context.actor.data.data.savedRolls[rollID].name;
+    let name = context.actor.data.system.savedRolls[rollID].name;
     return name;
   });
   */
@@ -203,7 +203,7 @@ export function handlebarHelpers() {
     }
 
     // convert the ref to a complete path
-    let refPath = targetActor.data.data.linkedRolls;
+    let refPath = targetActor.data.system.linkedRolls;
     let refSplit = ref.split('.');
     for(var i = 0; i < refSplit.length; i++) {
       // if (typeof refPath[refSplit[i]] !== "undefined") {refPath = refPath[refSplit[i]];}
@@ -219,28 +219,28 @@ export function handlebarHelpers() {
     // Check for existing linkage
     //console.log("check for linkage, ref", ref);
     //console.log("check for linkage, actor", targetActor);
-    //console.log("check for linkage, targetActor.data.data.linkedRolls", targetActor.data.data.linkedRolls);
-    //console.log("check for linkage, Item/Actor", isItem, targetActor.data.data.linkedRolls[ref]);
+    //console.log("check for linkage, targetActor.data.system.linkedRolls", targetActor.data.system.linkedRolls);
+    //console.log("check for linkage, Item/Actor", isItem, targetActor.data.system.linkedRolls[ref]);
     //console.log("check for linkage, refPath", refPath);
     if (!isItem) {
       if (typeof refPath !== "undefined" && refPath !== "" ) {
         linkedRoll = refPath;
         isLinked = true;
-        rollData = targetActor.data.data.savedRolls[refPath];
+        rollData = targetActor.data.system.savedRolls[refPath];
       }
     } else if (isItem) {
       //console.log("check for linkage, item>", targetActor.items);
       //console.log("check for linkage, item.ref>", targetActor.items[ref]);
       //console.log("check for linkage, targetItem>", targetItem);
-      // if (typeof targetItem.data.data.linkedRollID !== "undefined" && targetItem.data.data.linkedRollID !== "") {
-      if (typeof targetActor.data.data.linkedRolls[ref] !== "undefined" && targetActor.data.data.linkedRolls[ref] !== "") {
-        // linkedRoll = targetItem.data.data.linkedRollID;
-        // linkedRoll = targetActor.data.data.savedRolls[ref];
-        linkedRoll = targetActor.data.data.linkedRolls[ref];
+      // if (typeof targetItem.data.system.linkedRollID !== "undefined" && targetItem.data.system.linkedRollID !== "") {
+      if (typeof targetActor.data.system.linkedRolls[ref] !== "undefined" && targetActor.data.system.linkedRolls[ref] !== "") {
+        // linkedRoll = targetItem.data.system.linkedRollID;
+        // linkedRoll = targetActor.data.system.savedRolls[ref];
+        linkedRoll = targetActor.data.system.linkedRolls[ref];
 
         isLinked = true;
-        // rollData = targetActor.data.data.savedRolls[targetItem.data.data.linkedRollID];
-        rollData = targetActor.data.data.savedRolls[linkedRoll];
+        // rollData = targetActor.data.system.savedRolls[targetItem.data.system.linkedRollID];
+        rollData = targetActor.data.system.savedRolls[linkedRoll];
       }
       //console.log("check for linkage, linkedRoll>", linkedRoll);
       //console.log("check for linkage, rollData>", rollData);
@@ -249,12 +249,12 @@ export function handlebarHelpers() {
 
     //build option list
     let optionHTML = "";
-    // for (let sRoll of Object.keys(targetActor.data.data.savedRolls)) {
-    for (const [key, value] of Object.entries(targetActor.data.data.savedRolls)) {
+    // for (let sRoll of Object.keys(targetActor.data.system.savedRolls)) {
+    for (const [key, value] of Object.entries(targetActor.data.system.savedRolls)) {
       let selected = "";
       //console.log("option/select loop", key, linkedRoll);
       if (key === linkedRoll) {selected = "selected"; linkKey = key;}
-      optionHTML += `<option value="${key}" ${selected}>${targetActor.data.data.savedRolls[key].name}</option>`;
+      optionHTML += `<option value="${key}" ${selected}>${targetActor.data.system.savedRolls[key].name}</option>`;
     }
 
     /* Old method which had it's own listener.

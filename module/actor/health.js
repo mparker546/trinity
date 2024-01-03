@@ -1,37 +1,37 @@
 export function setHealth(actorData) {
   // let actor = game.actors.get(actorData._id);
-  // console.log("setHealth Start", actorData, actorData.data.flags.isHealthModelUpdated);
+  // console.log("setHealth Start", actorData, actorData.system.flags.isHealthModelUpdated);
 
   // Create default models, if not already present
-  // if ( Object.keys(actorData.data.health.models.modelT).length === 0 ) { actorData.data.health.models.modelT = modelSetup("modelT"); }
-  // if ( Object.keys(actorData.data.health.models.modelS).length === 0 ) { actorData.data.health.models.modelS = modelSetup("modelS"); }
+  // if ( Object.keys(actorData.system.health.models.modelT).length === 0 ) { actorData.system.health.models.modelT = modelSetup("modelT"); }
+  // if ( Object.keys(actorData.system.health.models.modelS).length === 0 ) { actorData.system.health.models.modelS = modelSetup("modelS"); }
 
   // Set health, using model determined by game.setting
   /*
-  if ( actorData.data.flags.isHealthModelUpdated === false ) {
+  if ( actorData.system.flags.isHealthModelUpdated === false ) {
     let modelName = game.settings.get("trinity", "healthModel");
-    console.log("Health Model Flag False, Resetting Details/Model:", actorData.data.health.models[modelName], actorData.data.flags.isHealthModelUpdated);
-    actorData.data.health.details = JSON.parse(JSON.stringify(actorData.data.health.models[modelName])); // JSON Deep Copy
+    console.log("Health Model Flag False, Resetting Details/Model:", actorData.system.health.models[modelName], actorData.system.flags.isHealthModelUpdated);
+    actorData.system.health.details = JSON.parse(JSON.stringify(actorData.system.health.models[modelName])); // JSON Deep Copy
     // actor.update({ "data.flags.isHealthModelUpdated": true });
-    actorData.data.flags.isHealthModelUpdated = true;
-    console.log("Flag Handling End", actorData, actorData.data.flags.isHealthModelUpdated);
+    actorData.system.flags.isHealthModelUpdated = true;
+    console.log("Flag Handling End", actorData, actorData.system.flags.isHealthModelUpdated);
   }
   */
-  // if (game.settings.get("trinity", "healthModel") === "modelT") {actorData.data.health.details = actorData.data.health.models.modelT;}
-  // if (game.settings.get("trinity", "healthModel") === "modelS") {actorData.data.health.details = actorData.data.health.models.modelS;}
+  // if (game.settings.get("trinity", "healthModel") === "modelT") {actorData.system.health.details = actorData.system.health.models.modelT;}
+  // if (game.settings.get("trinity", "healthModel") === "modelS") {actorData.system.health.details = actorData.system.health.models.modelS;}
 
   // update # of states based on # of boxes
   /*
-  for (let i in actorData.data.health.details) {
+  for (let i in actorData.system.health.details) {
     if (i.boxes < 0 ) { i.boxes = 0; }
     while ( i.boxes > i.states.length ) { i.states.push(0); }
     while ( i.boxes < i.states.length ) { i.states.length = i.boxes; }
   }
   */
 
-  // console.log(Object.keys(actorData.data.health.details));
-  for (let e of Object.keys(actorData.data.health.details)) {
-    let i = actorData.data.health.details[e];
+  // console.log(Object.keys(actorData.system.health.details));
+  for (let e of Object.keys(actorData.system.health.details)) {
+    let i = actorData.system.health.details[e];
     if (typeof i.type === "undefined") {continue;}
     if (i.boxes < 0 ) { i.boxes = 0; }
     while ( i.boxes > i.states.length ) { i.states.push(0); }
@@ -41,10 +41,10 @@ export function setHealth(actorData) {
   // Model T:
   // Assign states by injury item look-up & add extra states when needed
   if (game.settings.get("trinity", "healthModel") === "modelT") {
-    let injuries = actorData.items.filter(i => i.data.data.flags.isInjury);
+    let injuries = actorData.items.filter(i => i.data.system.flags.isInjury);
     for (let i of injuries) {
       let assigned = false;
-      let boxGroup = Object.values(actorData.data.health.details).find(b => (b.type === i.data.data.injury.type)) ;
+      let boxGroup = Object.values(actorData.system.health.details).find(b => (b.type === i.data.system.injury.type)) ;
       if (typeof boxGroup !== 'undefined' ) {
         for (let [index, state] of boxGroup.states.entries()) {
           if (state === 0) {
@@ -65,9 +65,9 @@ export function setHealth(actorData) {
   let topPenalty = null;
   let topType = 0;
 
-  // for (let i in actorData.data.health.details) {
-  for (let e of Object.keys(actorData.data.health.details)) {
-    let i = actorData.data.health.details[e];
+  // for (let i in actorData.system.health.details) {
+  for (let e of Object.keys(actorData.system.health.details)) {
+    let i = actorData.system.health.details[e];
     if (typeof i.type === "undefined") {continue;}
     totalBoxes += i.boxes;
     for (let s of i.states) {
@@ -82,10 +82,10 @@ export function setHealth(actorData) {
     }
   }
 
-  actorData.data.health.summary.max = totalBoxes;
-  actorData.data.health.summary.value = totalBoxes - filledBoxes;
-  actorData.data.health.summary.status = topName;
-  actorData.data.health.summary.penalty = topPenalty;
+  actorData.system.health.summary.max = totalBoxes;
+  actorData.system.health.summary.value = totalBoxes - filledBoxes;
+  actorData.system.health.summary.status = topName;
+  actorData.system.health.summary.penalty = topPenalty;
 
 }
 

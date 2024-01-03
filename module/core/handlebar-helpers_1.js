@@ -115,7 +115,7 @@ export function handlebarHelpers() {
 
   /* No longer needed
   Handlebars.registerHelper('lookupSavedRoll', function(rollID, context) {
-    let name = context.actor.data.data.savedRolls[rollID].name;
+    let name = context.actor.data.system.savedRolls[rollID].name;
     return name;
   });
   */
@@ -150,7 +150,7 @@ export function handlebarHelpers() {
     let linkedRoll = "";
 
     // convert the ref to a complete path
-    let refPath = targetActor.data.data.linkedRolls;
+    let refPath = targetActor.data.system.linkedRolls;
     let refSplit = ref.split('.');
     for(var i = 0; i < refSplit.length; i++) {
       refPath = refPath[refSplit[i]];
@@ -162,34 +162,34 @@ export function handlebarHelpers() {
     console.log("check for linkage, ref", ref);
     console.log("check for linkage, actor", targetActor);
     console.log("check for linkage, this", this);
-    console.log("check for linkage, targetActor.data.data.linkedRolls", targetActor.data.data.linkedRolls);
-    console.log("check for linkage, Item/Actor", isItem, targetActor.data.data.linkedRolls[ref]);
+    console.log("check for linkage, targetActor.data.system.linkedRolls", targetActor.data.system.linkedRolls);
+    console.log("check for linkage, Item/Actor", isItem, targetActor.data.system.linkedRolls[ref]);
     console.log("check for linkage, refPath", refPath);
     if (!isItem) {
-      if (typeof targetActor.data.data.linkedRolls[ref] !== "undefined") {
-        linkedRoll = targetActor.data.data.linkedRolls[ref];
+      if (typeof targetActor.data.system.linkedRolls[ref] !== "undefined") {
+        linkedRoll = targetActor.data.system.linkedRolls[ref];
         isLinked = true;
-        rollData = targetActor.data.data.savedRolls[targetActor.data.data.linkedRolls[ref]];
+        rollData = targetActor.data.system.savedRolls[targetActor.data.system.linkedRolls[ref]];
       }
     } else {
-      if (typeof targetActor.items[ref].data.data.linkedRollID !== "undefined") {
-        linkedRoll = targetActor.items[ref].data.data.linkedRollID;
+      if (typeof targetActor.items[ref].data.system.linkedRollID !== "undefined") {
+        linkedRoll = targetActor.items[ref].data.system.linkedRollID;
         isLinked = true;
-        rollData = targetActor.data.data.savedRolls[targetActor.items[ref].data.data.linkedRollID];
+        rollData = targetActor.data.system.savedRolls[targetActor.items[ref].data.system.linkedRollID];
       }
     }
     if (isLinked) {rollName = rollData.name;}
 
     //build option list
     let optionHTML = "";
-    // for (let sRoll of Object.keys(targetActor.data.data.savedRolls)) {
-    for (const [key, value] of Object.entries(targetActor.data.data.savedRolls)) {
+    // for (let sRoll of Object.keys(targetActor.data.system.savedRolls)) {
+    for (const [key, value] of Object.entries(targetActor.data.system.savedRolls)) {
       let selected = "";
       // let sRollKey = Object.keys({sRoll})[0];
-      // let sRollKey = Object.keys(targetActor.data.data.savedRolls[sRoll]);
+      // let sRollKey = Object.keys(targetActor.data.system.savedRolls[sRoll]);
       console.log("option/select loop", key, linkedRoll);
       if (key === linkedRoll) {selected = "selected";}
-      optionHTML += `<option value="${key}" ${selected}>${targetActor.data.data.savedRolls[key].name}</option>`;
+      optionHTML += `<option value="${key}" ${selected}>${targetActor.data.system.savedRolls[key].name}</option>`;
     }
 
     let html =

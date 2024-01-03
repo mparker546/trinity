@@ -4,19 +4,19 @@
       <div class="header-fields"> {{! Left Side of Header}}
         <div class="top-traits">
           <span class="top-trait">
-            <span class="small icons">{{#if item.data.data.flags.hasDots}}{{{toDots item.data.data.value}}}{{/if}}</span>
-            {{item.data.data.typeName}}
+            <span class="small icons">{{#if item.data.system.flags.hasDots}}{{{toDots item.data.system.value}}}{{/if}}</span>
+            {{item.data.system.typeName}}
           </span>
           {{! Flagged Info }}
-          {{#if item.data.data.flags.isInjury}}<span class="top-trait secondary">Injury</span>{{/if}}
-          {{#if item.data.data.flags.isComplication}}<span class="top-trait secondary">Complication</span>{{/if}}
-          {{#if item.data.data.flags.isEnhancement}}<span class="top-trait secondary">Enhancement</span>{{/if}}
-          {{#if item.data.data.flags.hasRoll}}<span class="top-trait secondary">Roll</span>{{/if}}
+          {{#if item.data.system.flags.isInjury}}<span class="top-trait secondary">Injury</span>{{/if}}
+          {{#if item.data.system.flags.isComplication}}<span class="top-trait secondary">Complication</span>{{/if}}
+          {{#if item.data.system.flags.isEnhancement}}<span class="top-trait secondary">Enhancement</span>{{/if}}
+          {{#if item.data.system.flags.hasRoll}}<span class="top-trait secondary">Roll</span>{{/if}}
         </div>
         <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
         <div class="left-vcenter"> {{! Primary Value }}
           {{> "systems/trinity/templates/item/partials/primary-value.html"}}
-          {{#if item.data.data.flags.hasRoll}}{{{createChip this.item.id}}}{{/if}}
+          {{#if item.data.system.flags.hasRoll}}{{{createChip this.item.id}}}{{/if}}
         </div>
       </div>
     </header>
@@ -24,8 +24,8 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="description">Description</a>
-        {{#if item.data.data.stunts}}<a class="item" data-tab="stunts">Stunts</a>{{/if}}
-        {{#if item.data.data.tags}}<a class="item" data-tab="tags">Tags</a>{{/if}}
+        {{#if item.data.system.stunts}}<a class="item" data-tab="stunts">Stunts</a>{{/if}}
+        {{#if item.data.system.tags}}<a class="item" data-tab="tags">Tags</a>{{/if}}
         <a class="item" data-tab="attributes">Attributes</a>
     </nav>
 
@@ -34,7 +34,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable}}
+            {{editor content=data.system.description target="data.description" button=true owner=owner editable=editable}}
         </div>
 
         {{!-- Stunts Tab --}}

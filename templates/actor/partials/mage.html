@@ -22,17 +22,17 @@
     <div class="mage boxed">
       <div class="flex-parent-center-column">
         <div class="flex-child resource-label">Max Willpower</div>
-        <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.data.willpower.max}}}</div>
+        <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.system.willpower.max}}}</div>
         <div class="flex-parent-nowrap-center edit-area can-hide hidden">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.willpower.max"></i>
-          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.willpower.max" value="{{data.data.willpower.max}}" data-dtype="Number"/>
+          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.willpower.max" value="{{data.system.willpower.max}}" data-dtype="Number"/>
           <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.willpower.max"></i>
         </div>
       </div>
       <div class="flex-parent-center-column">
         <div class="flex-child big icons">
           <i class="clickable sub-value far fa-caret-square-left" data-target="data.willpower.value"></i>
-          {{{to10Boxes this.actor.data.data.willpower.value}}}
+          {{{to10Boxes this.actor.data.system.willpower.value}}}
           <i class="clickable add-value far fa-caret-square-right" data-target="data.willpower.value"></i>
         </div>
         <div class="flex-child resource-label">Current Willpower</div>
@@ -42,7 +42,7 @@
       <div class="flex-parent-center-column flex-child">
         <div class="flex-parent-nowrap-center">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.quintessence.value"></i>
-          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quintessence.value" value="{{this.actor.data.data.quintessence.value}}" data-dtype="Number"/>
+          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quintessence.value" value="{{this.actor.data.system.quintessence.value}}" data-dtype="Number"/>
           <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.quintessence.value"></i>
         </div>
         <div class="flex-child resource-label">Quintessence</div>
@@ -51,7 +51,7 @@
       <div class="flex-parent-center-column flex-child">
         <div class="flex-parent-nowrap-center">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.paradox.value"></i>
-          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.paradox.value" value="{{this.actor.data.data.paradox.value}}" data-dtype="Number"/>
+          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.paradox.value" value="{{this.actor.data.system.paradox.value}}" data-dtype="Number"/>
           <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.paradox.value"></i>
         </div>
         <div class="flex-child resource-label">Paradox</div>
@@ -112,35 +112,35 @@
     <div class="boxed">
       <div class="flex-parent">
         <label class="flex-left left-label" for="tradition">Tradition:</label>
-          <input class="flex-child-fit right-text" id="tradition" name="data.tradition" type="text" value="{{actor.data.data.tradition}}"/>
+          <input class="flex-child-fit right-text" id="tradition" name="data.tradition" type="text" value="{{actor.data.system.tradition}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="virtues">Virtues:</label>
-          <input class="flex-child-fit right-text" id="virtues" name="data.virtues" type="text" value="{{actor.data.data.virtues}}"/>
+          <input class="flex-child-fit right-text" id="virtues" name="data.virtues" type="text" value="{{actor.data.system.virtues}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="vices">Vices:</label>
-          <input class="flex-child-fit right-text" id="vices" name="data.vices" type="text" value="{{actor.data.data.vices}}"/>
+          <input class="flex-child-fit right-text" id="vices" name="data.vices" type="text" value="{{actor.data.system.vices}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="nature">Nature:</label>
-          <input class="flex-child-fit right-text" id="nature" name="data.nature" type="text" value="{{actor.data.data.nature}}"/>
+          <input class="flex-child-fit right-text" id="nature" name="data.nature" type="text" value="{{actor.data.system.nature}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="demeanor">Demeanor:</label>
-          <input class="flex-child-fit right-text" id="demeanor" name="data.demeanor" type="text" value="{{actor.data.data.demeanor}}"/>
+          <input class="flex-child-fit right-text" id="demeanor" name="data.demeanor" type="text" value="{{actor.data.system.demeanor}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="paradigm">Paradigm:</label>
-          <input class="flex-child-fit right-text" id="paradigm" name="data.paradigm" type="text" value="{{actor.data.data.paradigm}}"/>
+          <input class="flex-child-fit right-text" id="paradigm" name="data.paradigm" type="text" value="{{actor.data.system.paradigm}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="essence">Essence:</label>
-          <input class="flex-child-fit right-text" id="essence" name="data.essence" type="text" value="{{actor.data.data.essence}}"/>
+          <input class="flex-child-fit right-text" id="essence" name="data.essence" type="text" value="{{actor.data.system.essence}}"/>
       </div>
       <div class="flex-parent">
         <label class="flex-left left-label" for="avatar">Avatar:</label>
-          <input class="flex-child-fit right-text" id="avatar" name="data.avatar" type="text" value="{{actor.data.data.avatar}}"/>
+          <input class="flex-child-fit right-text" id="avatar" name="data.avatar" type="text" value="{{actor.data.system.avatar}}"/>
       </div>
     </div>
   </div>
