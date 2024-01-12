@@ -148,10 +148,10 @@ export class TrinityActorSheet extends ActorSheet {
   get template() {
     const path = "systems/trinity/templates/actor";
 
-    if (this.actor.data.type == 'TrinityCharacter') {
+    if (this.actor.type == 'TrinityCharacter') {
       return `${path}/trinity-actor-sheet.html`;
     }
-    if (this.actor.data.type == 'TrinityNPC') {
+    if (this.actor.type == 'TrinityNPC') {
       return `${path}/trinity-actor-sheet-npc.html`;
     }
   }
@@ -211,7 +211,7 @@ export class TrinityActorSheet extends ActorSheet {
     /* Old Healthbox code
     for (let hb of Object.keys(this.actor.system.healthboxes)) {
       // console.log("Heathbox Logging - hb:", hb);
-      let injuries = Object.keys(this.actor.data.items.filter(h => h.system.data.flags.isInjury && (h.system.data.injury.value === this.actor.system.healthboxes[hb].conditionLevel))).length;
+      let injuries = Object.keys(this.actor.items.filter(h => h.system.data.flags.isInjury && (h.system.data.injury.value === this.actor.system.healthboxes[hb].conditionLevel))).length;
       //console.log("Heathbox Logging - injuries:", injuries);
       // add if - add the property if not already in healthboxes
       if (typeof healthBoxes[hb] === 'undefined' || healthBoxes[hb] === null) {
@@ -498,7 +498,7 @@ export class TrinityActorSheet extends ActorSheet {
 
     // Return a value by putting together two pieces of a variable name.
     // ex:
-    // obj = this.actor.data
+    // obj = this.actor
     // desc = data.tolerance.value
     // returns = this.actor.system.tolerance.value
     function getDescendantProp(obj, desc) {
@@ -544,7 +544,7 @@ export class TrinityActorSheet extends ActorSheet {
           // this._setToggleStates();
         }
       } else {
-        let current = getDescendantProp(this.actor.data, target);
+        let current = getDescendantProp(this.actor, target);
         if (current === null) {
           this.actor.update({ [target]: 2 });
           // this._setToggleStates();
@@ -570,7 +570,7 @@ export class TrinityActorSheet extends ActorSheet {
         item.update({ [target]: ++current });
         // this._render(true);
       } else {
-        let current = getDescendantProp(this.actor.data, target);
+        let current = getDescendantProp(this.actor, target);
         console.log("Add Value, ev:", ev);
         console.log("Add Value, current:", current);
         console.log("Add Value, target:", target);

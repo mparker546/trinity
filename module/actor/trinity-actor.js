@@ -71,15 +71,15 @@ export class TrinityActor extends Actor {
 
 
   async prepareData() {
-    super.prepareData();
+    await super.prepareData();
 
 //    Old v9 data structure
 //    const actorData = this.system;
 //    const data = actorData.system;
 //    const flags = actorData.flags;
 
-const actorData = this;
-    const data = actorData.data;
+const actorData = this.data;
+const systemData = actorData.system;
      const flags = actorData.flags;
 
     // Default roll Settings:
@@ -94,7 +94,7 @@ const actorData = this;
       await setHealth(actorData);
       // setHealth doesn't trigger a redraw of token bars - this does it manually
       if ( typeof canvas.tokens !== "undefined" ) {
-        let token = canvas.tokens.placeables.find(i=>i.data.actorId === this.data._id );
+        let token = canvas.tokens.placeables.find(i=>i.data.actorId === this.system._id );
         if ( typeof token !== "undefined" ) { token.drawBars(); }
       }
     } else {console.log("NO HEALTH DETAILS");}
