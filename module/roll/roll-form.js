@@ -72,11 +72,11 @@ export class RollForm extends FormApplication {
     }
 
     // Model S: Check for penalties, add if needed.
-    if ( game.settings.get("trinity", "healthModel") === "modelS" && actor.data.system.health.summary.penalty < 0 ) {
+    if ( game.settings.get("trinity", "healthModel") === "modelS" && actor.system.health.summary.penalty < 0 ) {
       let rollItemID = randomID(16);
       this.object.items[rollItemID] = {
-        value : actor.data.system.health.summary.penalty,
-        name : actor.data.system.health.summary.status,
+        value : actor.system.health.summary.penalty,
+        name : actor.system.health.summary.status,
         SourceType : "Injury",
         note : "Injury Penalty",
         isDice : true,
@@ -220,11 +220,11 @@ export class RollForm extends FormApplication {
     this.itemListType = type;
     this.itemList = [];
     for (let i of this.actor.items) {
-      if (i.data.system.flags.isFacet && !this.actor.system.flags.isTalent) { continue; }
-      if (type === "enhancement" && i.data.system.flags.isEnhancement === true) { this.itemList.push(i); continue; }
-      if (type === "attribute" && i.type === "attribute" && i.data.system.flags.isMain === true) { this.itemList.push(i); continue; }
+      if (i.system.flags.isFacet && !this.actor.system.flags.isTalent) { continue; }
+      if (type === "enhancement" && i.system.flags.isEnhancement === true) { this.itemList.push(i); continue; }
+      if (type === "attribute" && i.type === "attribute" && i.system.flags.isMain === true) { this.itemList.push(i); continue; }
       if (i.name === type) { this.itemList.push(i); continue; }
-      if (type !== "attribute" && i.type === type && i.data.system.flags.isEnhancement === false) { this.itemList.push(i); }
+      if (type !== "attribute" && i.type === type && i.system.flags.isEnhancement === false) { this.itemList.push(i); }
     }
   }
 
