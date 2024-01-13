@@ -14,8 +14,8 @@ export class TrinityCombat extends Combat
     let updates = {};
 
     if ( isGrouped ) {
-      // this.groupInfo = this.data.combatants;
-      updates = this.data.combatants.map(c => { return this._hasPlayer(c) });
+      // this.groupInfo = this.combatants;
+      updates = this.combatants.map(c => { return this._hasPlayer(c) });
       await this.updateEmbeddedDocuments("Combatant", updates);
     }
     */
@@ -42,8 +42,8 @@ export class TrinityCombat extends Combat
     let updates = {};
 
     if ( isGrouped ) {
-      // this.groupInfo = this.data.combatants;
-      updates = this.data.combatants.map(c => { return this._hasPlayer(c) });
+      // this.groupInfo = this.combatants;
+      updates = this.combatants.map(c => { return this._hasPlayer(c) });
       await this.updateEmbeddedDocuments("Combatant", updates);
     }
   }

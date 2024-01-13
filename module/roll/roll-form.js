@@ -251,15 +251,15 @@ export class RollForm extends FormApplication {
     } else {
       const item = this.actor.items.get(id);
       rollItemID = item.id;
-      itemValue = item.data.system.flags.isEnhancement ? item.data.system.enhancement.value : item.data.system.value;
+      itemValue = item.system.flags.isEnhancement ? item.system.enhancement.value : item.system.value;
       itemName = item.name;
-      isDice = !item.data.system.flags.isEnhancement;
+      isDice = !item.system.flags.isEnhancement;
       sourceType = item.type;
       // Note:
-      if (item.type === "attribute" && item.data.system.flags.isMain === true) {
-        note = item.data.system.arena + "/" + item.data.system.approach;
+      if (item.type === "attribute" && item.system.flags.isMain === true) {
+        note = item.system.arena + "/" + item.system.approach;
       } else {
-        note = item.data.system.enhancement.relevance;
+        note = item.system.enhancement.relevance;
       }
       // Multiplier:
       if (item.id in this.object.items) {

@@ -208,40 +208,6 @@ export class TrinityActorSheet extends ActorSheet {
     const miscAttributes = [];
     const actions = [];
 
-    /* Old Healthbox code
-    for (let hb of Object.keys(this.actor.system.healthboxes)) {
-      // console.log("Heathbox Logging - hb:", hb);
-      let injuries = Object.keys(this.actor.items.filter(h => h.system.data.flags.isInjury && (h.system.data.injury.value === this.actor.system.healthboxes[hb].conditionLevel))).length;
-      //console.log("Heathbox Logging - injuries:", injuries);
-      // add if - add the property if not already in healthboxes
-      if (typeof healthBoxes[hb] === 'undefined' || healthBoxes[hb] === null) {
-        // console.log("Heathbox Logging - check to add");
-        healthBoxes[hb] = {};
-        // console.log("Heathbox Logging - Added to healthBoxes:", healthBoxes);
-        healthBoxes[hb].name = this.actor.system.healthboxes[hb].name;
-        // healthBoxes[hb].push(this.actor.system.healthboxes[hb].name);
-      }
-      if ((this.actor.system.healthboxes[hb].value > 0) || (injuries > 0)) {
-        // console.log("Heathbox Logging - add injuries");
-        if (injuries <= this.actor.system.healthboxes[hb].value) {
-          healthBoxes[hb].filled = injuries;
-          healthBoxes[hb].empty = this.actor.system.healthboxes[hb].value - healthBoxes[hb].filled;
-          healthBoxes[hb].extra = 0;
-        } else {
-          healthBoxes[hb].extra = injuries - this.actor.system.healthboxes[hb].value;
-          healthBoxes[hb].filled = injuries - healthBoxes[hb].extra;
-          healthBoxes[hb].empty = 0;
-        }
-      } else {
-        // add if - remove value if there are no injuries or healthboxes
-        if (typeof healthBoxes[hb] !== 'undefined' && healthBoxes[hb] !== null) {
-          // console.log("Heathbox Logging - remove category if no injuries or healthboxes");
-          delete healthBoxes[hb];
-        }
-      }
-    }
-    */
-
     // Identify Saved Rolls w/ Initiative Flagged
     for (let sRoll of Object.keys(this.actor.system.savedRolls)) {
       // IF check for compatibility w/ new savedRolls styles
@@ -524,64 +490,57 @@ export class TrinityActorSheet extends ActorSheet {
 
     // Subtract 1 from value target
     html.find('.sub-value').click(ev => {
-      // console.log("sub-value, ev:", ev);
-      let target = event.currentTarget.dataset.target;
-      if (typeof event.currentTarget.dataset.negative !== "undefined" && event.currentTarget.dataset.negative == "true" )
-        { let negative = true; } else { let negative = false; }
-      // console.log("event.currentTarget.dataset", event.currentTarget.dataset, event.currentTarget.dataset.itemid);
-      if (typeof event.currentTarget.dataset.itemid !== "undefined") {
-        let itemid = event.currentTarget.dataset.itemid;
+      let target = ev.currentTarget.dataset.target;
+      let negative = ev.currentTarget.dataset.negative === "true";
+    
+      if (ev.currentTarget.dataset.itemid !== undefined) {
+        let itemid = ev.currentTarget.dataset.itemid;
         let item = this.actor.items.get(itemid);
-        let current = getDescendantProp(item.data, target);
+        let current = getProperty(item, target);
+    
         if (current === null) {
           item.update({ [target]: 2 });
-          // this._setToggleStates();
         }
-        if (current > 0 || negative ) {
-          // console.log("sub-value, ev 2:", ev);
-          item.update({ [target]: --current });
-          // this._render(true);
-          // this._setToggleStates();
+        if (current > 0 || negative) {
+          item.update({ [target]: current - 1 });
         }
       } else {
-        let current = getDescendantProp(this.actor, target);
+        let current = getProperty(this.actor, target);
+    
         if (current === null) {
           this.actor.update({ [target]: 2 });
-          // this._setToggleStates();
         }
-        if (current > 0 || negative ) {
-          this.actor.update({ [target]: --current });
-          // this._render(true);
-          // this._setToggleStates();
+        if (current > 0 || negative) {
+          this.actor.update({ [target]: current - 1 });
         }
       }
     });
 
   // Add 1 to value target
-    html.find('.add-value').click(ev => {
-      let target = event.currentTarget.dataset.target;
-      if (typeof event.currentTarget.dataset.itemid !== "undefined") {
-        let itemid = event.currentTarget.dataset.itemid;
-        let item = this.actor.items.get(itemid);
-        let current = getDescendantProp(item.data, target);
-        if (current === null || current < 0) {
-          item.update({ [target]: 0 });
-        }
-        item.update({ [target]: ++current });
-        // this._render(true);
-      } else {
-        let current = getDescendantProp(this.actor, target);
-        console.log("Add Value, ev:", ev);
-        console.log("Add Value, current:", current);
-        console.log("Add Value, target:", target);
-        if (current === null || current < 0) {
-          this.actor.update({ [target]: 0 });
-        }
-        // this.actor.update({ [target]: ++current });
-        this.actor.update({ [target]: ++current });
-        // this._render(true);
+  html.find('.add-value').click(ev => {
+    let target = ev.currentTarget.dataset.target;
+  
+    if (ev.currentTarget.dataset.itemid !== undefined) {
+      let itemid = ev.currentTarget.dataset.itemid;
+      let item = this.actor.items.get(itemid);
+      let current = getProperty(item, target);
+  
+      if (current === null || current < 0) {
+        item.update({ [target]: 0 });
       }
-    });
+      item.update({ [target]: current + 1 });
+    } else {
+      let current = getProperty(this.actor, target);
+      console.log("Add Value, ev:", ev);
+      console.log("Add Value, current:", current);
+      console.log("Add Value, target:", target);
+  
+      if (current === null || current < 0) {
+        this.actor.update({ [target]: 0 });
+      }
+      this.actor.update({ [target]: current + 1 });
+    }
+  });
 
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -615,7 +574,7 @@ export class TrinityActorSheet extends ActorSheet {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
         flavor: (item.system.data.typeName + " Description"),
-        content: ("<h2>"+item.data.name+"</h2>"+item.system.data.description)
+        content: ("<h2>"+item.name+"</h2>"+item.system.data.description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -644,32 +603,32 @@ export class TrinityActorSheet extends ActorSheet {
       ChatMessage.create(chatData);
     });
 
-    // Delete Inventory Item
-    html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
+// Delete Inventory Item
+html.find('.item-delete').click(ev => {
+  const li = $(ev.currentTarget).parents(".item");
 
-      let deleteConfirm = new Dialog({
-        title: "Delete Confirmation",
-        content: "Delete Item?",
-        buttons: {
-          Yes: {
-            icon: '<i class="fa fa-check"></i>',
-            label: "Yes",
-            callback: dlg => {
-              // this.actor.deleteOwnedItem(li.data("itemId"));
-              this.actor.deleteEmbeddedDocuments('Item',[li.data("itemId")]);
-              li.slideUp(200, () => this.render(false));
-            }
-          },
-          cancel: {
-            icon: '<i class="fas fa-times"></i>',
-            label: "Cancel"
-          },
-        },
-        default: 'Yes'
-      });
-      deleteConfirm.render(true);
-    });
+  let deleteConfirm = new Dialog({
+    title: "Delete Confirmation",
+    content: "Delete Item?",
+    buttons: {
+      Yes: {
+        icon: '<i class="fa fa-check"></i>',
+        label: "Yes",
+        callback: dlg => {
+          // this.actor.deleteOwnedItem(li.data("itemId"));
+          this.actor.deleteEmbeddedDocuments('Item', [li.data("itemId")]);
+          li.slideUp(200, () => this.render(false));
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: "Cancel"
+      },
+    },
+    default: 'Yes'
+  });
+  deleteConfirm.render(true);
+});
 
     // Delete Saved Roll
     html.find('.roll-delete').click(ev => {
@@ -738,41 +697,47 @@ export class TrinityActorSheet extends ActorSheet {
     console.log("Health Box Left Click");
 
     // Model T handling: Create Injury Item
-    if ( game.settings.get("trinity", "healthModel") === "modelT" ) {
-      console.log("Create Item - Injury");
+if (game.settings.get("trinity", "healthModel") === "modelT") {
+  console.log("Create Item - Injury");
 
-      const header = event.currentTarget;
-      // Get the type of item to create.
-      const type = header.dataset.type;
+  const header = event.currentTarget;
+  // Get the type of item to create.
+  const type = header.dataset.type;
 
-      // Grab any data associated with this control.
-      const data = duplicate(header.dataset);
-      // Initialize a default name.
-      const name = `New ${type.capitalize()}`;
-      // Prepare the item object.
-      const itemData = {
-        name: name,
-        type: type,
-        data: data
-      };
-
-      itemData.system.injury = {};
-      itemData.system.injury.type = +header.dataset.healthtype;
-      itemData.system.flags = {};
-      itemData.system.flags.isInjury = true;
-      itemData.system.flags.isComplication = true;
-      itemData.system.complication = {};
-      itemData.system.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-      itemData.system.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-
-      // pop-out new condition, bypass normal process
-      delete itemData.system["type"];
-
-      console.log("injury create itemdata bottom", itemData);
-      this.actor.createEmbeddedDocuments('Item', [itemData], { renderSheet: true });
-
-      return;
+  // Grab any data associated with this control.
+  const data = duplicate(header.dataset);
+  // Initialize a default name.
+  const name = `New ${type.capitalize()}`;
+  // Prepare the item object.
+  const itemData = {
+    name: name,
+    type: type,
+    data: data,
+    flags: {
+      isInjury: true,
+      isComplication: true
     }
+  };
+
+  const healthDetails = Object.values(this.actor.system.health.details).find(b => b.type === +header.dataset.healthtype);
+  itemData.system = {
+    injury: {
+      type: +header.dataset.healthtype,
+      value: healthDetails.penalty
+    },
+    complication: {
+      value: healthDetails.penalty
+    }
+  };
+
+  // pop-out new condition, bypass normal process
+  delete itemData.system.type;
+
+  console.log("injury create itemdata bottom", itemData);
+  this.actor.createEmbeddedDocuments('Item', [itemData], { renderSheet: true });
+
+  return;
+}
 
     // Model S handling: Update state
     let header = event.currentTarget;
@@ -812,21 +777,16 @@ export class TrinityActorSheet extends ActorSheet {
   }
 
 
-  /**
-   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-   * @param {Event} event   The originating click event
-   * @private
-   */
   async _onItemCreate(event) {
     event.preventDefault();
-
+  
     console.log("_onItemCreate(event)");
     console.log(event); // <--- Need to figure out how to handle subtypes
-
+  
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
-
+  
     // Grab any data associated with this control.
     const data = duplicate(header.dataset);
     // Initialize a default name.
@@ -835,49 +795,23 @@ export class TrinityActorSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
-      data: data
+      data: data,
     };
-
+  
     // Subtype / Flag handling
-    if (typeof header.dataset.flag !== 'undefined' && header.dataset.flag !== null) {
+    if (typeof header.dataset.flag !== "undefined" && header.dataset.flag !== null) {
       console.log("Create Item Flag Handling");
-      itemData.system.flags = {};
-      itemData.system.flags[header.dataset.flag] = true;
+      itemData.flags = {};
+      itemData.flags[header.dataset.flag] = true;
     }
-
-    // Injury Handling
-    // if (typeof header.dataset.hbname !== 'undefined' && header.dataset.hbname !== null) {
-    /*
-    if (typeof header.dataset.healthtype !== 'undefined' && header.dataset.healthtype !== null) {
-      if (game.settings.get("trinity", "healthModel") === "modelT") {
-        console.log("Create Item - Injury");
-        itemData.system.injury = {};
-        itemData.system.injury.type = +header.dataset.healthtype;
-        itemData.system.flags = {};
-        itemData.system.flags.isInjury = true;
-        itemData.system.flags.isComplication = true;
-        itemData.system.complication = {};
-        itemData.system.complication.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-        itemData.system.injury.value = Object.values(this.actor.system.health.details).find(b => (b.type === +header.dataset.healthtype)).penalty;
-
-        // pop-out new condition, bypass normal process
-        delete itemData.system["type"];
-
-        console.log("injury create itemdata bottom", itemData);
-        this.actor.createEmbeddedDocuments('Item', [itemData], { renderSheet: true });
-
-        return;
-      }
-
-    }*/
-
+  
     console.log(itemData);
-
+  
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
-
+  
     // Finally, create the item!
-    return this.actor.createEmbeddedDocuments('Item',[itemData]);
+    return this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
   _onRoll(event) {

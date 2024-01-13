@@ -45,7 +45,7 @@ export class TrinityItemSheet extends ItemSheet {
     // Temporary direction as "omni" sheet is developed for different
     /*
     let useTypes = ["attribute", "edge", "skill", "specialty", "path", "stunt", "gift", "trick", "contact", "bond", "action", "tag", "equipment", "condition"];
-    if (useTypes.indexOf(this.item.data.type) > -1) {
+    if (useTypes.indexOf(this.item.type) > -1) {
       return `${path}/item-sheet.html`;
     }
     */
@@ -53,7 +53,7 @@ export class TrinityItemSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    // return `${path}/item-${this.item.data.type}-sheet.html`;
+    // return `${path}/item-${this.item.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
@@ -67,8 +67,8 @@ export class TrinityItemSheet extends ItemSheet {
     const stunts = [];
     const tags = [];
 
-    for (let i of Object.keys(this.item.data.system.subItems)) {
-      let subItem = this.item.data.system.subItems[i];
+    for (let i of Object.keys(this.item.system.subItems)) {
+      let subItem = this.item.system.subItems[i];
       if (subItem.type === 'stunt') { stunts.push(subItem); }
       if (subItem.type === 'tag') { tags.push(subItem); }
     }
@@ -151,10 +151,10 @@ export class TrinityItemSheet extends ItemSheet {
       let liID = li.data("itemId");
       // let ownerItem =
       // console.log("chat output:", this, ev, li, liID);
-      let ownerName = this.item.data.name;
-      let addinfo = (this.item.data.system.subItems[liID].type === "stunt") ? this.item.data.system.subItems[liID].costDescription : this.item.data.system.subItems[liID].tagValue;
-      let subItemName = this.item.data.system.subItems[liID].name+" ("+addinfo+")";
-      let subItemDesc = this.item.data.system.subItems[liID].description;
+      let ownerName = this.item.name;
+      let addinfo = (this.item.system.subItems[liID].type === "stunt") ? this.item.system.subItems[liID].costDescription : this.item.system.subItems[liID].tagValue;
+      let subItemName = this.item.system.subItems[liID].name+" ("+addinfo+")";
+      let subItemDesc = this.item.system.subItems[liID].description;
       console.log("chat output:", this, ownerName, subItemName, subItemDesc);
       let chatData = {
         user: game.user.id,
@@ -170,8 +170,8 @@ export class TrinityItemSheet extends ItemSheet {
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
-        flavor: ("From "+item.data.name),
-        content: ("<h2>"+item.data.system.subItems[liID].name+"</h2>"+item.data.system.subItems[liID].description)
+        flavor: ("From "+item.name),
+        content: ("<h2>"+item.system.subItems[liID].name+"</h2>"+item.system.subItems[liID].description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -186,33 +186,35 @@ export class TrinityItemSheet extends ItemSheet {
       return obj;
     }
 
-    // Remove value
-    html.find('.sub-value').click(ev => {
-      console.log("sub-value, ev:", ev);
-      let target = event.currentTarget.dataset.target;
-      let negative = false;
-      if (typeof event.currentTarget.dataset.negative !== "undefined" && event.currentTarget.dataset.negative == "true" ) { negative = true; }
-      let current = getDescendantProp(this.item.data, target);
-      if (current === null) {
-        this.item.update({ [target]: 2 });
-      }
-      if (current > 0 || negative) {
-        this.item.update({ [target]: --current });
-        this.render(true);
-      }
-    });
+// Remove value
+html.find('.sub-value').click(ev => {
+  console.log("sub-value, ev:", ev);
+  let target = ev.currentTarget.dataset.target;
+  let negative = false;
+  if (ev.currentTarget.dataset.negative !== undefined && ev.currentTarget.dataset.negative === "true") {
+    negative = true;
+  }
+  let current = getProperty(this.item, target);
+  if (current === null) {
+    this.item.update({ [target]: 2 });
+  }
+  if (current > 0 || negative) {
+    this.item.update({ [target]: current - 1 });
+    this.render(true);
+  }
+});
 
-  // Add Value
-    html.find('.add-value').click(ev => {
-      let target = event.currentTarget.dataset.target;
-      let current = getDescendantProp(this.item.data, target);
-      console.log("Add Value:", ev);
-      if (current === null || current < 0) {
-        this.item.update({ [target]: 0 });
-      }
-      this.item.update({ [target]: ++current });
-      this.render(true);
-    });
+// Add Value
+html.find('.add-value').click(ev => {
+  let target = ev.currentTarget.dataset.target;
+  let current = getProperty(this.item, target);
+  console.log("Add Value:", ev);
+  if (current === null || current < 0) {
+    this.item.update({ [target]: 0 });
+  }
+  this.item.update({ [target]: current + 1 });
+  this.render(true);
+});
 
     // html.find('.memorization-slot').on("drop", console.log("something dropped: ",this));
 
@@ -276,7 +278,7 @@ export class TrinityItemSheet extends ItemSheet {
         case "stunt":
           // console.log("_onDropGetInfo this-in-loop", this);
           // console.log("_onDropGetInfo droppedItem-in-loop", droppedItem);
-          subItems = this.item.data.system.subItems;
+          subItems = this.item.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,
@@ -287,7 +289,7 @@ export class TrinityItemSheet extends ItemSheet {
           this.item.update({'data.subItems': subItems});
           break;
         case "tag":
-          subItems = this.item.data.system.subItems;
+          subItems = this.item.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,
@@ -298,7 +300,7 @@ export class TrinityItemSheet extends ItemSheet {
           this.item.update({'data.subItems': subItems});
           break;
         case "modePower":
-          subItems = this.item.data.system.subItems;
+          subItems = this.item.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,

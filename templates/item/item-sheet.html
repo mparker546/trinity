@@ -13,9 +13,9 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="description">Description</a>
-        {{#if item.data.system.stunts}}<a class="item" data-tab="stunts">Stunts</a>{{/if}}
-        {{#if item.data.system.tags}}<a class="item" data-tab="tags">Tags</a>{{/if}}
-        {{#if item.data.system.modePowers}}<a class="item" data-tab="powers">Powers</a>{{/if}}
+        {{#if item.system.stunts}}<a class="item" data-tab="stunts">Stunts</a>{{/if}}
+        {{#if item.system.tags}}<a class="item" data-tab="tags">Tags</a>{{/if}}
+        {{#if item.system.modePowers}}<a class="item" data-tab="powers">Powers</a>{{/if}}
         <a class="item" data-tab="attributes">Attributes</a>
     </nav>
 
@@ -45,11 +45,11 @@
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
 
-          {{#if (isEqual item.data.type "attribute") }}
+          {{#if (isEqual item.type "attribute") }}
           {{> "systems/trinity/templates/item/partials/attribute-settings.html"}}
           {{/if}}
 
-            {{#if (isEqual item.data.type "edge" "power") }}
+            {{#if (isEqual item.type "edge" "power") }}
             <div class="boxed fit">
               <div class="left-vcenter">
                 <input class="left-vcenter" type="checkbox" name="data.flags.hasDots" value="{{data.system.flags.hasDots}}" data-dtype="Boolean" {{checked data.system.flags.hasDots}}/>
@@ -58,7 +58,7 @@
             </div>
             {{/if}}
 
-            {{#if (isEqual item.data.type "equipment") }}
+            {{#if (isEqual item.type "equipment") }}
             {{> "systems/trinity/templates/item/partials/item-flag.html"}}
             {{/if}}
 
@@ -72,7 +72,7 @@
               </div>
               {{#if data.system.flags.isComplication}}
               <hr>
-              {{#unless (isEqual item.data.type "condition") }}
+              {{#unless (isEqual item.type "condition") }}
               <div>
                 <label class="resource-label" for="complication-value">Complication Value</label>
                 <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="complication-value" name="data.complication.value" value="{{data.system.complication.value}}" data-dtype="Number"/>

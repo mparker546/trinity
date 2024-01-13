@@ -4,12 +4,12 @@
         <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
         <div class="left-vcenter"> {{! Type & Flagged Info }}
           <span class="trait">
-            <span class="small icons">{{#if item.data.system.flags.hasDots}}{{{toDots item.data.system.value}}}{{/if}}</span>
-            {{item.data.system.typeName}}
+            <span class="small icons">{{#if item.system.flags.hasDots}}{{{toDots item.system.value}}}{{/if}}</span>
+            {{item.system.typeName}}
           </span>
           {{! Flagged Info }}
-          {{#if item.data.system.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
-          {{#if item.data.system.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
+          {{#if item.system.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
+          {{#if item.system.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
         </div>
       </div>
     </header>

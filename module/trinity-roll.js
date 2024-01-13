@@ -40,7 +40,7 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
 
   // Attribute info
   if (typeof dataset.attrname !== 'undefined' && dataset.attrname !== null) {
-    targetAttr = Object.values(targetActor.data.system.attributes).find(attribute => attribute.name === dataset.attrname);
+    targetAttr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === dataset.attrname);
     pickedElements.attr = targetAttr;
     console.log("Picked Elements:");
     console.log(pickedElements);

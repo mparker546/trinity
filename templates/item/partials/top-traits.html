@@ -1,15 +1,15 @@
 <div class="top-traits">
   <span class="top-trait">
-    {{~item.data.system.typeName~}}
-    {{~#if item.data.system.flags.hasDots}}<span class="small icons">&nbsp;{{{toDots item.data.system.value item.data.system.megaValue}}}</span>{{/if~}}
+    {{~item.system.typeName~}}
+    {{~#if item.system.flags.hasDots}}<span class="small icons">&nbsp;{{{toDots item.system.value item.system.megaValue}}}</span>{{/if~}}
   </span>
   {{! Flagged Info }}
-  {{~#if item.data.system.flags.isGear~}}<span class="top-trait secondary">Gear</span>{{~/if~}}
-  {{~#if item.data.system.flags.isWeapon~}}<span class="top-trait secondary">Weapon</span>{{~/if~}}
-  {{~#if item.data.system.flags.isArmor~}}<span class="top-trait secondary">Armor</span>{{~/if~}}
-  {{~#if item.data.system.flags.isVehicle~}}<span class="top-trait secondary">Vehicle</span>{{~/if~}}
-  {{~#if item.data.system.flags.isInjury~}}<span class="top-trait secondary">Injury</span>{{~/if~}}
-  {{~#if item.data.system.flags.isComplication~}}<span class="top-trait secondary">Complication</span>{{~/if~}}
-  {{~#if item.data.system.flags.isEnhancement~}}<span class="top-trait secondary">Enhancement {{item.data.system.enhancement.value}}</span>{{~/if~}}
-  {{~#if item.data.system.flags.hasRoll~}}<span class="top-trait secondary">Roll</span>{{~/if~}}
+  {{~#if item.system.flags.isGear~}}<span class="top-trait secondary">Gear</span>{{~/if~}}
+  {{~#if item.system.flags.isWeapon~}}<span class="top-trait secondary">Weapon</span>{{~/if~}}
+  {{~#if item.system.flags.isArmor~}}<span class="top-trait secondary">Armor</span>{{~/if~}}
+  {{~#if item.system.flags.isVehicle~}}<span class="top-trait secondary">Vehicle</span>{{~/if~}}
+  {{~#if item.system.flags.isInjury~}}<span class="top-trait secondary">Injury</span>{{~/if~}}
+  {{~#if item.system.flags.isComplication~}}<span class="top-trait secondary">Complication</span>{{~/if~}}
+  {{~#if item.system.flags.isEnhancement~}}<span class="top-trait secondary">Enhancement {{item.system.enhancement.value}}</span>{{~/if~}}
+  {{~#if item.system.flags.hasRoll~}}<span class="top-trait secondary">Roll</span>{{~/if~}}
 </div>

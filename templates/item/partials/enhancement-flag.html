@@ -7,7 +7,7 @@
   {{#if data.system.flags.isEnhancement}}
   <hr>
   <!--
-  {{#unless (isEqual item.data.type "equipment" "condition" "quantumPower") }}
+  {{#unless (isEqual item.type "equipment" "condition" "quantumPower") }}
   <div>
     <label class="resource-label" for="enhancement-value">Enhancement Value</label>
     <input
@@ -25,7 +25,7 @@
   </div>
   {{/unless}}
   -->
-  {{#unless (isEqual item.data.type "specialty") }}
+  {{#unless (isEqual item.type "specialty") }}
   <div>
     <label class="resource-label" for="enhancement-condition">Enhancement Condition</label>
     <input class="resource" type="text" id="enhancement-condition" name="data.enhancement.relevance" value="{{data.system.enhancement.relevance}}" data-dtype="String"/>

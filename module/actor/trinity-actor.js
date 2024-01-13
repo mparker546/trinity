@@ -70,63 +70,78 @@ export class TrinityActor extends Actor {
  }
 
 
-  async prepareData() {
-    await super.prepareData();
+ async prepareData(data) {
+  await super.prepareData(data);
 
-//    Old v9 data structure
-//    const actorData = this.system;
-//    const data = actorData.system;
-//    const flags = actorData.flags;
+  const actorData = this;
+  const systemData = actorData.system;
+  const flags = actorData.flags || {};
 
-const actorData = this.data;
-const systemData = actorData.system;
-     const flags = actorData.flags;
+  // Default roll Settings:
+  actorData.system.rollSettings.succ.value = actorData.system.rollSettings.succ.value || game.settings.get("trinity", "defaultSuccess");
+  // actorData.system.rollSettings.fail.value = actorData.system.rollSettings.fail.value || game.settings.get("trinity", "defaultFail");
+  actorData.system.rollSettings.expl.value = actorData.system.rollSettings.expl.value || game.settings.get("trinity", "defaultExplode");
+  actorData.system.rollSettings.nsca.value = actorData.system.rollSettings.nsca.value || game.settings.get("trinity", "defaultNScale");
+  actorData.system.rollSettings.dsca.value = actorData.system.rollSettings.dsca.value || game.settings.get("trinity", "defaultDScale");
 
-    // Default roll Settings:
-    actorData.system.rollSettings.succ.value = actorData.system.rollSettings.succ.value || game.settings.get("trinity", "defaultSuccess");
-    // actorData.system.rollSettings.fail.value = actorData.system.rollSettings.fail.value || game.settings.get("trinity", "defaultFail");
-    actorData.system.rollSettings.expl.value = actorData.system.rollSettings.expl.value || game.settings.get("trinity", "defaultExplode");
-    actorData.system.rollSettings.nsca.value = actorData.system.rollSettings.nsca.value || game.settings.get("trinity", "defaultNScale");
-    actorData.system.rollSettings.dsca.value = actorData.system.rollSettings.dsca.value || game.settings.get("trinity", "defaultDScale");
-
-    // Health Setup
-    if ( actorData.system.health.details ) {
-      await setHealth(actorData);
-      // setHealth doesn't trigger a redraw of token bars - this does it manually
-      if ( typeof canvas.tokens !== "undefined" ) {
-        let token = canvas.tokens.placeables.find(i=>i.data.actorId === this.system._id );
-        if ( typeof token !== "undefined" ) { token.drawBars(); }
+  // Health Setup
+  if (actorData.system.health.details) {
+    await setHealth(actorData);
+    // setHealth doesn't trigger a redraw of token bars - this does it manually
+    if (typeof canvas.tokens !== "undefined") {
+      let token = canvas.tokens.placeables.find(i => i.data.actorId === this.system._id);
+      if (typeof token !== "undefined") {
+        token.drawBars();
       }
-    } else {console.log("NO HEALTH DETAILS");}
+    }
+  } else {
+    console.log("NO HEALTH DETAILS");
+  }
 
-    // Mage Support: Quintessence & Paradox
-    if (data.flags.isMage) {
-      if (data.quintessence.value > 20-data.paradox.value) {
-        data.quintessence.value = 20-data.paradox.value;
-      }
-
-      if (data.quintessence.value < 0) {data.quintessence.value = 0}
-      if (data.paradox.value < 0) {data.paradox.value = 0}
-      if (data.quintessence.value > 20) {data.quintessence.value = 20}
-      if (data.paradox.value > 20) {data.paradox.value = 20}
-
-      const qpTracker = [];
-
-      for (var i = 0; i < 20; i++) {
-        if (data.quintessence.value >= i+1) { qpTracker[i] = "Q" } else { qpTracker[i] = "" }
-        if (data.paradox.value >= 20-i) { qpTracker[i] = "P" }
-      }
-
-      data.qpTracker = qpTracker;
+  // Mage Support: Quintessence & Paradox
+  if (flags.isMage) {
+    if (data.quintessence.value > 20 - data.paradox.value) {
+      data.quintessence.value = 20 - data.paradox.value;
     }
 
-    // Default Token Bar setting
-    // actorData.token.bar1 = actorData.token.bar1 || {"attribute" : "health.summary"};
+    if (data.quintessence.value < 0) {
+      data.quintessence.value = 0;
+    }
+    if (data.paradox.value < 0) {
+      data.paradox.value = 0;
+    }
+    if (data.quintessence.value > 20) {
+      data.quintessence.value = 20;
+    }
+    if (data.paradox.value > 20) {
+      data.paradox.value = 20;
+    }
 
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
-    if (actorData.type === 'TrinityCharacter') this._prepareTrinityCharacterData(actorData);
+    const qpTracker = [];
+
+    for (var i = 0; i < 20; i++) {
+      if (data.quintessence.value >= i + 1) {
+        qpTracker[i] = "Q";
+      } else {
+        qpTracker[i] = "";
+      }
+      if (data.paradox.value >= 20 - i) {
+        qpTracker[i] = "P";
+      }
+    }
+
+    data.qpTracker = qpTracker;
   }
+
+  // Default Token Bar setting
+  // actorData.token.bar1 = actorData.token.bar1 || {"attribute" : "health.summary"};
+
+  // Make separate methods for each Actor type (character, npc, etc.) to keep
+  // things organized.
+  if (actorData.type === 'TrinityCharacter') {
+    this._prepareTrinityCharacterData(actorData);
+  }
+}
 
   /**
    * Prepare Character type specific data

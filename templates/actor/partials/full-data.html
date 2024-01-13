@@ -25,7 +25,7 @@
     <li class="item flexrow" data-item-id="{{item._id}}">
 
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
-        <h4 class="resource-label">{{item.data.value}}</h4>
+        <h4 class="resource-label">{{item.value}}</h4>
         <h4 class="item-name">{{item.name}}</h4>
         <div class="item-controls">
             <a class="item-control item-edit" title="Edit Skill"><i class="fas fa-edit"></i></a>
@@ -43,10 +43,10 @@
 <!--
 <button type="button" id="fd-attr-header" class="collapsible">Attributes</button>
 <div id="fd-attr-content" class="collapsible-content">
-{{#each actor.data.system.attributes as |attribute key|}}
+{{#each actor.system.attributes as |attribute key|}}
   <div class="attribute flexrow flex-group-center">
     <label for="fd-{{key}}" class="resource-label rollable"> {{attribute.name}} </label>
-    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="fd-{{key}}" name="data.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
+    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="fd-{{key}}" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
   </div>
 {{/each}}
 </div>
@@ -109,23 +109,23 @@
 <div id="fd-flags-content" class="collapsible-content">
   <div>
     <label for="fd-isTalent" class="resource-label"> Talent: </label>
-    <input type="checkbox" id="fd-isTalent" name="data.flags.isTalent" value="{{actor.data.flags.isTalent}}" data-dtype="Boolean" {{checked this.data.system.flags.isTalent}}/>
+    <input type="checkbox" id="fd-isTalent" name="data.flags.isTalent" value="{{actor.data.flags.isTalent}}" data-dtype="Boolean" {{checked this.system.flags.isTalent}}/>
   </div>
   <div>
     <label for="fd-isPsion" class="resource-label"> Psion: </label>
-    <input type="checkbox" id="fd-isPsion" name="data.flags.isPsion" value="{{actor.data.flags.isPsion}}" data-dtype="Boolean" {{checked this.data.system.flags.isPsion}}/>
+    <input type="checkbox" id="fd-isPsion" name="data.flags.isPsion" value="{{actor.data.flags.isPsion}}" data-dtype="Boolean" {{checked this.system.flags.isPsion}}/>
   </div>
   <div>
     <label for="fd-isNova" class="resource-label"> Nova: </label>
-    <input type="checkbox" id="fd-isNova" name="data.flags.isNova" value="{{actor.data.flags.isNova}}" data-dtype="Boolean" {{checked this.data.system.flags.isNova}}/>
+    <input type="checkbox" id="fd-isNova" name="data.flags.isNova" value="{{actor.data.flags.isNova}}" data-dtype="Boolean" {{checked this.system.flags.isNova}}/>
   </div>
   <div>
     <label for="fd-isMage" class="resource-label"> Mage: </label>
-    <input type="checkbox" id="fd-isMage" name="data.flags.isMage" value="{{actor.data.flags.isMage}}" data-dtype="Boolean" {{checked this.data.system.flags.isMage}}/>
+    <input type="checkbox" id="fd-isMage" name="data.flags.isMage" value="{{actor.data.flags.isMage}}" data-dtype="Boolean" {{checked this.system.flags.isMage}}/>
   </div>
   <div>
     <label for="fd-isOther" class="resource-label"> Custom: </label>
-    <input type="checkbox" id="fd-isOther" name="data.flags.isOther" value="{{actor.data.flags.isOther}}" data-dtype="Boolean" {{checked this.data.system.flags.isOther}}/>
+    <input type="checkbox" id="fd-isOther" name="data.flags.isOther" value="{{actor.data.flags.isOther}}" data-dtype="Boolean" {{checked this.system.flags.isOther}}/>
   </div>
 </div>
 
