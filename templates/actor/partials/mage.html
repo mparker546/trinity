@@ -22,7 +22,7 @@
     <div class="mage boxed">
       <div class="flex-parent-center-column">
         <div class="flex-child resource-label">Max Willpower</div>
-        <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.system.willpower.max}}}</div>
+        <div class="flex-child big icons can-hide">{{{to10Dots this.actor.system.willpower.max}}}</div>
         <div class="flex-parent-nowrap-center edit-area can-hide hidden">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.willpower.max"></i>
           <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.willpower.max" value="{{data.system.willpower.max}}" data-dtype="Number"/>
@@ -32,7 +32,7 @@
       <div class="flex-parent-center-column">
         <div class="flex-child big icons">
           <i class="clickable sub-value far fa-caret-square-left" data-target="data.willpower.value"></i>
-          {{{to10Boxes this.actor.data.system.willpower.value}}}
+          {{{to10Boxes this.actor.system.willpower.value}}}
           <i class="clickable add-value far fa-caret-square-right" data-target="data.willpower.value"></i>
         </div>
         <div class="flex-child resource-label">Current Willpower</div>
@@ -42,7 +42,7 @@
       <div class="flex-parent-center-column flex-child">
         <div class="flex-parent-nowrap-center">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.quintessence.value"></i>
-          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quintessence.value" value="{{this.actor.data.system.quintessence.value}}" data-dtype="Number"/>
+          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.quintessence.value" value="{{this.actor.system.quintessence.value}}" data-dtype="Number"/>
           <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.quintessence.value"></i>
         </div>
         <div class="flex-child resource-label">Quintessence</div>
@@ -51,7 +51,7 @@
       <div class="flex-parent-center-column flex-child">
         <div class="flex-parent-nowrap-center">
           <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.paradox.value"></i>
-          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.paradox.value" value="{{this.actor.data.system.paradox.value}}" data-dtype="Number"/>
+          <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="quantumPointsMax-value" name="data.paradox.value" value="{{this.actor.system.paradox.value}}" data-dtype="Number"/>
           <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.paradox.value"></i>
         </div>
         <div class="flex-child resource-label">Paradox</div>

@@ -46,7 +46,7 @@ export async function setFocusName(c) {
     let updates = {};
     updates = game.combat.data.combatants.map(cb => {
       // console.log("cb/b", cb, c);
-      let newName = ( cb.id === c.id ) ? actor.name : cb.data.name;
+      let newName = ( cb.id === c.id ) ? actor.name : cb.name;
       let newToken = ( cb.id === c.id ) ? actor.data.token.img : cb.data.img;
       // console.log("newName:", newName);
       return {

@@ -107,19 +107,6 @@ export function handlebarHelpers() {
     return dots;
   });
 
-/* Old Healthbox helper
-  Handlebars.registerHelper('toHealthBoxes', function(h) {
-    let boxes = '';
-    let extraBox = '<i class="fas fa-plus-square"></i>';
-    let filledBox = '<i class="fas fa-square"></i>';
-    let emptyBox = '<i class="far fa-square"></i>';
-    for (let i = 0; i < h.filled; i++) { boxes += filledBox; }
-    for (let i = 0; i < h.empty; i++) { boxes += emptyBox; }
-    for (let i = 0; i < h.extra; i++) { boxes += extraBox; }
-    return boxes;
-  });
-*/
-
   Handlebars.registerHelper('toHealthBoxes', function(state) {
     if (typeof state === "undefined") { console.log("MISSING STATES"); return;}
 
@@ -139,50 +126,16 @@ export function handlebarHelpers() {
     return box;
   });
 
-/* No longer used??
-  Handlebars.registerHelper('toFilledBoxes', function(n) {
-    let boxes = '';
-    let filledBox = '<i class="fas fa-square"></i>';
-    for (let i = 0; i < n; i++) {
-      if (i < n) { boxes += filledBox; }
-    }
-    return boxes;
-  });
-
-  Handlebars.registerHelper('toExtraBoxes', function(n) {
-    let boxes = '';
-    let filledBox = '<i class="fas fa-plus-square"></i>';
-    for (let i = 0; i < n; i++) {
-      if (i < n) { boxes += filledBox; }
-    }
-    return boxes;
-  });
-
-  Handlebars.registerHelper('toEmptyBoxes', function(n) {
-    let boxes = '';
-    let emptyBox = '<i class="far fa-square"></i>';
-    for (let i = 0; i < n; i++) {
-      if (i < n) { boxes += emptyBox; }
-    }
-    return boxes;
-  });
-*/
-
-  /* No longer needed
-  Handlebars.registerHelper('lookupSavedRoll', function(rollID, context) {
-    let name = context.actor.data.system.savedRolls[rollID].name;
-    return name;
-  });
-  */
-
   Handlebars.registerHelper('uniqueTypes', function(items) {
     let types = [];
     for (let i of items) {
-      if (types.indexOf(i.data.typeName) === -1) {
+      if (i && i.data && i.data.typeName && types.indexOf(i.data.typeName) === -1) {
         types.push(i.data.typeName);
       }
     }
-    types.sort(function(a, b) {return (a > b) ? 1 : -1;});
+    types.sort(function(a, b) {
+      return a > b ? 1 : -1;
+    });
     return types;
   });
 
@@ -256,104 +209,58 @@ export function handlebarHelpers() {
     }
 
     // convert the ref to a complete path
-    let refPath = targetActor.data.system.linkedRolls;
-    let refSplit = ref.split('.');
-    for(var i = 0; i < refSplit.length; i++) {
-      // if (typeof refPath[refSplit[i]] !== "undefined") {refPath = refPath[refSplit[i]];}
-      refPath = refPath[refSplit[i]];
-    }
+let refPath = targetActor.data.system.linkedRolls;
+let refSplit = ref.split('.');
+for (var i = 0; i < refSplit.length; i++) {
+  if (typeof refPath === "object" && refSplit[i] in refPath) {
+    refPath = refPath[refSplit[i]];
+  }
+}
 
-    // check if ref is an actor quality or an item
-    if (typeof targetActor.items.get(ref) !== "undefined") {
-      isItem = true;
-      targetItem = targetActor.items.get(ref);
-    }
+// check if ref is an actor quality or an item
+if (typeof targetActor.items.get(ref) !== "undefined") {
+  isItem = true;
+  targetItem = targetActor.items.get(ref);
+}
 
-    // Check for existing linkage
-    //console.log("check for linkage, ref", ref);
-    //console.log("check for linkage, actor", targetActor);
-    //console.log("check for linkage, targetActor.data.system.linkedRolls", targetActor.data.system.linkedRolls);
-    //console.log("check for linkage, Item/Actor", isItem, targetActor.data.system.linkedRolls[ref]);
-    //console.log("check for linkage, refPath", refPath);
-    if (!isItem) {
-      if (typeof refPath !== "undefined" && refPath !== "" ) {
-        linkedRoll = refPath;
-        isLinked = true;
-        rollData = targetActor.data.system.savedRolls[refPath];
-      }
-    } else if (isItem) {
-      //console.log("check for linkage, item>", targetActor.items);
-      //console.log("check for linkage, item.ref>", targetActor.items[ref]);
-      //console.log("check for linkage, targetItem>", targetItem);
-      // if (typeof targetItem.data.system.linkedRollID !== "undefined" && targetItem.data.system.linkedRollID !== "") {
-      if (typeof targetActor.data.system.linkedRolls[ref] !== "undefined" && targetActor.data.system.linkedRolls[ref] !== "") {
-        // linkedRoll = targetItem.data.system.linkedRollID;
-        // linkedRoll = targetActor.data.system.savedRolls[ref];
-        linkedRoll = targetActor.data.system.linkedRolls[ref];
 
-        isLinked = true;
-        // rollData = targetActor.data.system.savedRolls[targetItem.data.system.linkedRollID];
-        rollData = targetActor.data.system.savedRolls[linkedRoll];
-      }
-      //console.log("check for linkage, linkedRoll>", linkedRoll);
-      //console.log("check for linkage, rollData>", rollData);
-    }
-    if (isLinked && typeof rollData !== "undefined" && typeof rollData.name !== "undefined") {rollName = rollData.name;}
+if (!isItem) {
+  if (refPath !== null && refPath !== "") {
+    linkedRoll = refPath;
+    isLinked = true;
+    rollData = targetActor.data.system.savedRolls[refPath];
+  }
+} else if (isItem) {
+  if (targetActor.data.system.linkedRolls[ref] !== null && targetActor.data.system.linkedRolls[ref] !== "") {
+    linkedRoll = targetActor.data.system.linkedRolls[ref];
+    isLinked = true;
+    rollData = targetActor.data.system.savedRolls[linkedRoll];
+  }
+}
 
-    //build option list
+if (isLinked && typeof rollData !== "undefined" && typeof rollname !== "undefined") {
+  rollName = rollname;
+}
+
+    
+    // Build option list
     let optionHTML = "";
-    // for (let sRoll of Object.keys(targetActor.data.system.savedRolls)) {
     for (const [key, value] of Object.entries(targetActor.data.system.savedRolls)) {
       let selected = "";
-      //console.log("option/select loop", key, linkedRoll);
-      if (key === linkedRoll) {selected = "selected"; linkKey = key;}
-      optionHTML += `<option value="${key}" ${selected}>${targetActor.data.system.savedRolls[key].name}</option>`;
+      if (key === linkedRoll) {
+        selected = "selected";
+        linkKey = key;
+      }
+      optionHTML += `<option value="${key}" ${selected}>${value.name}</option>`;
     }
 
-    /* Old method which had it's own listener.
-    let rollNameDiv = "";
-    if (rollData === {}) {
-      rollNameDiv +=
-        `<div class="chip-roll-name" id="${ref}">`
-    } else {
-      rollNameDiv +=
-        `<div class="chip-roll-name saved-roll rollable" id="${ref}" data-rollID="${linkKey}">`
-    }
-
-    html =
-    `<div class="chip">
-      <div class="chip-head">
-        <i class="fas fa-dice"></i>
-      </div>
-      <div class="chip-content chip-view">
-        ${rollNameDiv}
-          ${rollName}
-        </div>
-      </div>
-      <div class="chip-content chip-change chip-hidden">
-        <label class="chip-select chip-label" for="chip-select">Link Roll: </label>
-        <select class="chip-select" id="chip-select" name="data.linkedRolls.${ref}" data-dtype="String">
-          <option value="">None Selected</option>
-          ${optionHTML}
-        </select>
-      </div>
-      <div class="chip-control clickable">
-        <i class="fas fa-link"></i>
-      </div>
-    </div>`
-    ;
-    */
-
-    // New method that uses the general edit-area toggle
-    let chipHeadDiv = "";
-    if (rollData === {}) {
-      chipHeadDiv +=
-        `<div class="chip-head" id="${ref}">`
-    } else {
-      chipHeadDiv +=
-        `<div class="chip-head saved-roll rollable" id="${ref}" data-rollID="${linkKey}">`
-    }
-
+// New method that uses the general edit-area toggle
+let chipHeadDiv = "";
+if (rollData && Object.keys(rollData).length === 0) {
+  chipHeadDiv += `<div class="chip-head" id="${ref}">`;
+} else {
+  chipHeadDiv += `<div class="chip-head saved-roll rollable" id="${ref}" data-rollID="${linkKey}">`;
+}
     html =
     `<div class="chip">
       ${chipHeadDiv}

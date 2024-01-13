@@ -79,7 +79,7 @@ export class TrinityCombat extends Combat
       // Actors w/o an initiative roll
       if (typeof combatant.actor.data.system.linkedRolls.initiative === "undefined" || combatant.actor.data.system.linkedRolls.initiative === "") {
         let chatData = {
-          content: `${combatant.actor.data.name} has no initiative roll selected.`
+          content: `${combatant.actor.name} has no initiative roll selected.`
         };
         ChatMessage.create(chatData)
 
@@ -160,14 +160,14 @@ export async function giveFocus(c) {
   // Create Dialog Here, return selected actor
   setFocusName(c);
   // let actorName = new Dialog(info);
-  // c.data.name = actorName;
+  // c.name = actorName;
   // updates = game.combat.data.combatants.set(c.id, c).map(c => { return c });
   // updates = game.combat.data.combatants.set(c.id, c).map(c => { return {_id: c.id} });
 
 -----------------
   updates = game.combat.data.combatants.map(cb => {
-    let newName = ( cb.id === c._id ) ? actorName : cb.data.name;
-    // if ( cb.id === c._id ) { cb.data.name = actorName; }
+    let newName = ( cb.id === c._id ) ? actorName : cb.name;
+    // if ( cb.id === c._id ) { cb.name = actorName; }
     return { _id: cb.id, name: newName };
   });
 

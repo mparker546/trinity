@@ -220,7 +220,7 @@ export class RollForm extends FormApplication {
     this.itemListType = type;
     this.itemList = [];
     for (let i of this.actor.items) {
-      if (i.data.system.flags.isFacet && !this.actor.data.system.flags.isTalent) { continue; }
+      if (i.data.system.flags.isFacet && !this.actor.system.flags.isTalent) { continue; }
       if (type === "enhancement" && i.data.system.flags.isEnhancement === true) { this.itemList.push(i); continue; }
       if (type === "attribute" && i.type === "attribute" && i.data.system.flags.isMain === true) { this.itemList.push(i); continue; }
       if (i.name === type) { this.itemList.push(i); continue; }
@@ -358,16 +358,16 @@ export class RollForm extends FormApplication {
         return total;
       },
       settings : {
-        expl : this.actor.data.system.rollSettings.expl.value,
-        succ : this.actor.data.system.rollSettings.succ.value,
-        nsca : this.actor.data.system.rollSettings.nsca.value, // Narrative Scale (Absolute)
-        dsca : this.actor.data.system.rollSettings.dsca.value, // Dramatic Scale (Difference)
+        expl : this.actor.system.rollSettings.expl.value,
+        succ : this.actor.system.rollSettings.succ.value,
+        nsca : this.actor.system.rollSettings.nsca.value, // Narrative Scale (Absolute)
+        dsca : this.actor.system.rollSettings.dsca.value, // Dramatic Scale (Difference)
         fail : game.settings.get("trinity", "defaultFail"), // Fail value, for old-school homebrew
         doub : game.settings.get("trinity", "defaultDouble"), // Double Success value, for old-school homebrew
         init : false // For Compatibility
       },
       flags : {
-        fail : this.actor.data.system.flags.isMage,
+        fail : this.actor.system.flags.isMage,
         doub : false
       },
       favorite : false
@@ -389,7 +389,7 @@ export class RollForm extends FormApplication {
           callback: html => {
             let results = document.getElementById('saveName').value;
             let uniqueRollNumber = randomID(16);
-            rollData.name = results;
+            rollname = results;
             rollData.id = uniqueRollNumber;
 
             let updates = {
@@ -413,7 +413,7 @@ export class RollForm extends FormApplication {
     // let html = await renderTemplate("systems/trinity/templates/save-prompt.html");
     new Dialog({
       title: "Save Roll",
-      content: `Over-write existing saved roll <b>${rollData.name}</b>?`,
+      content: `Over-write existing saved roll <b>${rollname}</b>?`,
       default: 'save',
       buttons: {
         save: {
@@ -423,7 +423,7 @@ export class RollForm extends FormApplication {
           callback: html => {
             // let results = document.getElementById('saveName').value;
             // let uniqueRollNumber = randomID(16);
-            // rollData.name = results;
+            // rollname = results;
             // rollData.id = uniqueRollNumber;
 
             let updates = {
@@ -434,7 +434,7 @@ export class RollForm extends FormApplication {
             game.actors.get(targetActor.id).update(updates);
 
 
-            ui.notifications.notify(`Saved Roll to ${targetActor.name} as "${rollData.name}".`);
+            ui.notifications.notify(`Saved Roll to ${targetActor.name} as "${rollname}".`);
             return;
           },
         },

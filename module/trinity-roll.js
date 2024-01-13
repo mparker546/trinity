@@ -97,28 +97,28 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
 
     activateListeners(html) {
       super.activateListeners(html);
-
+    
       // ATTR Click
       html.find('.attr-label').click((event) => {
         // Call Option picker
         pickedElements = Picker.pDialog("attr", targetActor, pickedElements);
         rollDialog.close();
       });
-
+    
       // SKIL Click
       html.find('.skil-label').click((event) => {
         // Call Option picker
         pickedElements = Picker.pDialog("skil", targetActor, pickedElements);
         rollDialog.close();
       });
-
+    
       // ENHA click
       html.find('.enha-label').click((event) => {
         // Call Option picker
         pickedElements = Picker.pDialog("enha", targetActor, pickedElements);
         rollDialog.close();
       });
-
+    
       // Init update
       html.find('.init-checkbox').click((event) => {
         // Call Option picker
@@ -127,7 +127,6 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
         pickedElements.init.value = event.currentTarget.checked;
         console.log("pickedElements post Update: ", pickedElements);
       });
-
     }
 
   }

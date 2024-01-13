@@ -10,37 +10,42 @@ export class TrinityItem extends Item {
     super.prepareData();
 
     // Get the Item's data
-    const itemData = this.data;
-    const actorData = this.actor ? this.actor.data : {};
-    const systemData = itemData.system;
+    const itemData = this;
+    const actorData = this.actor ? this.actor : {};
+    const systemData = itemData;
+
+    // Update the code within this method as needed
+    // Remove any references to TrinityActor#data
+
   }
 
   prepareDerivedData() {
     const itemData = this;
     const actorData = this.actor ? this.actor : {};
-    const systemData = itemData.data;
+    const systemData = itemData;
     // console.log("prepareDerivedData called", itemData);
-  
+
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
     this._prepareSubItemData(itemData);
     this._updateFlags(itemData);
     this._matchValues(itemData);
-  
+
   }
+
   _updateFlags(itemData) {
     // Update the code within this method as needed
+    // Remove any references to TrinityActor#data
   }
 
   _matchValues(itemData) {
     // Update the code within this method as needed
+    // Remove any references to TrinityActor#data
   }
-
 
   _prepareSubItemData(itemData) {
     // console.log("_prepareSubItemData called", itemData);
     if (typeof itemData.system.subItems !== "undefined") {
-      // this.data.system.subItems.sort((a, b) => a.name > b.name ? 1 : -1);
       const stunts = [];
       const tags = [];
       const modePowers = [];

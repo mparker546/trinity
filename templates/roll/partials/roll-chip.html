@@ -5,10 +5,10 @@ Item ID or Actor data path of associated element
 RollData (when set)
 SavedRolls (to Set)
 
-{{createChip this.actor.id this.actor.data.system.defense}}  <----- Need variable to store linked roll
+{{createChip this.actor.id this.actor.system.defense}}  <----- Need variable to store linked roll
 actor.linkedRolls = {
   linkref : linkedRoll,
-  this.actor.data.system.defense : osudhgifdhgk
+  this.actor.system.defense : osudhgifdhgk
 }
 update, etc.
 
@@ -29,7 +29,7 @@ css, listeners, and saved options to control which content is visible
   </div>
   <div class="chip-content chip-view">
     <div class="chip-roll-name" id="id/name-chip-value">
-      --item.linkedRollID > Rolldata.name--
+      --item.linkedRollID > Rollname--
     </div>
     <div class="chip-link">
       <i class="fas fa-link">
@@ -40,7 +40,7 @@ css, listeners, and saved options to control which content is visible
     <select class="chip-select" id="chip-select" name="data.linkedRollID" data-dtype="String">
       {{#select data.linkedRollID}}
       <option value="">None Selected</option>
-      {{#each this.actor.data.system.savedRolls as |roll key|}}
+      {{#each this.actor.system.savedRolls as |roll key|}}
         <option value="{{key}}">{{{roll.name}}}</option>
       {{/each}}
       {{/select}}

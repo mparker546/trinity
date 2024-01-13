@@ -3,12 +3,6 @@
  * @extends {ActorSheet}
  */
 
-//trinity roll 1
-// import { TrinityRoll } from "/systems/trinity/module/trinity-roll.js";
-
-// trinity roll 2
-// import { trinityRoll } from "/systems/trinity/module/trinity-roll.js";
-// import { rollDialog } from "/systems/trinity/module/roll/roll-dialog.js";
 import { RollForm } from "/systems/trinity/module/roll/roll-form.js";
 
 
@@ -26,12 +20,12 @@ export class TrinityActorSheet extends ActorSheet {
 
 // ------- New Method of Collapse/Expand Content
 
-  async _render(force = false, options = {}) {
-    console.log("_render Called");
-    this._saveToggleStates();
-    await super._render(force, options);
-    this._setToggleStates();
-  }
+async _render(force = false, options = {}) {
+  console.log("_render Called");
+  this._saveToggleStates();
+  await super._render(force, options);
+  this._setToggleStates();
+}
 
   _saveToggleStates() {
     if (this.form === null)
@@ -52,11 +46,11 @@ export class TrinityActorSheet extends ActorSheet {
       this.toggleStates.headers.push($(item).hasClass("collapsible-active"));
     }
 
-    // Content
-    let contentItems = $(html.find(".collapsible-content"));
-    for (let item of contentItems) {
-      this.toggleStates.content.push($(item).hasClass("collapsible-content-active"));
-    }
+   // Content
+let contentItems = $(html.find(".collapsible-content"));
+for (let item of contentItems) {
+  this.toggleStates.content.push($(item).hasClass("collapsible-content-active"));
+}
 
     // Other uses of the hidden class
     let hiddenContentItems = $(html.find(".can-hide"));
@@ -236,97 +230,96 @@ export class TrinityActorSheet extends ActorSheet {
     // Sort Items before allocating, alphabetically & favorited
     let sheetItems = sheetData.items;
     sheetItems.sort(function(a, b) {return (a.name > b.name) ? 1 : -1;});
-    sheetItems.sort(function(x, y) {return (x.data.flags.isFavorite === y.data.flags.isFavorite)? 0 : x? -1 : 1;});
+    sheetItems.sort(function(x, y) {return (x.system.flags.isFavorite === y.system.flags.isFavorite)? 0 : x? -1 : 1;});
 
-    // Iterate through items, allocating to containers
-    for (let i of sheetItems) {
+// Iterate through items, allocating to containers
+for (let i of sheetItems) {
 
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
+  let item = i.system;
+  i.img = i.img || DEFAULT_TOKEN;
 
-      // "item" sub-types - Gear / Weapon / Armor / Vehicle
-      if ((i.type === 'item' || i.type === 'equipment') && i.data.flags.isGear === true) { gear.push(i); }
-      if ((i.type === 'item' || i.type === 'equipment') && i.data.flags.isWeapon === true) { weapons.push(i); }
-      if ((i.type === 'item' || i.type === 'equipment') && i.data.flags.isArmor === true) { armors.push(i); }
-      if ((i.type === 'item' || i.type === 'equipment') && i.data.flags.isVehicle === true) { vehicles.push(i); }
-      // unflaggedEquipment
-      if ((i.type === 'item' || i.type === 'equipment')
-        && i.data.flags.isGear !== true
-        && i.data.flags.isWeapon !== true
-        && i.data.flags.isArmor !== true
-        && i.data.flags.isVehicle !== true) { unflaggedEquipment.push(i); }
+  // "item" sub-types - Gear / Weapon / Armor / Vehicle
+  if ((i.type === 'item' || i.type === 'equipment') && i.system.flags.isGear === true) { gear.push(i); }
+  if ((i.type === 'item' || i.type === 'equipment') && i.system.flags.isWeapon === true) { weapons.push(i); }
+  if ((i.type === 'item' || i.type === 'equipment') && i.system.flags.isArmor === true) { armors.push(i); }
+  if ((i.type === 'item' || i.type === 'equipment') && i.system.flags.isVehicle === true) { vehicles.push(i); }
+  // unflaggedEquipment
+  if ((i.type === 'item' || i.type === 'equipment')
+    && i.system.flags.isGear !== true
+    && i.system.flags.isWeapon !== true
+    && i.system.flags.isArmor !== true
+    && i.system.flags.isVehicle !== true) { unflaggedEquipment.push(i); }
 
-      // Other item types
-      if (i.type === 'edge') { edges.push(i); }
-      if (i.type === 'skill') { skills.push(i); }
-      skills.sort((a, b) => a.name.localeCompare(b.name));
-      if (i.type === 'specialty') { specialties.push(i); }
-      if (i.type === 'path') { paths.push(i); }
-      if (i.data.flags.isComplication === true) { complications.push(i); }
-      if (i.data.flags.isEnhancement === true) { enhancements.push(i); }
-      if (i.type === 'gift') { gifts.push(i); }
-      if (i.type === 'trick') { tricks.push(i); }
-      if (i.type === 'condition') { conditions.push(i); }
-      if (i.type === 'contact') { contacts.push(i); }
-      if (i.type === 'bond') { bonds.push(i); }
-      if (i.type === 'mode') { modes.push(i); }
-      if (i.type === 'quantumPower') { quantumPowers.push(i); }
-      if (i.type === 'modePower') { modePowers.push(i); }
-      if (i.type === 'action') { actions.push(i); }
-      if (i.type === 'attribute') {
-        if (i.data.flags.isMain) {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          attributes.push(i);
-          attributes.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        } else if (i.data.flags.isFacet) {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          facets.push(i);
-          facets.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        } else if (i.data.flags.isPsi) {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          psi.push(i);
-          psi.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        } else if (i.data.flags.isQuantum) {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          quantum.push(i);
-          quantum.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        } else {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          miscAttributes.push(i);
-          miscAttributes.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        }
-      }
-      if (i.type === 'attribute') {
-        if (i.data.flags.isMain) {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          npcAttributes.push(i);
-          npcAttributes.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        } else if (i.data.flags.isEnhancement && !i.data.flags.isFacet) {
-          if (typeof i.data.sortNum === 'undefined' || i.data.sortNum === null) { i.data.sortNum = 0; }
-          npcAttributes.push(i);
-          npcAttributes.sort(function(a, b) {
-            return a.data.sortNum - b.data.sortNum;
-          });
-        }
-      }
-      if (typeof(i.data.stunts) !== "undefined" && Object.keys(i.data.stunts).length > 0  && i.type !== 'action') { stunts.push(i); }
-
-      // if (i.type === actorData.system.allItemsFilter) { allItems.push(i); }
-      allItems.push(i);
-
+  // Other item types
+  if (i.type === 'edge') { edges.push(i); }
+  if (i.type === 'skill') { skills.push(i); }
+  skills.sort((a, b) => a.name.localeCompare(b.name));
+  if (i.type === 'specialty') { specialties.push(i); }
+  if (i.type === 'path') { paths.push(i); }
+  if (i.system.flags.isComplication === true) { complications.push(i); }
+  if (i.system.flags.isEnhancement === true) { enhancements.push(i); }
+  if (i.type === 'gift') { gifts.push(i); }
+  if (i.type === 'trick') { tricks.push(i); }
+  if (i.type === 'condition') { conditions.push(i); }
+  if (i.type === 'contact') { contacts.push(i); }
+  if (i.type === 'bond') { bonds.push(i); }
+  if (i.type === 'mode') { modes.push(i); }
+  if (i.type === 'quantumPower') { quantumPowers.push(i); }
+  if (i.type === 'modePower') { modePowers.push(i); }
+  if (i.type === 'action') { actions.push(i); }
+  if (i.type === 'attribute') {
+    if (i.system.flags.isMain) {
+      if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      attributes.push(i);
+      attributes.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
+    } else if (i.system.flags.isFacet) {
+      if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      facets.push(i);
+      facets.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
+    } else if (i.system.flags.isPsi) {
+      if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      psi.push(i);
+      psi.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
+    } else if (i.system.flags.isQuantum) {
+           if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      quantum.push(i);
+      quantum.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
+    } else {
+      if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      miscAttributes.push(i);
+      miscAttributes.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
     }
+  }
+  if (i.type === 'attribute') {
+    if (i.system.flags.isMain) {
+      if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      npcAttributes.push(i);
+      npcAttributes.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
+    } else if (i.system.flags.isEnhancement && !i.system.flags.isFacet) {
+      if (typeof i.system.sortNum === 'undefined' || i.system.sortNum === null) { i.system.sortNum = 0; }
+      npcAttributes.push(i);
+      npcAttributes.sort(function(a, b) {
+        return a.system.sortNum - b.system.sortNum;
+      });
+    }
+  }
+  if (typeof(i.system.stunts) !== "undefined" && Object.keys(i.system.stunts).length > 0  && i.type !== 'action') { stunts.push(i); }
+
+  allItems.push(i);
+
+}
 
     // Assign and return
     actorData.gear = gear;
@@ -372,12 +365,6 @@ export class TrinityActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-/*
-    html.find('.portrait').hover(ev => {
-      event.previousElementSibling.classList.toggle("hidden");
-    });
-*/
-
     html.on("mouseenter mouseleave", ".portrait-area", function (event) {
       event.preventDefault();
       // event.currentTarget.nextElementSibling.classList.toggle("hidden");
@@ -402,146 +389,127 @@ export class TrinityActorSheet extends ActorSheet {
 
 
     // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
+if (!this.options.editable) return;
 
-    // Show sub-item details
-    html.find('.show-detail').click(ev => {
-      event.currentTarget.parentElement.nextElementSibling.classList.toggle("hidden");
-    });
+// Show sub-item details
+html.find('.show-detail').click(ev => {
+  ev.currentTarget.parentElement.nextElementSibling.classList.toggle("hidden");
+});
 
-    // Edit Button toggle for entire sheet
-    html.find('.edit-button').click(ev => {
-      html.find('.edit-button').each((i, editButton) => {
-        editButton.classList.toggle("hidden");
-      });
-      html.find('.edit-area').each((i, editArea) => {
-        editArea.classList.toggle("hidden");
-        editArea.previousElementSibling.classList.toggle("hidden");
-      });
-      // console.log("edit-button, this.options.configTab before:", this.options.configTab);
-      // this.options.configTab = !this.options.configTab;
-      html.find('.config-tab').each((i, editArea) => {
-        editArea.classList.toggle("hidden");
-      });
-      // console.log("edit-button, this.options.configTab after:", this.options.configTab);
-      this._saveToggleStates();
-    });
-
-    // Collapsible Button on Config page
-    html.find('.collapsible').click(event => {
-      const collapsibleElement = event.currentTarget;
-      /*
-      console.log("Collapsible Listener, HTML.find style. event:", event);
-      console.log("Collapsible Listener, HTML.find style. this:", this);
-      console.log("Collapsible Listener, HTML.find style. collapsibleElement:", collapsibleElement);
-      */
-      collapsibleElement.classList.toggle("collapsible-active");
-      collapsibleElement.nextElementSibling.classList.toggle("collapsible-content-active");
-      this._saveToggleStates();
-    });
-
-    html.find('.chip-control').click(event => {
-      // const collapsibleElement = event.currentTarget;
-      event.currentTarget.previousElementSibling.classList.toggle("chip-hidden");
-      event.currentTarget.previousElementSibling.previousElementSibling.classList.toggle("chip-hidden");
-      /*
-      console.log("Collapsible Listener, HTML.find style. event:", event);
-      console.log("Collapsible Listener, HTML.find style. this:", this);
-      console.log("Collapsible Listener, HTML.find style. collapsibleElement:", collapsibleElement);
-      */
-      //collapsibleElement.classList.toggle("collapsible-active");
-      //collapsibleElement.nextElementSibling.classList.toggle("collapsible-content-active");
-      // this._saveToggleStates();
-    });
-
-    // updates the actor outside the normal input/select process to allow for multiple inputs for the same value
-    html.find('.chip-select').change(event => {
-      console.log(".chip-select", event);
-      let varName = event.currentTarget.dataset.name;
-      let varValue = event.currentTarget.value;
-      this.actor.update({ [varName]: varValue });
-    });
-
-    // Return a value by putting together two pieces of a variable name.
-    // ex:
-    // obj = this.actor
-    // desc = data.tolerance.value
-    // returns = this.actor.system.tolerance.value
-    function getDescendantProp(obj, desc) {
-      var arr = desc.split('.');
-      while (arr.length) {
-        // console.log("getDescendantProp while loop arr:", arr);
-        // console.log("getDescendantProp while loop obj:", obj);
-        obj = obj[arr.shift()];
-      }
-      return obj;
-    }
-
-    // Item edits
-    html.find('.item-value-edit').change(ev => {
-      // console.log("sub-value, ev:", ev);
-      let target = event.currentTarget.dataset.target;
-      if (typeof event.currentTarget.dataset.itemid !== "undefined") {
-        let itemid = event.currentTarget.dataset.itemid;
-        let item = this.actor.items.get(itemid);
-        item.update({ [target]: event.currentTarget.value });
-      }
-    });
-
-    // Subtract 1 from value target
-    html.find('.sub-value').click(ev => {
-      let target = ev.currentTarget.dataset.target;
-      let negative = ev.currentTarget.dataset.negative === "true";
-    
-      if (ev.currentTarget.dataset.itemid !== undefined) {
-        let itemid = ev.currentTarget.dataset.itemid;
-        let item = this.actor.items.get(itemid);
-        let current = getProperty(item, target);
-    
-        if (current === null) {
-          item.update({ [target]: 2 });
-        }
-        if (current > 0 || negative) {
-          item.update({ [target]: current - 1 });
-        }
-      } else {
-        let current = getProperty(this.actor, target);
-    
-        if (current === null) {
-          this.actor.update({ [target]: 2 });
-        }
-        if (current > 0 || negative) {
-          this.actor.update({ [target]: current - 1 });
-        }
-      }
-    });
-
-  // Add 1 to value target
-  html.find('.add-value').click(ev => {
-    let target = ev.currentTarget.dataset.target;
-  
-    if (ev.currentTarget.dataset.itemid !== undefined) {
-      let itemid = ev.currentTarget.dataset.itemid;
-      let item = this.actor.items.get(itemid);
-      let current = getProperty(item, target);
-  
-      if (current === null || current < 0) {
-        item.update({ [target]: 0 });
-      }
-      item.update({ [target]: current + 1 });
-    } else {
-      let current = getProperty(this.actor, target);
-      console.log("Add Value, ev:", ev);
-      console.log("Add Value, current:", current);
-      console.log("Add Value, target:", target);
-  
-      if (current === null || current < 0) {
-        this.actor.update({ [target]: 0 });
-      }
-      this.actor.update({ [target]: current + 1 });
-    }
+// Edit Button toggle for entire sheet
+html.find('.edit-button').click(ev => {
+  html.find('.edit-button').each((i, editButton) => {
+    editButton.classList.toggle("hidden");
   });
+  html.find('.edit-area').each((i, editArea) => {
+    editArea.classList.toggle("hidden");
+    editArea.previousElementSibling.classList.toggle("hidden");
+  });
+  html.find('.config-tab').each((i, editArea) => {
+    editArea.classList.toggle("hidden");
+  });
+  this._saveToggleStates();
+});
 
+// Collapsible Button on Config page
+html.find('.collapsible').click(event => {
+  const collapsibleElement = event.currentTarget;
+  collapsibleElement.classList.toggle("collapsible-active");
+  collapsibleElement.nextElementSibling.classList.toggle("collapsible-content-active");
+  this._saveToggleStates();
+});
+
+html.find('.chip-control').click(event => {
+  event.currentTarget.previousElementSibling.classList.toggle("chip-hidden");
+  event.currentTarget.previousElementSibling.previousElementSibling.classList.toggle("chip-hidden");
+});
+
+// updates the actor outside the normal input/select process to allow for multiple inputs for the same value
+html.find('.chip-select').change(event => {
+  console.log(".chip-select", event);
+  let varName = event.currentTarget.dataset.name;
+  let varValue = event.currentTarget.value;
+  this.actor.update({ [varName]: varValue });
+});
+
+// Return a value by putting together two pieces of a variable name.
+// ex:
+// obj = this.actor
+// desc = data.tolerance.value
+// returns = this.actor.system.tolerance.value
+function getDescendantProp(obj, desc) {
+  var arr = desc.split('.');
+  while (arr.length) {
+    obj = obj[arr.shift()];
+  }
+  return obj;
+}
+
+// Item edits
+html.find('.item-value-edit').change(ev => {
+  // console.log("sub-value, ev:", ev);
+  let target = ev.currentTarget.dataset.target;
+  if (typeof ev.currentTarget.dataset.itemid !== "undefined") {
+    let itemid = ev.currentTarget.dataset.itemid;
+    let item = this.actor.items.get(itemid);
+    item.update({ [target]: ev.currentTarget.value });
+  }
+});
+
+// Subtract 1 from value target
+html.find('.sub-value').click(ev => {
+  let target = ev.currentTarget.dataset.target;
+  let negative = ev.currentTarget.dataset.negative === "true";
+  
+  if (ev.currentTarget.dataset.itemid !== undefined) {
+    let itemid = ev.currentTarget.dataset.itemid;
+    let item = this.actor.items.get(itemid);
+    let current = getProperty(item, target);
+  
+    if (current === null) {
+      item.update({ [target]: 2 });
+    }
+    if (current > 0 || negative) {
+      item.update({ [target]: current - 1 });
+    }
+  } else {
+    let current = getProperty(this.actor, target);
+  
+    if (current === null) {
+      this.actor.update({ [target]: 2 });
+    }
+    if (current > 0 || negative) {
+      this.actor.update({ [target]: current - 1 });
+    }
+  }
+});
+
+// Add 1 to value target
+html.find('.add-value').click(ev => {
+  let target = ev.currentTarget.dataset.target;
+
+  if (ev.currentTarget.dataset.itemid !== undefined) {
+    let itemid = ev.currentTarget.dataset.itemid;
+    let item = this.actor.items.get(itemid);
+    let current = getProperty(item, target);
+
+    if (current === null || current < 0) {
+      item.update({ [target]: 0 });
+    }
+    item.update({ [target]: current + 1 });
+  } else {
+    let current = getProperty(this.actor, target);
+    console.log("Add Value, ev:", ev);
+    console.log("Add Value, current:", current);
+    console.log("Add Value, target:", target);
+
+    if (current === null || current < 0) {
+      this.actor.update({ [target]: 0 });
+    }
+    this.actor.update({ [target]: current + 1 });
+  }
+});
+//HERE
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -603,6 +571,7 @@ export class TrinityActorSheet extends ActorSheet {
       ChatMessage.create(chatData);
     });
 
+//Here
 // Delete Inventory Item
 html.find('.item-delete').click(ev => {
   const li = $(ev.currentTarget).parents(".item");
@@ -669,19 +638,6 @@ html.find('.item-delete').click(ev => {
       new RollForm(this.actor, {event:ev}).render(true);
     });
 
-    // Set InitRoll
-    /*
-    html.find('.selectDIRoll').change(ev => {
-      console.log("Init Roll Changed:", ev);
-      let rValue = ev.currentTarget.value;
-      let aID = this.actor.id;
-      this.actor.system.initiativeRollID = rValue;
-      game.actors.get(aID).update({"data.initiativeRollID": rValue});
-    });
-    */
-
-    // Drag events for macros.
-    // if (this.actor.owner) {
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {

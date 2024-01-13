@@ -116,7 +116,7 @@ game.settings.register("trinity", "healthModel", {
   onChange: value => { // A callback function which triggers when the setting is changed
     console.log("Health Model Changed");
     game.actors.forEach(async (actor, i) => {
-      // console.log("Changing Health Model on Actor", actor.data.name);
+      // console.log("Changing Health Model on Actor", actor.name);
       // item.update({ "data.flags.isHealthModelUpdated": false });
       let ifNPC = (actor.data.type === "TrinityNPC") ? "NPC" : "";
       let model = modelSetup(`${value}${ifNPC}`); // Expand this for NPCs

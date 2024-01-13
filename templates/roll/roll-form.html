@@ -7,19 +7,19 @@
         <div class="grid grid-2col">
           <button type="button" id="attribute" class="selector">Attributes <i class="fas fa-dice"></i></button>
           <button type="button" id="skill" class="selector">Skills <i class="fas fa-dice"></i></button>
-          {{#if this.actor.data.system.flags.isNova}}
+          {{#if this.actor.system.flags.isNova}}
           <button type="button" id="Quantum" class="selector">Quantum <i class="fas fa-dice"></i></button>
           <button type="button" id="quantumPower" class="selector">Powers <i class="fas fa-dice"></i></button>
           {{/if}}
-          {{#if this.actor.data.system.flags.isPsion}}
+          {{#if this.actor.system.flags.isPsion}}
           <button type="button" id="Psi" class="selector">Psi <i class="fas fa-dice"></i></button>
           <button type="button" id="mode" class="selector">Mode <i class="fas fa-dice"></i></button>
           {{/if}}
-          {{#if this.actor.data.system.flags.isOther}}
+          {{#if this.actor.system.flags.isOther}}
           <button type="button" id="Source" class="selector">Source <i class="fas fa-dice"></i></button>
           <button type="button" id="power" class="selector">Powers <i class="fas fa-dice"></i></button>
           {{/if}}
-          {{#if this.actor.data.system.flags.isMage}}
+          {{#if this.actor.system.flags.isMage}}
           <button type="button" id="Arete" class="selector">Arete <i class="fas fa-dice"></i></button>
           <button type="button" id="quantumPower" class="selector">Spheres <i class="fas fa-dice"></i></button>
           {{/if}}
@@ -73,7 +73,7 @@
         </div>
         {{!-- Roll button --}}
         <button type="button" id="roll" class="roll-button" style="line-height: 1.2em;">
-          Roll {{~#if this.saved}} "{{this.rollData.name}}"{{~/if~}}<br><b>{{this.rollData.diceTotal}}</b><i class="small fas fa-dice"></i> + <b>{{this.rollData.enhaTotal}}</b><i class="small fas fa-hashtag"></i>
+          Roll {{~#if this.saved}} "{{this.rollname}}"{{~/if~}}<br><b>{{this.rollData.diceTotal}}</b><i class="small fas fa-dice"></i> + <b>{{this.rollData.enhaTotal}}</b><i class="small fas fa-hashtag"></i>
         </button>
       </div>
       <div class="bottom-section">

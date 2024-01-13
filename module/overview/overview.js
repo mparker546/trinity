@@ -138,7 +138,7 @@ this.state.momentum.spent = game.settings.get("trinity", "momentum-spent");
     // Change Momentum
 
     html.find('.momentum').change(ev => {
-      // this.actor.update({ 'data.inspiration.value': ++this.actor.data.system.inspiration.value });
+      // this.actor.update({ 'data.inspiration.value': ++this.actor.system.inspiration.value });
       // console.log("Momentum Change");
       // console.log(this.state.momentum.max, this.state.momentum.current, this.state.momentum.spent);
       // game.settings.set("trinity", "momentum-max", this.state.momentum.max);

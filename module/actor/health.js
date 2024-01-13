@@ -41,18 +41,21 @@ export function setHealth(actorData) {
   // Model T:
   // Assign states by injury item look-up & add extra states when needed
   if (game.settings.get("trinity", "healthModel") === "modelT") {
-    let injuries = actorData.items.filter(i => i.data.system.flags.isInjury);
+    let injuries = actorData.items.filter(i => i.system.flags.isInjury);
     for (let i of injuries) {
       let assigned = false;
-      let boxGroup = Object.values(actorData.system.health.details).find(b => (b.type === i.data.system.injury.type)) ;
-      if (typeof boxGroup !== 'undefined' ) {
+      let boxGroup = Object.values(actorData.system.health.details).find(b => b.type === i.system.injury.type);
+      if (typeof boxGroup !== 'undefined') {
         for (let [index, state] of boxGroup.states.entries()) {
           if (state === 0) {
             boxGroup.states[index] = 3;
-            assigned = true; break;
+            assigned = true;
+            break;
           }
         }
-        if ( !assigned ) { boxGroup.states.push(4); }
+        if (!assigned) {
+          boxGroup.states.push(4);
+        }
       }
     }
   }
