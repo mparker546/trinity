@@ -283,8 +283,8 @@ html.find('.add-value').click(ev => {
             id : droppedItem._id,
             name : droppedItem.name,
             type : droppedItem.type,
-            description : droppedItem.description,
-            costDescription : droppedItem.costDescription
+            description : droppedItem.data.description,
+            costDescription : droppedItem.data.costDescription
           };
           this.item.update({'data.subItems': subItems});
           break;
@@ -294,8 +294,8 @@ html.find('.add-value').click(ev => {
             id : droppedItem._id,
             name : droppedItem.name,
             type : droppedItem.type,
-            description : droppedItem.description,
-            tagValue : droppedItem.tagValue
+            description : droppedItem.data.description,
+            tagValue : droppedItem.data.tagValue
           };
           this.item.update({'data.subItems': subItems});
           break;
@@ -305,9 +305,9 @@ html.find('.add-value').click(ev => {
             id : droppedItem._id,
             name : droppedItem.name,
             type : droppedItem.type,
-            description : droppedItem.description,
-            costDescription : droppedItem.costDescription,
-            dotRequirement : droppedItem.dotRequirement
+            description : droppedItem.data.description,
+            costDescription : droppedItem.data.costDescription,
+            dotRequirement : droppedItem.data.dotRequirement
           };
           this.item.update({'data.subItems': subItems});
           break;

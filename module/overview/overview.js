@@ -76,7 +76,7 @@ this.state.momentum.spent = game.settings.get("trinity", "momentum-spent");
     }
 
     actors = actors.map(actor => {
-      const data = actor.system;
+      const data = actor.data.system;
       return this.getActorDetails(actor);
     });
 
@@ -121,13 +121,13 @@ this.state.momentum.spent = game.settings.get("trinity", "momentum-spent");
   }
 
   getActorDetails(actor) {
-    const data = actor.system;
+    const data = actor.data.system;
 
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
         name: actor.name,
-        aspirations: actor.system.aspirations
+        aspirations: actor.data.system.aspirations
       };
 
   }

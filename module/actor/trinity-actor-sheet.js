@@ -530,7 +530,7 @@ html.find('.add-value').click(ev => {
       console.log("item-favorite click:", ev);
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.update({ 'data.flags.isFavorite': !item.system.flags.isFavorite });
+      item.update({ 'data.flags.isFavorite': !item.system.data.flags.isFavorite });
     });
 
     // Output Item Description to Chat
@@ -541,8 +541,8 @@ html.find('.add-value').click(ev => {
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
-        flavor: (item.system.typeName + " Description"),
-        content: ("<h2>"+item.name+"</h2>"+item.system.description)
+        flavor: (item.system.data.typeName + " Description"),
+        content: ("<h2>"+item.name+"</h2>"+item.system.data.description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -559,9 +559,9 @@ html.find('.add-value').click(ev => {
       // let ownerItem =
       // console.log("chat output:", this, ev, li, liID);
       let ownerName = item.name;
-      let addinfo = (item.system.subItems[liID].type === "stunt") ? item.system.subItems[liID].costDescription : item.system.subItems[liID].tagValue;
-      let subItemName = item.system.subItems[liID].name+" ("+addinfo+")";
-      let subItemDesc = item.system.subItems[liID].description;
+      let addinfo = (item.system.data.subItems[liID].type === "stunt") ? item.system.data.subItems[liID].costDescription : item.system.data.subItems[liID].tagValue;
+      let subItemName = item.system.data.subItems[liID].name+" ("+addinfo+")";
+      let subItemDesc = item.system.data.subItems[liID].description;
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),

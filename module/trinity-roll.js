@@ -51,12 +51,12 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
   // Skill info
   if (typeof dataset.skillid !== 'undefined' && dataset.skillid !== null) {
     console.log(dataset.skillid);
-    console.log(targetActor.items);
-    // targetSkill = Object.values(targetActor.items).find(skill => skill._id === dataset.skillid);
-    targetSkill = targetActor.items.get(dataset.skillid);
+    console.log(targetActor.data.items);
+    // targetSkill = Object.values(targetActor.data.items).find(skill => skill._id === dataset.skillid);
+    targetSkill = targetActor.data.items.get(dataset.skillid);
     console.log(targetSkill);
     pickedElements.skil.name = targetSkill.name;
-    pickedElements.skil.value = targetSkill.system.value; // Added .data - Why? Something with v7 to v9 ?
+    pickedElements.skil.value = targetSkill.data.system.value; // Added .data - Why? Something with v7 to v9 ?
     console.log("Found Skill Info:");
     console.log(targetSkill);
   }
@@ -152,13 +152,13 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
 
         let uniqueRollNumber = randomID(16);
 
-        targetActor.system.savedRolls[uniqueRollNumber] = {
+        targetActor.data.system.savedRolls[uniqueRollNumber] = {
           name: results,
           elements: pickedElements,
         };
 
         // console.log(results);
-        console.log("Saved Roll:", targetActor.system.savedRolls);
+        console.log("Saved Roll:", targetActor.data.system.savedRolls);
         return;
         }
       }
@@ -354,11 +354,11 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
       for (let comp of targetActor.complications) {
         if (compList.length > 0) {
           compList += "<br/>";
-          compList += comp.complication.value + " - " + comp.name;
+          compList += comp.data.complication.value + " - " + comp.name;
         }
         if (compList.length === 0) {
           compList += `<hr /><div class="small">Character's Complications:</div><div class="small-note">`;
-          compList += comp.complication.value + " - " + comp.name;
+          compList += comp.data.complication.value + " - " + comp.name;
         }
       }
       if (compList.length > 0) {

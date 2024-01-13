@@ -2,7 +2,7 @@ export async function setFocusName(c) {
 
   let dispo = c.token?.data?.disposition;
   let group = [];
-  game.combat.combatants.map(cb => {
+  game.combat.data.combatants.map(cb => {
     if (cb.token?.data?.disposition === dispo) { group.push(cb.actor); }
   });
   console.log("group", group);
@@ -44,10 +44,10 @@ export async function setFocusName(c) {
   async function updateFocusName(c, actor) {
     console.log("updateFocusName:", c, actor);
     let updates = {};
-    updates = game.combat.combatants.map(cb => {
+    updates = game.combat.data.combatants.map(cb => {
       // console.log("cb/b", cb, c);
       let newName = ( cb.id === c.id ) ? actor.name : cb.name;
-      let newToken = ( cb.id === c.id ) ? actor.token.img : cb.img;
+      let newToken = ( cb.id === c.id ) ? actor.data.token.img : cb.data.img;
       // console.log("newName:", newName);
       return {
         _id: cb.id,

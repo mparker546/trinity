@@ -118,7 +118,7 @@ game.settings.register("trinity", "healthModel", {
     game.actors.forEach(async (actor, i) => {
       // console.log("Changing Health Model on Actor", actor.name);
       // item.update({ "data.flags.isHealthModelUpdated": false });
-      let ifNPC = (actor.type === "TrinityNPC") ? "NPC" : "";
+      let ifNPC = (actor.data.type === "TrinityNPC") ? "NPC" : "";
       let model = modelSetup(`${value}${ifNPC}`); // Expand this for NPCs
       // let model = modelSetup(value); // Expand this for NPCs
 

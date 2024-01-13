@@ -17,7 +17,7 @@ export function handlebarHelpers() {
 
   // Used for the HealthBox edit - in need of FIXME / TODO
   Handlebars.registerHelper('hbPathFixer', function(str, act) {
-    return act.system.health.details[str].boxes;
+    return act.data.system.health.details[str].boxes;
   });
 
   /* Not used now, fixed template
@@ -129,8 +129,8 @@ export function handlebarHelpers() {
   Handlebars.registerHelper('uniqueTypes', function(items) {
     let types = [];
     for (let i of items) {
-      if (i && i.data && i.typeName && types.indexOf(i.typeName) === -1) {
-        types.push(i.typeName);
+      if (i && i.data && i.data.typeName && types.indexOf(i.data.typeName) === -1) {
+        types.push(i.data.typeName);
       }
     }
     types.sort(function(a, b) {
@@ -209,7 +209,7 @@ export function handlebarHelpers() {
     }
 
     // convert the ref to a complete path
-let refPath = targetActor.system.linkedRolls;
+let refPath = targetActor.data.system.linkedRolls;
 let refSplit = ref.split('.');
 for (var i = 0; i < refSplit.length; i++) {
   if (typeof refPath === "object" && refSplit[i] in refPath) {
@@ -228,13 +228,13 @@ if (!isItem) {
   if (refPath !== null && refPath !== "") {
     linkedRoll = refPath;
     isLinked = true;
-    rollData = targetActor.system.savedRolls[refPath];
+    rollData = targetActor.data.system.savedRolls[refPath];
   }
 } else if (isItem) {
-  if (targetActor.system.linkedRolls[ref] !== null && targetActor.system.linkedRolls[ref] !== "") {
-    linkedRoll = targetActor.system.linkedRolls[ref];
+  if (targetActor.data.system.linkedRolls[ref] !== null && targetActor.data.system.linkedRolls[ref] !== "") {
+    linkedRoll = targetActor.data.system.linkedRolls[ref];
     isLinked = true;
-    rollData = targetActor.system.savedRolls[linkedRoll];
+    rollData = targetActor.data.system.savedRolls[linkedRoll];
   }
 }
 
@@ -245,7 +245,7 @@ if (isLinked && typeof rollData !== "undefined" && typeof rollname !== "undefine
     
     // Build option list
     let optionHTML = "";
-    for (const [key, value] of Object.entries(targetActor.system.savedRolls)) {
+    for (const [key, value] of Object.entries(targetActor.data.system.savedRolls)) {
       let selected = "";
       if (key === linkedRoll) {
         selected = "selected";

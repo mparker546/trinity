@@ -4,8 +4,8 @@
   {{#each actor.attributes as |attribute key|}}
   <div class="flexcol flex-group-center boxed item can-hide" data-item-id="{{attribute._id}}">
     <div class="resource-label clickable item-edit"> {{attribute.name}} </div>
-    <div class="icons rollable" data-attrid="{{attribute._id}}" id="{{attribute._id}}"> {{{toDots attribute.value attribute.megaValue}}} </div>
-    <div class="small-note"> {{attribute.approach}} - {{attribute.arena}} </div>
+    <div class="icons rollable" data-attrid="{{attribute._id}}" id="{{attribute._id}}"> {{{toDots attribute.data.value attribute.data.megaValue}}} </div>
+    <div class="small-note"> {{attribute.data.approach}} - {{attribute.data.arena}} </div>
   </div>
   <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{attribute._id}}">
     <span class="resource-label clickable item-edit"> {{attribute.name}} </span>
@@ -14,7 +14,7 @@
       <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{attribute._id}}-value" value="{{data.value}}" data-dtype="Number" data-itemid="{{attribute._id}}" data-target="data.value"/>
       <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{attribute._id}}" data-target="data.value"></i>
     </div>
-    {{#if ../actor.system.flags.isNova}}
+    {{#if ../actor.data.system.flags.isNova}}
     <span class="resource-label"> Mega Dots </span>
     <div class="flex-parent-nowrap-center">
       <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{attribute._id}}" data-target="data.megaValue"></i>
@@ -22,7 +22,7 @@
       <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{attribute._id}}" data-target="data.megaValue"></i>
     </div>
     {{/if}}
-    <span class="small-note"> {{attribute.approach}} - {{attribute.arena}} </span>
+    <span class="small-note"> {{attribute.data.approach}} - {{attribute.data.arena}} </span>
   </div>
   {{/each}}
 </div>
