@@ -1,43 +1,43 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
 
-    {{!-- Sheet Header --}}
+    <!-- Sheet Header -->
     <header class="sheet-header">
-        <img class="profile-img" src="{{actor.data.token.img}}" data-edit="token.img" title="Token Image" height="50" />
+        <img class="profile-img" src="{{actor.token.img}}" data-edit="token.img" title="Token Image" height="50" />
         <div class="header-fields charname flex-child">
             <h1 style="white-space: nowrap;">{{actor.name}}</h1>
-            {{actor.system.concept}}
+            {{actor.concept}}
         </div>
         <div class="header-fields charname flex-fit flex-right">
-          {{#if actor.system.flags.isPsion}}
-            <h1 class="large">{{actor.system.psiOrder}}</h1>
-          {{/if}}
-          {{#if actor.system.flags.isMage}}
-            <h1 class="large">{{actor.system.tradition}}</h1>
-            <div class="">{{actor.system.virtues}} <i class="fas fa-chevron-up" title="Virture"></i></div>
-            <div class="">{{actor.system.vices}} <i class="fas fa-chevron-down" title="Vice"></i></div>
-          {{/if}}
+            {{#if actor.flags.isPsion}}
+                <h1 class="large">{{actor.psiOrder}}</h1>
+            {{/if}}
+            {{#if actor.flags.isMage}}
+                <h1 class="large">{{actor.tradition}}</h1>
+                <div class="">{{actor.virtues}} <i class="fas fa-chevron-up" title="Virture"></i></div>
+                <div class="">{{actor.vices}} <i class="fas fa-chevron-down" title="Vice"></i></div>
+            {{/if}}
         </div>
-        <img class="large profile-img" src="{{actor.system.logo}}" data-edit="data.logo" height="50" title="Flavor Image"/>
+        <img class="large profile-img" src="{{actor.logo}}" data-edit="data.logo" height="50" title="Flavor Image"/>
     </header>
-
-    {{!-- Sheet Tab Navigation --}}
+    
+    <!-- Sheet Tab Navigation -->
     <nav class="sheet-tabs tabs actor" data-group="primary">
-      <a class="item flex-valign" data-tab="roll"><i class="large clickable fas fa-dice" title="Rolls"></i></a> {{!-- Saved Rolls --}}
-      <div class="flex-valign flex-middle-wrap">
-        <a class="item" data-tab="background">Background<div class="smaller">Paths, Bonds</div></a> {{!-- Bio, Aspirations, Details, Contacts, Bonds --}}
-        <a class="item" data-tab="main">Attributes<div class="smaller">Skills, Edges</div></a>
-        <a class="item" data-tab="combat">Actions<div class="smaller">Health, Combat</div></a>
-        {{#if actor.system.flags.isTalent}}<a class="item" data-tab="talent">Talent</a>{{/if}}
-        {{#if actor.system.flags.isPsion}}<a class="item" data-tab="psion">Psion</a>{{/if}}
-        {{#if actor.system.flags.isNova}}<a class="item" data-tab="nova">Nova</a>{{/if}}
-        {{#if actor.system.flags.isMage}}<a class="item" data-tab="mage">Magick</a>{{/if}}
-        <a class="item" data-tab="equip">Equipment</a> {{!-- Gear, Weapons, Armor, Vehicles --}}
-        <a class="item config-tab can-hide hidden" data-tab="data-entry">Configure</a>
-      </div>
-      <div class="item flex-valign" title="Toggle Edit View">
-        <i class="large clickable edit-button fas fa-lock can-hide"></i> {{!-- No Tab Content, just unlocks editing mode --}}
-        <i class="large clickable edit-button fas fa-unlock can-hide hidden"></i>
-      </div>
+        <a class="item flex-valign" data-tab="roll"><i class="large clickable fas fa-dice" title="Rolls"></i></a> <!-- Saved Rolls -->
+        <div class="flex-valign flex-middle-wrap">
+            <a class="item" data-tab="background">Background<div class="smaller">Paths, Bonds</div></a> <!-- Bio, Aspirations, Details, Contacts, Bonds -->
+            <a class="item" data-tab="main">Attributes<div class="smaller">Skills, Edges</div></a>
+            <a class="item" data-tab="combat">Actions<div class="smaller">Health, Combat</div></a>
+            {{#if actor.flags.isTalent}}<a class="item" data-tab="talent">Talent</a>{{/if}}
+            {{#if actor.flags.isPsion}}<a class="item" data-tab="psion">Psion</a>{{/if}}
+            {{#if actor.flags.isNova}}<a class="item" data-tab="nova">Nova</a>{{/if}}
+            {{#if actor.flags.isMage}}<a class="item" data-tab="mage">Magick</a>{{/if}}
+            <a class="item" data-tab="equip">Equipment</a> <!-- Gear, Weapons, Armor, Vehicles -->
+            <a class="item config-tab can-hide hidden" data-tab="data-entry">Configure</a>
+        </div>
+        <div class="item flex-valign" title="Toggle Edit View">
+            <i class="large clickable edit-button fas fa-lock can-hide"></i> <!-- No Tab Content, just unlocks editing mode -->
+            <i class="large clickable edit-button fas fa-unlock can-hide hidden"></i>
+        </div>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -68,15 +68,6 @@
             {{> "systems/trinity/templates/actor/partials/specialties.html"}}
             {{> "systems/trinity/templates/actor/partials/edges.html"}}
             {{> "systems/trinity/templates/actor/partials/tricks.html"}}
-            <!--
-            <div class="flex-parent-evenly">
-              <div class="flex-child-even">
-                {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
-                {{> "systems/trinity/templates/actor/partials/defense.html"}}
-              </div>
-              <div class="flex-child-even">{{> "systems/trinity/templates/actor/partials/conditions.html"}}</div>
-            </div>
-            -->
         </div>
 
         {{!-- Combat Tab --}}

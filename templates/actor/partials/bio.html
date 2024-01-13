@@ -6,8 +6,8 @@
     </a>
   </div>
   <div class="flex-child-fit">
-    {{#with data.system.biography as |editor|}}
-      {{editor target="data.biography" button=true owner=owner editable=editable}}
+    {{#with system.biography as |editor|}}
+      {{editor target="biography" button=true owner=actor editable=editable}}
     {{/with}}
   </div>
 </div>
