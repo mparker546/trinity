@@ -2,8 +2,8 @@
 <div class="attributes grid grid-3col">
   {{#each actor.system.attributes as |attribute key|}}
   <div class="boxed">
-    <div class="flex-parent-center-column rollable" data-attrname="{{attribute.name}}" id="{{key}}">
-      <span class="flex-child-center resource-label"> {{attribute.name}} </span>
+    <div class="flex-parent-center-column rollable" data-attrname="{{attribute.system.name}}" id="{{key}}">
+      <span class="flex-child-center resource-label"> {{attribute.system.name}} </span>
       <span class="flex-child-center icons"> {{{toDots attribute.value}}} </span>
       <span class="flex-child-center small-note"> {{attribute.area}} </span>
     </div>

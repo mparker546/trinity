@@ -7,38 +7,37 @@
   </div>
   <div class="flex-parent">
     <label class="flex-child-fit" for="char-player">Player:</label>
-      <input class="flex-child-fit" id="char-player" name="data.player" type="text" value="{{data.system.player}}"/>
+      <input class="flex-child-fit" id="char-player" name="data.player" type="text" value="{{actor.player}}"/>
   </div>
   <div class="flex-parent">
     <label class="flex-child-fit" for="char-concept">Concept:</label>
-      <input class="flex-child-fit" id="char-concept" name="data.concept" type="text" value="{{data.system.concept}}"/>
+      <input class="flex-child-fit" id="char-concept" name="data.concept" type="text" value="{{actor.concept}}"/>
   </div>
-  {{#if actor.system.flags.isPsion}}
+  {{#if actor.flags.isPsion}}
   <div class="flex-parent">
     <label class="flex-child-fit" for="char-psiOrder">Psi Order:</label>
-      <input class="flex-child-fit" id="char-psiOrder" name="data.psiOrder" type="text" value="{{data.system.psiOrder}}"/>
+      <input class="flex-child-fit" id="char-psiOrder" name="data.psiOrder" type="text" value="{{actor.psiOrder}}"/>
   </div>
   {{/if}}
-  {{#if actor.system.flags.isTalent}}
+  {{#if actor.flags.isTalent}}
   <div class="flex-parent">
     <label class="flex-child-fit" for="moment">Moment of Inspiration:</label>
-      <input class="flex-child-fit" id="moment" name="data.moment" type="text" value="{{actor.system.moment}}"/>
+      <input class="flex-child-fit" id="moment" name="data.moment" type="text" value="{{actor.moment}}"/>
   </div>
   {{/if}}
   <div class="flex-parent">
     <label class="flex-child-fit" for="char-xp-avail">Experience Available:</label>
-      <input class="flex-child-fit" id="char-xp-avail" name="data.experience.available" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{data.system.experience.available}}"/>
+      <input class="flex-child-fit" id="char-xp-avail" name="data.experience.available" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{actor.experience.available}}"/>
   </div>
   <div class="flex-parent">
     <label class="flex-child-fit" for="char-xp-earned">Experience Earned:</label>
-      <input class="flex-child-fit" id="char-xp-earned" name="data.experience.earned" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{data.system.experience.earned}}"/>
+      <input class="flex-child-fit" id="char-xp-earned" name="data.experience.earned" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{actor.experience.earned}}"/>
   </div>
 
-  {{#each data.system.aspirations as |aspiration key|}}
+  {{#each actor.aspirations as |aspiration key|}}
   <div class="flex-parent">
     <label class="flex-child-fit" for="{{aspiration}}.name">{{aspiration.name}}:</label>
-    <input class="flex-child-fit" type="text" id="{{key}}.name" name="data.aspirations.{{key}}.value" value="{{aspiration.value}}" data-dtype="String"/>
-    <input class="flex-child-fit" type="checkbox" id="{{key}}.complete" name="data.aspirations.{{key}}.complete" value="{{aspiration.complete}}" data-dtype="Boolean" {{checked aspiration.complete}}/>
+    <input class="flex-child-fit" type="text" id="{{key}}.name" name="data.aspirations.{{key}}.value" value="{{aspiration.value}}" data-dtype="String"/> <input class="flex-child-fit" type="checkbox" id="{{key}}.complete" name="data.aspirations.{{key}}.complete" value="{{aspiration.complete}}" data-dtype="Boolean" {{checked aspiration.complete}}/>
   </div>
   {{/each}}
 </div>

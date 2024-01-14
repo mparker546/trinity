@@ -5,13 +5,13 @@
       {{#each this.items as |item key|}}
         <div class="item flexrow flex-group-center" id="{{key}}">
           <div class="flex-group-left-i min-content">
-            <input type="checkbox" id="{{item._id}}" class="input" name="enha" value="{{item.name}}">
+            <input type="checkbox" id="{{item.id}}" class="input" name="enha" value="{{item.name}}">
           </div>
           <div class="flex-group-left-i big min-content">
             <b>{{item.system.enhancement.value}}</b>
           </div>
           <div class="flex-group-right-i">
-            <label for="{{item._id}}" class="resource-label" data-skilname="{{item.name}}">
+            <label for="{{item.id}}" class="resource-label" data-skilname="{{item.name}}">
               <div class="box-details">
                 <h3>{{item.name}}</h3>
                 <p>{{item.system.enhancement.relevance}}</p>
@@ -33,8 +33,8 @@
     <div class="items grid grid-2col">
       {{#each this.items as |item key|}}
       <div class="flexcol flex-group-center boxed">
-        <input type="checkbox" id="{{item._id}}" class="input" name="enha" value="{{item.name}}">
-        <label for="{{item._id}}" class="resource-label" data-skilname="{{item.name}}">
+        <input type="checkbox" id="{{item.id}}" class="input" name="enha" value="{{item.name}}">
+        <label for="{{item.id}}" class="resource-label" data-skilname="{{item.name}}">
           <span class="resource-label"> {{item.name}} </span>
         </label>
         <span class="icons"> {{{toDots item.system.enhancement.value}}} </span>

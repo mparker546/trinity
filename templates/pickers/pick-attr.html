@@ -5,10 +5,10 @@
     <div class="attributes grid grid-3col">
       {{#each this.actor.system.attributes as |attribute key|}}
         <div class="attribute flexrow flex-group-center" id="{{key}}">
-          <label for="system.attributes.{{key}}" class="resource-label" data-attrname="{{attribute.name}}">
-            {{attribute.name}}
+          <label for="system.attributes.{{key}}" class="resource-label" data-attrname="{{attribute.system.name}}">
+            {{attribute.system.name}}
           </label>
-          <input type="radio" id="{{attribute.name}}" class="input" name="attr" value="{{attribute.name}}">
+          <input type="radio" id="{{attribute.system.name}}" class="input" name="attr" value="{{attribute.system.name}}">
         </div>
       {{/each}}
     </div>
@@ -20,13 +20,13 @@
   <section class="sheet-body">
     <div class="attributes grid grid-3row">
       {{#each this.actor.system.attributes as |attribute key|}}
-        <div class="flexcol flex-group-center boxed" data-attrname="{{attribute.name}}" id="{{key}}">
-          <input type="radio" id="{{attribute.name}}" class="input" name="attr" value="{{attribute.name}}">
-          <label for="{{attribute.name}}" class="resource-label" data-attrname="{{attribute.name}}">
-            {{attribute.name}}
+        <div class="flexcol flex-group-center boxed" data-attrname="{{attribute.system.name}}" id="{{key}}">
+          <input type="radio" id="{{attribute.system.name}}" class="input" name="attr" value="{{attribute.system.name}}">
+          <label for="{{attribute.system.name}}" class="resource-label" data-attrname="{{attribute.system.name}}">
+            {{attribute.system.name}}
           </label>
           <span class="icons"> {{{toDots attribute.value}}} </span>
-          <span class="small-note"> {{attribute.approach}} - {{attribute.arena}} </span>
+          <span class="small-note"> {{attribute.system.approach}} - {{attribute.arena}} </span>
         </div>
       {{/each}}
     </div>

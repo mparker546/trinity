@@ -9,7 +9,7 @@
 
     {{#each actor.stunts as |item id|}}
     {{#each item.stunts as |subItem id|}}
-    <li class="item sub" data-item-id="{{item._id}}">
+    <li class="item sub" data-item-id="{{item.id}}">
       <div class="flexrow">
         {{#if item.stunts}}
         <i class="flex-fit flex-valign far fa-caret-square-down show-detail clickable"></i>
@@ -20,7 +20,7 @@
           <b>{{item.name}}</b>
           </h4>
         <div>
-          {{#if item.flags.hasRoll}}{{{createChip item._id ../../actor}}}{{/if}}
+          {{#if item.flags.hasRoll}}{{{createChip item.id ../../actor}}}{{/if}}
           </div>
         <div class="item-controls">
           <a class="item-control item-chat" title="Output Description to Chat"><i class="far fa-comment-dots"></i></a>

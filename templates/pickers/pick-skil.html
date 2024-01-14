@@ -4,10 +4,10 @@
     <div class="items grid grid-1col">
       {{#each this.items as |item key|}}
         <div class="item flexrow flex-group-center" id="{{key}}">
-          <label for="{{item._id}}" class="resource-label" data-skilname="{{item.name}}">
+          <label for="{{item.id}}" class="resource-label" data-skilname="{{item.name}}">
             {{item.name}}
           </label>
-          <input type="radio" id="{{item._id}}" class="input" name="skil" value="{{item.name}}">
+          <input type="radio" id="{{item.id}}" class="input" name="skil" value="{{item.name}}">
         </div>
       {{else}}
         No Eligible Items Found.
@@ -22,8 +22,8 @@
     <div class="skills grid grid-4row">
       {{#each this.items as |item key|}}
       <div class="flexcol flex-group-center boxed">
-        <input type="radio" id="{{item._id}}" class="input" name="skil" value="{{item.name}}">
-        <label for="{{item._id}}" class="resource-label" data-skilname="{{item.name}}">
+        <input type="radio" id="{{item.id}}" class="input" name="skil" value="{{item.name}}">
+        <label for="{{item.id}}" class="resource-label" data-skilname="{{item.name}}">
           <span class="resource-label"> {{item.name}} </span>
         </label>
         <span class="icons"> {{{toDots item.system.value}}} </span>

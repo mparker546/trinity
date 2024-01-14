@@ -170,7 +170,7 @@ export function handlebarHelpers() {
   });
 
 // Use on an actor sheet like: {{{createChip "data.defense.value"}}} or simply {{{createChip "defense"}}}
-// Use on an actor sheet, within an #each, like: {{{createChip item._id ../actor}}}
+// Use on an actor sheet, within an #each, like: {{{createChip item.id ../actor}}}
 // Use on an item sheet like: {{{createChip this.item.id}}}
 // This code is inefficient and repetitive - fixing it will be a project for another day
   Handlebars.registerHelper('createChip', function(ref, argActor) {

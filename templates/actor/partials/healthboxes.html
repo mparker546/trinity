@@ -2,21 +2,21 @@
 <div class="boxed">
   <div class="flex-fit flex-valign bold">Injuries:&ensp;</div>
   <div class="healthboxes flexcol">
-    {{#each this.actor.system.health.details as |healthBox key|}}
+    {{#each this.actor.health.details as |healthBox key|}}
     {{#if healthBox.type}}
     <div class="grid grid-2col lowmargin">
       <div class="bold right-vcenter">{{healthBox.name}}</div>
       <div class="big icons left-vcenter can-hide">
         {{~#each healthBox.states as |state index|}}
-          <span class="fa-stack fa-2x x-small clickable healthbox" data-healthtype="{{healthBox.type}}" data-healthkey="{{key}}" data-healthstate="{{index}}" data-type="condition">
-            {{{toHealthBoxes state}}}
-          </span>
+        <span class="fa-stack fa-2x x-small clickable healthbox" data-healthtype="{{healthBox.type}}" data-healthkey="{{key}}" data-healthstate="{{index}}" data-type="condition">
+          {{{toHealthBoxes state}}}
+        </span>
         {{/each~}}
       </div>
       <div class="flex-parent-nowrap-center edit-area can-hide hidden">
-        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.health.details.{{key}}.boxes"></i>
-        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="box-{{key}}-value" name="data.health.details.{{key}}.boxes" value="{{hbPathFixer key ../actor}}" data-dtype="Number"/>
-        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.health.details.{{key}}.boxes"></i>
+        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.health.details.[{{key}}].boxes"></i>
+        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="box-{{key}}-value" name="data.health.details.[{{key}}].boxes" value="{{hbPathFixer key ../actor}}" data-dtype="Number"/>
+        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.health.details.[{{key}}].boxes"></i>
       </div>
     </div>
     {{/if}}

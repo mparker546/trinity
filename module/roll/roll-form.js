@@ -22,72 +22,56 @@ import { TRoll } from "/systems/trinity/module/roll/troll.js";
 
 export class RollForm extends FormApplication {
 
-  // since the main form object is created by the form, rearranging args for easier use
-  // constructor(actor={}, options={}, object={}) {
-  constructor(actor, options, object, elementID) {
-    super(object, options);
-    console.log("RollForm Constructor this: ", this);
-    console.log("RollForm Constructor Actor: ", actor);
-    console.log("RollForm Object Pre-Check: ", object);
-    this.actor = actor;
-    // this.rollname = "";
-    this.oItemList = [];
-    this.oSettings = [];
-    this.saved = false;
-    if (typeof object === 'undefined' || object === null) {
-      // this.object = JSON.parse(JSON.stringify(rollDataTemplate));
-      this.object = this._rollDataTemplate();
-      if (typeof elementID !== 'undefined' && elementID !== null) {
-        // this._addItem.bind(this, elementID);
-        this._addItem(elementID);
+    constructor(actor, options, object, elementID) {
+      super(object, options);
+      console.log("RollForm Constructor this: ", this);
+      console.log("RollForm Constructor Actor: ", actor);
+      console.log("RollForm Object Pre-Check: ", object);
+      this.actor = actor;
+      this.oItemList = [];
+      this.oSettings = [];
+      this.saved = false;
+    
+      if (typeof object === 'undefined' || object === null) {
+        this.object = this._rollDataTemplate();
+        if (typeof elementID !== 'undefined' && elementID !== null) {
+          this._addItem(elementID);
+        }
+      } else {
+        this.object = this._rollDataTemplate();
+        
+        this.oItemList = { ...object.items };
+        this.oSettings = { ...object.settings };
+    
+        if (object.id) {
+          this.saved = true;
+        }
+    
+        this.object.name = JSON.parse(JSON.stringify(object.name));
+        this.object.desc = JSON.parse(JSON.stringify(object.desc));
+        this.object.id = object.id ? JSON.parse(JSON.stringify(object.id)) : "";
+        this.object.items = { ...object.items };
+        this.object.settings = { ...object.settings };
+        this.object.flags = { ...object.flags };
+        this.object.favorite = object.favorite ? true : false;
       }
-    } else {
-      // this.object = object;
-      this.object = this._rollDataTemplate();
-
-      // These two for possible edited checks, TODO
-      this.oItemList = Object.assign({}, object.items);
-      this.oSettings = Object.assign({}, object.settings);
-
-      if (object.id) {this.saved = true;}
-      /*
-      this.object.name = object.name;
-      this.object.desc = object.desc;
-      this.object.items = object.items;
-      this.object.settings = object.settings;
-      this.object.favorite = object.favorite;
-      */
-      // this.object.name = Object.assign({}, object.name);
-      // this.object.name = (' ' + object.name).slice(1);
-      this.object.name = JSON.parse(JSON.stringify(object.name));
-      // this.object.desc = Object.assign({}, object.desc);
-      // this.object.name = (' ' + object.desc).slice(1);
-      this.object.desc = JSON.parse(JSON.stringify(object.desc));
-      this.object.id = JSON.parse(JSON.stringify(object.id));
-      this.object.items = Object.assign({}, object.items);
-      this.object.settings = Object.assign({}, object.settings);
-      this.object.flags = Object.assign({}, object.flags);
-      this.object.favorite = object.favorite ? true : false;
-      // this.rollname = Object.assign({}, object.name);
-    }
-
-    // Model S: Check for penalties, add if needed.
-    if ( game.settings.get("trinity", "healthModel") === "modelS" && actor.system.health.summary.penalty < 0 ) {
-      let rollItemID = randomID(16);
-      this.object.items[rollItemID] = {
-        value : actor.system.health.summary.penalty,
-        name : actor.system.health.summary.status,
-        SourceType : "Injury",
-        note : "Injury Penalty",
-        isDice : true,
-        multiplier : 1,
-        id : rollItemID,
-        isCustom : true
+    
+      if (game.settings.get("trinity", "healthModel") === "modelS" && actor.system.health.summary.penalty < 0) {
+        let rollItemID = randomID(16);
+        this.object.items[rollItemID] = {
+          value: actor.system.health.summary.penalty,
+          name: actor.system.health.summary.status,
+          SourceType: "Injury",
+          note: "Injury Penalty",
+          isDice: true,
+          multiplier: 1,
+          id: rollItemID,
+          isCustom: true
+        };
       }
+    
+      console.log("RollForm Object Post-Check this: ", this);
     }
-
-    console.log("RollForm Object Post-Check this: ", this);
-  }
 
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -220,7 +204,7 @@ export class RollForm extends FormApplication {
     this.itemListType = type;
     this.itemList = [];
     for (let i of this.actor.items) {
-      if (i.system.flags.isFacet && !this.actor.system.flags.isTalent) { continue; }
+      if (i.system.flags.isFacet && !this.actor.flags.isTalent) { continue; }
       if (type === "enhancement" && i.system.flags.isEnhancement === true) { this.itemList.push(i); continue; }
       if (type === "attribute" && i.type === "attribute" && i.system.flags.isMain === true) { this.itemList.push(i); continue; }
       if (i.name === type) { this.itemList.push(i); continue; }
@@ -228,56 +212,56 @@ export class RollForm extends FormApplication {
     }
   }
 
-  _addItem(id, custom) {
-    console.log("_addItem this/args", this, id, custom);
-     // var rollData = this.object;
-    let itemValue = 0;
-    let itemName = "";
-    let isDice = true;
-    let note = "";
-    let rollItemID ="";
-    let sourceType = "";
-    let isCustom = false;
-    let mult = 1;
+_addItem(id, custom) {
+  console.log("_addItem this/args", this, id, custom);
+  
+  let itemValue = 0;
+  let itemName = "";
+  let isDice = true;
+  let note = "";
+  let rollItemID = "";
+  let sourceType = "";
+  let isCustom = false;
+  let mult = 1;
 
-    if (typeof custom !== "undefined") {
-      itemValue = document.getElementById("customValue").value || 0;
-      itemName = document.getElementById("customName").value || "Custom Value";
-      rollItemID = randomID(16);
-      note = "Manually Entered";
-      isDice = (this.itemListType === "enhancement") ? false : true;
-      sourceType = this.itemListType;
-      isCustom = true;
-    } else {
-      const item = this.actor.items.get(id);
+  if (typeof custom !== "undefined") {
+    itemValue = document.getElementById("customValue").value || 0;
+    itemName = document.getElementById("customName").value || "Custom Value";
+    rollItemID = randomID(16);
+    note = "Manually Entered";
+    isDice = this.itemListType !== "enhancement";
+    sourceType = this.itemListType;
+    isCustom = true;
+  } else {
+    const item = this.actor.items.get(id);
+    if (item) {
       rollItemID = item.id;
       itemValue = item.system.flags.isEnhancement ? item.system.enhancement.value : item.system.value;
       itemName = item.name;
       isDice = !item.system.flags.isEnhancement;
       sourceType = item.type;
-      // Note:
       if (item.type === "attribute" && item.system.flags.isMain === true) {
-        note = item.system.arena + "/" + item.system.approach;
+        note = `${item.system.arena}/${item.system.approach}`;
       } else {
         note = item.system.enhancement.relevance;
       }
-      // Multiplier:
-      if (item.id in this.object.items) {
+      if (this.object.items && rollItemID in this.object.items) {
         mult = this.object.items[rollItemID].multiplier + 1;
       }
     }
-
-    this.object.items[rollItemID] = {
-      value : itemValue,
-      name : itemName,
-      SourceType : sourceType,
-      note : note,
-      isDice : isDice,
-      multiplier : mult,
-      id : rollItemID,
-      isCustom : isCustom
-    }
   }
+
+  this.object.items[rollItemID] = {
+    value: itemValue,
+    name: itemName,
+    SourceType: sourceType,
+    note: note,
+    isDice: isDice,
+    multiplier: mult,
+    id: rollItemID,
+    isCustom: isCustom,
+  };
+}
 
   _removeItem(id) {
     // var rollData = this.object;

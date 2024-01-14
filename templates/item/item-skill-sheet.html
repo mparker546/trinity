@@ -1,17 +1,29 @@
 <form class="{{cssClass}}" autocomplete="off">
     <header class="sheet-header">
-      <div class="header-fields"> {{! Left Side of Header}}
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-        <div class="left-vcenter"> {{! Type & Flagged Info }}
-          <span class="trait">
-            <span class="small icons">{{#if item.system.flags.hasDots}}{{{toDots item.system.value}}}{{/if}}</span>
-            {{item.system.typeName}}
-          </span>
-          {{! Flagged Info }}
-          {{#if item.system.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
-          {{#if item.system.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
+        <div class="header-fields">
+            {{!-- Left Side of Header --}}
+            <h1 class="charname">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Name"/>
+            </h1>
+            <div class="left-vcenter">
+                {{!-- Type & Flagged Info --}}
+                <span class="trait">
+                    <span class="small icons">
+                        {{#if item.system.flags.hasDots}}
+                            {{{toDots item.system.value}}}
+                        {{/if}}
+                    </span>
+                    {{item.system.typeName}}
+                </span>
+                {{!-- Flagged Info --}}
+                {{#if item.system.flags.isEnhancement}}
+                    <span class="boxed">Enhancement</span>
+                {{/if}}
+                {{#if item.system.flags.isComplication}}
+                    <span class="boxed">Complication</span>
+                {{/if}}
+            </div>
         </div>
-      </div>
     </header>
 
     {{!-- Sheet Tab Navigation --}}
@@ -25,18 +37,15 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor =data.system.description target="data.description" button=true owner=owner editable=editable}}
+            {{editor item.system.description target="data.description" button=true owner=owner editable=editable}}
         </div>
 
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             {{!-- As you add new fields, add them in here! --}}
-
             {{> "systems/trinity/templates/item/partials/dots-flag.html"}}
             {{> "systems/trinity/templates/item/partials/enhancement-flag.html"}}
             {{> "systems/trinity/templates/item/partials/complication-flag.html"}}
-
-
         </div>
     </section>
 </form>

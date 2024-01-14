@@ -8,10 +8,10 @@
         </div>
       </li>
   {{#each actor.unflaggedEquipment as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}">
+      <li class="item flexrow" data-item-id="{{item.id}}">
           <h4 class="item-name item-edit clickable">
             {{item.name}}
-            {{#if item.flags.isInjury}}<span><i class="fas fa-user-injured"></i></span>{{/if}}
+            {{#if item.system.flags.isInjury}}<span><i class="fas fa-user-injured"></i></span>{{/if}}
           </h4>
           <div class="item-dots small icons">{{#if item.flags.hasDots}}{{{toDots item.value}}}{{/if}}</div>
           <div class="item-controls">

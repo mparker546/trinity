@@ -1,4 +1,4 @@
-{{!-- Skill Partial - Read-Only --}}
+<!-- Skill Partial - Read-Only -->
 
 {{~#if (getSetting "useSkillSubTypes") ~}}
 <div class="flex-parent flex-parent-between" style="text-align: center;">
@@ -6,18 +6,18 @@
 <div class="flex-child nomargin">
   <h2>{{subtype}}s</h2>
   {{#each ../actor.skills as |skill key|}}
-    {{~#if (isEqual skill.subType subtype)~}}
+    {{~#if (isEqual skill.system.subType subtype)~}}
 
-    <div class="flexcol flex-group-center boxed can-hide item" data-item-id="{{skill._id}}">
-      <div class="resource-label clickable item-edit"> {{skill.name}} </div>
-      <div class="icons rollable" data-skillid="{{skill._id}}" id="{{skill._id}}"> {{{toDots skill.value}}} </div>
+    <div class="flexcol flex-group-center boxed can-hide item" data-item-id="{{skill.system.id}}">
+      <div class="resource-label clickable item-edit"> {{skill.system.name}} </div>
+      <div class="icons rollable" data-skillid="{{skill.system.id}}" id="{{skill.system.id}}"> {{{toDots skill.system.value}}} </div>
     </div>
-    <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{skill._id}}">
-      <span class="resource-label clickable item-edit"> {{skill.name}} </span>
+    <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{skill.system.id}}">
+      <span class="resource-label clickable item-edit"> {{skill.system.name}} </span>
       <div class="flex-parent-nowrap-center">
-        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
-        <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{skill._id}}-value" value="{{data.value}}" data-dtype="Number" data-itemid="{{skill._id}}" data-target="data.value"/>
-        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
+        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{skill.system.id}}" data-target="system.value"></i>
+        <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{skill.system.id}}-value" value="{{skill.system.value}}" data-dtype="Number" data-itemid="{{skill.system.id}}" data-target="system.value"/>
+        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{skill.system.id}}" data-target="system.value"></i>
       </div>
     </div>
 
@@ -26,32 +26,24 @@
 </div>
 {{/each}}
 
-
-
 </div>
-
-
-
-
-
-
-
 
 {{else}}
 <h2 style="text-align: center;">Skills</h2>
 <div class="skills grid grid-4row">
   {{#each actor.skills as |skill key|}}
-  <div class="flexcol flex-group-center boxed can-hide item" data-item-id="{{skill._id}}">
-    <div class="resource-label clickable item-edit"> {{skill.name}} </div>
-    <div class="icons rollable" data-skillid="{{skill._id}}" id="{{skill._id}}"> {{{toDots skill.value}}} </div>
+  <div class="flexcol flex-group-center boxed can-hide item" data-item-id="{{skill.system.id}}">
+    <div class="resource-label clickable item-edit"> {{skill.system.name}} </div>
+    <div class="icons rollable" data-skillid="{{skill.system.id}}" id="{{skill.system.id}}"> {{{toDots skill.system.value}}} </div>
   </div>
-  <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{skill._id}}">
-    <span class="resource-label clickable item-edit"> {{skill.name}} </span>
+  <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{skill.system.id}}">
+    <span class="resource-label clickable item-edit"> {{skill.system.name}} </span>
     <div class="flex-parent-nowrap-center">
-      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
-      <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{skill._id}}-value" value="{{data.value}}" data-dtype="Number" data-itemid="{{skill._id}}" data-target="data.value"/>
-      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
+      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{skill.system.id}}" data-target="system.value"></i>
+      <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{skill.system.id}}-value" value="{{skill.system.value}}" data-dtype="Number" data-itemid="{{skill.system.id}}" data-target="system.value"/>
+      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{skill.system.id}}" data-target="system.value"></i>
     </div>
+ 
   </div>
   {{/each}}
 </div>

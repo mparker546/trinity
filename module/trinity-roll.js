@@ -40,7 +40,7 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
 
   // Attribute info
   if (typeof dataset.attrname !== 'undefined' && dataset.attrname !== null) {
-    targetAttr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === dataset.attrname);
+    targetAttr = Object.values(targetActor.system.attributes).find(attribute => attribute.system.name === dataset.attrname);
     pickedElements.attr = targetAttr;
     console.log("Picked Elements:");
     console.log(pickedElements);
@@ -52,7 +52,7 @@ if (force && typeof pickedElements !== 'undefined' && typeof targetActor !== 'un
   if (typeof dataset.skillid !== 'undefined' && dataset.skillid !== null) {
     console.log(dataset.skillid);
     console.log(targetActor.items);
-    // targetSkill = Object.values(targetActor.items).find(skill => skill._id === dataset.skillid);
+    // targetSkill = Object.values(targetActor.items).find(skill => skill.system.id === dataset.skillid);
     targetSkill = targetActor.items.get(dataset.skillid);
     console.log(targetSkill);
     pickedElements.skil.name = targetSkill.name;

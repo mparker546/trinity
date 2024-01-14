@@ -1,12 +1,12 @@
 <div class="flex-parent boxed">
   <div class="portrait-area" style="position: relative;">
-    <img class="bio-image flex-child-fit portrait" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+    <img class="bio-image flex-child-fit portrait" src="{{actor.system.img}}" data-edit="img" title="{{actor.name}}" />
     <a class="portrait-popout hidden">
       <i class="fas fa-share-square"></i>
     </a>
   </div>
   <div class="flex-child-fit">
-    {{#with system.biography as |editor|}}
+    {{#with actor.system.biography as |editor|}}
       {{editor target="biography" button=true owner=actor editable=editable}}
     {{/with}}
   </div>

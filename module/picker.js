@@ -9,14 +9,6 @@ export class Picker {
     var html = {};
     let pItems = {};
 
-    // add some conditional code here to change the template depending on pickType - attr, skil, etc.
-    /*
-    console.log("Picker, what does it have?");
-    console.log(this);
-    console.log(pickType);
-    console.log(targetActor);
-    console.log(pickedElements);
-    */
     switch(pickType) {
       case "attr":
         html = await renderTemplate("systems/trinity/templates/pickers/pick-attr.html", {picked: pickedElements, actor: targetActor});
@@ -51,7 +43,7 @@ export class Picker {
                 if (i.checked) {  // maybe i[0], might not work with Enha/Checkbox
                   switch(pickType) {
                     case "attr":
-                      pickedElements.attr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === i.value) || pickedElements.attr;
+                      pickedElements.attr = Object.values(targetActor.system.attributes).find(attribute => attribute.system.name === i.value) || pickedElements.attr;
                       break;
                     case "skil":
                       pickedElements.skil = targetActor.items.find(item => item.id === i.id).system || pickedElements.skil;
@@ -83,58 +75,6 @@ export class Picker {
               trinityRoll(targetActor, pickedElements);
 
               resolve(pickedElements);
-/*
-
-              let h = html.find('.input');
-              Array.prototype.forEach.call(h, function(i) {
-                if (i.checked) {  // maybe i[0]
-                  pickedElements.attr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === i.value);
-                  console.log("Picker, Update button, pickedElement:");
-                  console.log(pickedElements);
-                }
-                console.log(i.tagName);
-              });
-
-
-/*
-              for (let i of html.filter('.input')) {
-                if (i.checked) {  // maybe i[0]
-                  pickedElements.attr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === i.value);
-                  console.log("Picker, Update button, pickedElement:");
-                  console.log(pickedElements);
-                }
-              };
-*/
-
-
-/* Various useful code snippets
-targetAttr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === dataset.attrname);
-pickedElements.attr = targetAttr;
-
-              if (html.find('#'+i._id)[0].checked) {
-                iSelect = html.find('#'+i._id)[0].value;
-              }
-
-              for (let part of Object.keys(rollParts)) {
-                if (document.getElementById(part)){
-                  rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-                }
-                console.log("rollParts."+part+":");
-                console.log(rollParts[part]);
-              }
-/* End Code Snippets */
-
-
-
-              /* Needs updating to update pickedElements
-              for (let part of Object.keys(rollParts)) {
-                if (document.getElementById(part)){
-                  rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-                }
-                console.log("rollParts."+part+":");
-                console.log(rollParts[part]);
-              }
-              resolve(rollParts); */
             }
           },
           cancel: {
@@ -151,13 +91,7 @@ pickedElements.attr = targetAttr;
         callback: html => {
           resolve(pickedElements);
 //            console.log(html, actor);
-/*
-            let passionName = html[0].querySelector('.newPassion').value
-            let passionValue = html[0].querySelector('.newPassionValue').value
-
-            actor.update({
-                "data.passions": [...actor.passions, [passionName, passionValue]]
-*/      }
+      }
     }).render(true);
   });
 }

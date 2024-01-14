@@ -1,24 +1,24 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
 
-    <!-- Sheet Header -->
-    <header class="sheet-header">
-        <img class="profile-img" src="{{actor.token.img}}" data-edit="token.img" title="Token Image" height="50" />
-        <div class="header-fields charname flex-child">
-            <h1 style="white-space: nowrap;">{{actor.name}}</h1>
-            {{actor.concept}}
-        </div>
-        <div class="header-fields charname flex-fit flex-right">
-            {{#if actor.flags.isPsion}}
-                <h1 class="large">{{actor.psiOrder}}</h1>
-            {{/if}}
-            {{#if actor.flags.isMage}}
-                <h1 class="large">{{actor.tradition}}</h1>
-                <div class="">{{actor.virtues}} <i class="fas fa-chevron-up" title="Virture"></i></div>
-                <div class="">{{actor.vices}} <i class="fas fa-chevron-down" title="Vice"></i></div>
-            {{/if}}
-        </div>
-        <img class="large profile-img" src="{{actor.logo}}" data-edit="data.logo" height="50" title="Flavor Image"/>
-    </header>
+<!-- Sheet Header -->
+<header class="sheet-header">
+    <img class="profile-img" src="{{actor.token.img}}" data-edit="token.img" title="Token Image" height="50" />
+    <div class="header-fields charname flex-child">
+        <h1 style="white-space: nowrap;">{{actor.name}}</h1>
+        {{actor.concept}}
+    </div>
+    <div class="header-fields charname flex-fit flex-right">
+        {{#if actor.flags.isPsion}}
+            <h1 class="large">{{actor.psiOrder}}</h1>
+        {{/if}}
+        {{#if actor.flags.isMage}}
+            <h1 class="large">{{actor.tradition}}</h1>
+            <div class="">{{actor.virtues}} <i class="fas fa-chevron-up" title="Virture"></i></div>
+            <div class="">{{actor.vices}} <i class="fas fa-chevron-down" title="Vice"></i></div>
+        {{/if}}
+    </div>
+    <img class="large profile-img" src="{{actor.logo}}" data-edit="actor.logo" height="50" title="Flavor Image"/>
+</header>
     
     <!-- Sheet Tab Navigation -->
     <nav class="sheet-tabs tabs actor" data-group="primary">
@@ -55,9 +55,9 @@
         {{> "systems/trinity/templates/actor/partials/paths.html"}}
         {{> "systems/trinity/templates/actor/partials/contacts.html"}}
         {{> "systems/trinity/templates/actor/partials/bonds.html"}}
-        {{#with data.system.biography}}
-          {{editor target=this button=true owner=owner editable=editable}}
-        {{/with}}
+        {{#with system.biography}}
+        {{editor target=this button=true owner=owner editable=editable}}
+      {{/with}}
       </div>
 
         {{!-- "Main" Tab --}}

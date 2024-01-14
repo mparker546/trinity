@@ -22,7 +22,7 @@
       </div>
     </li>
 {{#each actor.skills as |item id|}}
-    <li class="item flexrow" data-item-id="{{item._id}}">
+    <li class="item flexrow" data-item-id="{{item.id}}">
 
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <h4 class="resource-label">{{item.value}}</h4>
@@ -30,7 +30,7 @@
         <div class="item-controls">
             <a class="item-control item-edit" title="Edit Skill"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Skill"><i class="fas fa-trash"></i></a>
-            <a class="item-control rollable" title="Roll Skill" data-skillid="{{item._id}}">
+            <a class="item-control rollable" title="Roll Skill" data-skillid="{{item.id}}">
               <i class="fas fa-dice-d20"></i></a>
         </div>
     </li>
@@ -45,7 +45,7 @@
 <div id="fd-attr-content" class="collapsible-content">
 {{#each actor.system.attributes as |attribute key|}}
   <div class="attribute flexrow flex-group-center">
-    <label for="fd-{{key}}" class="resource-label rollable"> {{attribute.name}} </label>
+    <label for="fd-{{key}}" class="resource-label rollable"> {{attribute.system.name}} </label>
     <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="fd-{{key}}" name="system.attributes.{{key}}.value" value="{{attribute.value}}" data-dtype="Number"/>
   </div>
 {{/each}}
@@ -72,7 +72,7 @@
 <div id="fd-defense-content" class="collapsible-content">
   <div class="defense flexrow flex-group-center">
     <label for="fd-defense" class="resource-label">Defense</label>
-    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="fd-defense" name="data.defense.value" value="{{data.system.defense.value}}" data-dtype="Number"/>
+    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="fd-defense" name="data.defense.value" value="{{this.actor.defense.value}}" data-dtype="Number"/>
   </div>
 </div>
 -->
@@ -130,7 +130,7 @@
 </div>
 
 {{!-- Talent Powers / Stats --}}
-{{#if actor.system.flags.isTalent}}
+{{#if actor.flags.isTalent}}
 <!--
 <button type="button" id="fd-talent-header" class="collapsible">Talent Characteristics</button>
 <div id="fd-talent-content" class="collapsible-content">
@@ -154,7 +154,7 @@
 {{/if}}
 
 {{!-- Psion Powers / Stats --}}
-{{#if actor.system.flags.isPsion}}
+{{#if actor.flags.isPsion}}
 <!--
 <button type="button" id="fd-psion-header" class="collapsible">Psion Characteristics</button>
 <div id="fd-psion-content" class="collapsible-content">

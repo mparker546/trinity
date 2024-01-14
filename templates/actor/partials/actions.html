@@ -8,13 +8,13 @@
   {{#each actor.actions as |item id|}}
   <li class="item sub" data-item-id="{{item.id}}">
     <div class="flexrow">
-      {{#if item.stunts}}
+      {{#if item.system.stunts}}
       <i class="flex-fit flex-valign far fa-caret-square-down show-detail clickable"></i>
       {{else}}
       <i class="flex-fit flex-valign far fa-square"></i>
       {{/if}}
       <h4 class="flex-fit item-name item-edit clickable">
-        <b>{{item.name}}</b>
+        <b>{{item.system.name}}</b>
       </h4>
       <div>
         {{#if item.system.flags.hasRoll}}{{{createChip item.id ../actor}}}{{/if}}
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="flexcol sub-item-detail smaller hidden">
-      {{#each item.stunts as |subItem id|}}
+      {{#each item.system.stunts as |subItem id|}}
       <div class="">
         <div class="flexrow sub-item" data-item-id="{{subItem.system.id}}">
           <i class="flex-fit flex-valign far fa-caret-square-down show-detail clickable"></i>
@@ -54,13 +54,13 @@
   {{#each actor.stunts as |item id|}}
   <li class="item sub" data-item-id="{{item.id}}">
     <div class="flexrow">
-      {{#if item.stunts}}
+      {{#if item.system.stunts}}
       <i class="flex-fit flex-valign far fa-caret-square-down show-detail clickable"></i>
       {{else}}
       <i class="flex-fit flex-valign far fa-square"></i>
       {{/if}}
       <h4 class="flex-fit item-name item-edit clickable">
-        <b>{{item.name}}</b>
+        <b>{{item.system.name}}</b>
       </h4>
       <div>
         {{#if item.system.flags.hasRoll}}{{{createChip item.id ../actor}}}{{/if}}
@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="flexcol sub-item-detail smaller hidden">
-      {{#each item.stunts as |subItem id|}}
+      {{#each item.system.stunts as |subItem id|}}
       <div class="">
         <div class="flexrow sub-item" data-item-id="{{subItem.system.id}}">
           <i class="flex-fit flex-valign far fa-caret-square-down show-detail clickable"></i>

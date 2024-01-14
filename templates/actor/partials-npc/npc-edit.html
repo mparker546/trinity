@@ -2,11 +2,11 @@
 <div class="attributes grid grid-3col">
   {{#each actor.system.attributes as |attribute key|}}
   <div class="boxed">
-    <div class="flex-parent-center-column" data-attrname="{{attribute.name}}" id="{{key}}">
-      <span class="flex-child-center resource-label"> {{attribute.name}} </span>
+    <div class="flex-parent-center-column" data-attrname="{{attribute.system.name}}" id="{{key}}">
+      <span class="flex-child-center resource-label"> {{attribute.system.name}} </span>
       <input class="flex-child-center" name="system.attributes.{{key}}.value" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{attribute.value}}" />
     </div>
-    <div class="flex-parent-center-column" data-attrname="{{attribute.name}}" id="{{key}}">
+    <div class="flex-parent-center-column" data-attrname="{{attribute.system.name}}" id="{{key}}">
       <span class="flex-child-center resource-label">Area</span>
       <input class="flex-child-center small-note" name="system.attributes.{{key}}.area" type="text" value="{{attribute.area}}" />
     </div>

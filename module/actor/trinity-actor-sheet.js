@@ -363,20 +363,17 @@ for (let i of sheetItems) {
       event.currentTarget.parentElement.querySelector(".portrait-popout")?.classList.toggle("hidden");
     });
 
-    html.find('.portrait-popout').click(ev => {
-      let ip = new ImagePopout(event.currentTarget.previousElementSibling.src, {
-        title: this.actor.name,
-        shareable: true,
-        uuid: this.actor.uuid
-      });
-      console.log("ip",ip);
-      // Display the image popout
-      ip.render(true);
+html.find('.portrait-popout').click(ev => {
+  let ip = new ImagePopout(this.actor.image, {
+    title: this.actor.name,
+    shareable: true,
+    uuid: this.actor.uuid
+  });
+  console.log("ip", ip);
+  // Display the image popout
+  ip.render(true);
 
-      // Share the image with other connected players
-      // ip.share();
-
-    });
+});
 
 
     // Everything below here is only needed if the sheet is editable
@@ -508,13 +505,14 @@ html.find('.add-value').click(ev => {
     html.find('.healthbox').click(this._healthBoxLClick.bind(this)); // Left Click
     html.find('.healthbox').contextmenu(this._healthBoxRClick.bind(this)); // Right Click
 
-    // Update Inventory Item
-    html.find('.item-edit').click(ev => {
-      console.log("item-edit click:", ev);
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.system("itemId"));
-      item.sheet.render(true);
-    });
+// Update Inventory Item
+html.find('.item-edit').click(ev => {
+  console.log("item-edit click:", ev);
+  const li = $(ev.currentTarget).parents(".item");
+  const itemId = li.data("itemId");
+  const item = this.actor.items.get(itemId);
+  item.sheet.render(true);
+});
 
     // Toggle Favorite flag
     html.find('.item-favorite').click(ev => {
@@ -761,20 +759,19 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
     return this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
-  _onRoll(event) {
-    console.log("_onRoll: Launch trinityRoll event");
-    console.log(event);
-    event.preventDefault();
-    if (event.currentTarget.classList.contains("saved-roll")) {
-      let rollData = this.actor.system.savedRolls[event.currentTarget.systemset.rollid];
-      console.log("rollData found: ", rollData);
-      // trinityRoll(this.actor, passElements, event);
-      new RollForm(this.actor, {event:event}, rollData).render(true);
-    } else {
-      // trinityRoll(this.actor, null, event);
-      new RollForm(this.actor, {event:event}, null, event.currentTarget.id).render(true);
-
-    }
+_onRoll(event) {
+  console.log("_onRoll: Launch trinityRoll event");
+  console.log(event);
+  event.preventDefault();
+  if (event.currentTarget.classList.contains("saved-roll")) {
+    let rollData = this.actor.system.savedRolls[event.currentTarget.systemset.rollid];
+    console.log("rollData found: ", rollData);
+    // trinityRoll(this.actor, passElements, event);
+    new RollForm(this.actor, {event: event}, rollData).render(true);
+  } else {
+    // trinityRoll(this.actor, null, event);
+    new RollForm(this.actor, {event: event}, null, event.currentTarget.id).render(true);
   }
+}
 
 }
