@@ -58,15 +58,6 @@ for (let item of contentItems) {
       this.toggleStates.hiddenContent.push($(item).hasClass("hidden"));
     }
 
-    // Chip-Content
-    /*
-    let chipItems = $(html.find(".chip-content"));
-    for (let item of chipItems) {
-      this.toggleStates.chipContent.push($(item).hasClass("chip-hidden"));
-    }
-    */
-
-
     console.log("_saveToggleStates:",this.toggleStates);
 
   }
@@ -427,7 +418,7 @@ html.find('.chip-control').click(event => {
 // updates the actor outside the normal input/select process to allow for multiple inputs for the same value
 html.find('.chip-select').change(event => {
   console.log(".chip-select", event);
-  let varName = event.currentTarget.dataset.name;
+  let varName = event.currentTarget.systemset.name;
   let varValue = event.currentTarget.value;
   this.actor.update({ [varName]: varValue });
 });
@@ -448,9 +439,9 @@ function getDescendantProp(obj, desc) {
 // Item edits
 html.find('.item-value-edit').change(ev => {
   // console.log("sub-value, ev:", ev);
-  let target = ev.currentTarget.dataset.target;
-  if (typeof ev.currentTarget.dataset.itemid !== "undefined") {
-    let itemid = ev.currentTarget.dataset.itemid;
+  let target = ev.currentTarget.systemset.target;
+  if (typeof ev.currentTarget.systemset.itemid !== "undefined") {
+    let itemid = ev.currentTarget.systemset.itemid;
     let item = this.actor.items.get(itemid);
     item.update({ [target]: ev.currentTarget.value });
   }
@@ -458,11 +449,11 @@ html.find('.item-value-edit').change(ev => {
 
 // Subtract 1 from value target
 html.find('.sub-value').click(ev => {
-  let target = ev.currentTarget.dataset.target;
-  let negative = ev.currentTarget.dataset.negative === "true";
+  let target = ev.currentTarget.systemset.target;
+  let negative = ev.currentTarget.systemset.negative === "true";
   
-  if (ev.currentTarget.dataset.itemid !== undefined) {
-    let itemid = ev.currentTarget.dataset.itemid;
+  if (ev.currentTarget.systemset.itemid !== undefined) {
+    let itemid = ev.currentTarget.systemset.itemid;
     let item = this.actor.items.get(itemid);
     let current = getProperty(item, target);
   
@@ -486,10 +477,10 @@ html.find('.sub-value').click(ev => {
 
 // Add 1 to value target
 html.find('.add-value').click(ev => {
-  let target = ev.currentTarget.dataset.target;
+  let target = ev.currentTarget.systemset.target;
 
-  if (ev.currentTarget.dataset.itemid !== undefined) {
-    let itemid = ev.currentTarget.dataset.itemid;
+  if (ev.currentTarget.systemset.itemid !== undefined) {
+    let itemid = ev.currentTarget.systemset.itemid;
     let item = this.actor.items.get(itemid);
     let current = getProperty(item, target);
 
@@ -521,7 +512,7 @@ html.find('.add-value').click(ev => {
     html.find('.item-edit').click(ev => {
       console.log("item-edit click:", ev);
       const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
+      const item = this.actor.items.get(li.system("itemId"));
       item.sheet.render(true);
     });
 
@@ -529,20 +520,20 @@ html.find('.add-value').click(ev => {
     html.find('.item-favorite').click(ev => {
       console.log("item-favorite click:", ev);
       const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
-      item.update({ 'data.flags.isFavorite': !item.system.data.flags.isFavorite });
+      const item = this.actor.items.get(li.system("itemId"));
+      item.update({ 'data.flags.isFavorite': !item.system.flags.isFavorite });
     });
 
     // Output Item Description to Chat
     html.find('.item-chat').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
+      const item = this.actor.items.get(li.system("itemId"));
       console.log("chat item:", item);
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
-        flavor: (item.system.data.typeName + " Description"),
-        content: ("<h2>"+item.name+"</h2>"+item.system.data.description)
+        flavor: (item.system.typeName + " Description"),
+        content: ("<h2>"+item.name+"</h2>"+item.system.description)
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
@@ -552,16 +543,16 @@ html.find('.add-value').click(ev => {
     html.find('.sub-item-chat').click(ev => {
       console.log(".sub-item-chat listener ev: ", ev);
       let li = $(ev.currentTarget).parents(".sub-item");
-      let liID = li.data("itemId");
+      let liID = li.system("itemId");
       let pi = $(ev.currentTarget).parents(".item");
-      let item = this.actor.items.get(pi.data("itemId"));
+      let item = this.actor.items.get(pi.system("itemId"));
       console.log(".sub-item-chat listener li, liID, item: ", li, liID, item);
       // let ownerItem =
       // console.log("chat output:", this, ev, li, liID);
       let ownerName = item.name;
-      let addinfo = (item.system.data.subItems[liID].type === "stunt") ? item.system.data.subItems[liID].costDescription : item.system.data.subItems[liID].tagValue;
-      let subItemName = item.system.data.subItems[liID].name+" ("+addinfo+")";
-      let subItemDesc = item.system.data.subItems[liID].description;
+      let addinfo = (item.system.subItems[liID].type === "stunt") ? item.system.subItems[liID].costDescription : item.system.subItems[liID].tagValue;
+      let subItemName = item.system.subItems[liID].name+" ("+addinfo+")";
+      let subItemDesc = item.system.subItems[liID].description;
       let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker(),
@@ -584,8 +575,8 @@ html.find('.item-delete').click(ev => {
         icon: '<i class="fa fa-check"></i>',
         label: "Yes",
         callback: dlg => {
-          // this.actor.deleteOwnedItem(li.data("itemId"));
-          this.actor.deleteEmbeddedDocuments('Item', [li.data("itemId")]);
+          // this.actor.deleteOwnedItem(li.system("itemId"));
+          this.actor.deleteEmbeddedDocuments('Item', [li.system("itemId")]);
           li.slideUp(200, () => this.render(false));
         }
       },
@@ -601,7 +592,7 @@ html.find('.item-delete').click(ev => {
 
     // Delete Saved Roll
     html.find('.roll-delete').click(ev => {
-      const roll = event.currentTarget.dataset.rollid;
+      const roll = event.currentTarget.systemset.rollid;
       const rollDeleteString = "data.savedRolls.-=" + roll;
       let aID = this.actor.id;
 
@@ -658,10 +649,10 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
 
   const header = event.currentTarget;
   // Get the type of item to create.
-  const type = header.dataset.type;
+  const type = header.systemset.type;
 
   // Grab any data associated with this control.
-  const data = duplicate(header.dataset);
+  const data = duplicate(header.systemset);
   // Initialize a default name.
   const name = `New ${type.capitalize()}`;
   // Prepare the item object.
@@ -675,10 +666,10 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
     }
   };
 
-  const healthDetails = Object.values(this.actor.system.health.details).find(b => b.type === +header.dataset.healthtype);
+  const healthDetails = Object.values(this.actor.system.health.details).find(b => b.type === +header.systemset.healthtype);
   itemData.system = {
     injury: {
-      type: +header.dataset.healthtype,
+      type: +header.systemset.healthtype,
       value: healthDetails.penalty
     },
     complication: {
@@ -697,9 +688,9 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
 
     // Model S handling: Update state
     let header = event.currentTarget;
-    let hKey = header.dataset.healthkey;
+    let hKey = header.systemset.healthkey;
     let hStates = this.actor.system.health.details[hKey].states;
-    let hStateIndex = header.dataset.healthstate;
+    let hStateIndex = header.systemset.healthstate;
     let hState = this.actor.system.health.details[hKey].states[hStateIndex];
 
     if ( hState < 3 ) {
@@ -719,9 +710,9 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
 
     // Model S handling: Update state
     let header = event.currentTarget;
-    let hKey = header.dataset.healthkey;
+    let hKey = header.systemset.healthkey;
     let hStates = this.actor.system.health.details[hKey].states;
-    let hStateIndex = header.dataset.healthstate;
+    let hStateIndex = header.systemset.healthstate;
     let hState = this.actor.system.health.details[hKey].states[hStateIndex];
 
     if ( hState > 0 ) {
@@ -741,10 +732,10 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
   
     const header = event.currentTarget;
     // Get the type of item to create.
-    const type = header.dataset.type;
+    const type = header.systemset.type;
   
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    const data = duplicate(header.systemset);
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
@@ -755,10 +746,10 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
     };
   
     // Subtype / Flag handling
-    if (typeof header.dataset.flag !== "undefined" && header.dataset.flag !== null) {
+    if (typeof header.systemset.flag !== "undefined" && header.systemset.flag !== null) {
       console.log("Create Item Flag Handling");
       itemData.flags = {};
-      itemData.flags[header.dataset.flag] = true;
+      itemData.flags[header.systemset.flag] = true;
     }
   
     console.log(itemData);
@@ -775,7 +766,7 @@ if (game.settings.get("trinity", "healthModel") === "modelT") {
     console.log(event);
     event.preventDefault();
     if (event.currentTarget.classList.contains("saved-roll")) {
-      let rollData = this.actor.system.savedRolls[event.currentTarget.dataset.rollid];
+      let rollData = this.actor.system.savedRolls[event.currentTarget.systemset.rollid];
       console.log("rollData found: ", rollData);
       // trinityRoll(this.actor, passElements, event);
       new RollForm(this.actor, {event:event}, rollData).render(true);

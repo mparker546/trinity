@@ -26,7 +26,7 @@ export class Picker {
         html = await renderTemplate("systems/trinity/templates/pickers/pick-skil.html", {items: pItems, actor: targetActor});
         break;
       case "enha":
-        pItems = targetActor.items.filter(f => f.data.system.flags.isEnhancement === true);
+        pItems = targetActor.items.filter(f => f.system.flags.isEnhancement === true);
         pickedElements.enha = {};
         Object.assign(pickedElements.enha, pickedElementsProto.enha);
         html = await renderTemplate("systems/trinity/templates/pickers/pick-enha.html", {items: pItems, actor: targetActor});
@@ -54,12 +54,12 @@ export class Picker {
                       pickedElements.attr = Object.values(targetActor.system.attributes).find(attribute => attribute.name === i.value) || pickedElements.attr;
                       break;
                     case "skil":
-                      pickedElements.skil = targetActor.items.find(item => item.id === i.id).data || pickedElements.skil;
-                      pickedElements.skil.value = pickedElements.skil.data.value;
+                      pickedElements.skil = targetActor.items.find(item => item.id === i.id).system || pickedElements.skil;
+                      pickedElements.skil.value = pickedElements.skil.value;
                       break;
                     case "enha":
-                      pickedElements.enha[i.id] = targetActor.items.find(item => item.id === i.id).data || pickedElements.enha;
-                      pickedElements.enha.value = parseInt(pickedElements.enha.value) + parseInt(pickedElements.enha[i.id].data.enhancement.value);
+                      pickedElements.enha[i.id] = targetActor.items.find(item => item.id === i.id).system || pickedElements.enha;
+                      pickedElements.enha.value = parseInt(pickedElements.enha.value) + parseInt(pickedElements.enha[i.id].enhancement.value);
                       // pickedElements.enha.name = pickedElements.enha.name + '•' + pickedElements.enha[i.id].name;
 
                       console.log("enha case name assignment");
@@ -156,7 +156,7 @@ pickedElements.attr = targetAttr;
             let passionValue = html[0].querySelector('.newPassionValue').value
 
             actor.update({
-                "data.passions": [...actor.data.passions, [passionName, passionValue]]
+                "data.passions": [...actor.passions, [passionName, passionValue]]
 */      }
     }).render(true);
   });

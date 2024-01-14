@@ -50,10 +50,10 @@ export class TrinityCombat extends Combat
 
   _hasPlayer(c) {
     console.log("combat c:", c);
-    if (c.token?.data?.disposition === 1) {
+    if (c.token?.system?.disposition === 1) {
       return { _id: c.id, img: "systems/trinity/assets/icons-color/team-friendly.png", name: "Friendly" };
     }
-    else if (c.token?.data?.disposition === 0) {
+    else if (c.token?.system?.disposition === 0) {
       return { _id: c.id, img: "systems/trinity/assets/icons-color/team-neutral.png", name: "Neutral" };
     }
     else {
@@ -77,7 +77,7 @@ export class TrinityCombat extends Combat
       if ( !combatant?.isOwner ) return results;
 
       // Actors w/o an initiative roll
-      if (typeof combatant.actor.data.system.linkedRolls.initiative === "undefined" || combatant.actor.data.system.linkedRolls.initiative === "") {
+      if (typeof combatant.actor.system.linkedRolls.initiative === "undefined" || combatant.actor.system.linkedRolls.initiative === "") {
         let chatData = {
           content: `${combatant.actor.name} has no initiative roll selected.`
         };
@@ -91,7 +91,7 @@ export class TrinityCombat extends Combat
       } else {
 
       // Actors w/ an initiative roll selected
-        let p = combatant.actor.data.system.savedRolls[combatant.actor.data.system.linkedRolls.initiative];
+        let p = combatant.actor.system.savedRolls[combatant.actor.system.linkedRolls.initiative];
         let breaker = p.diceTotal * 0.01;
         let initModel = game.settings.get("trinity", "initModel");
         let rollFormula = "";
@@ -116,11 +116,11 @@ export class TrinityCombat extends Combat
               for (let comp of combatant.actor.complications) {
                 if (compList.length > 0) {
                   compList += "<br/>";
-                  compList += comp.data.complication.value + " - " + comp.name;
+                  compList += comp.complication.value + " - " + comp.name;
                 }
                 if (compList.length === 0) {
                   compList += `<hr /><div class="small">Character's Complications:</div><div class="small-note">`;
-                  compList += comp.data.complication.value + " - " + comp.name;
+                  compList += comp.complication.value + " - " + comp.name;
                 }
               }
               if (compList.length > 0) {
@@ -154,28 +154,28 @@ export class TrinityCombat extends Combat
 
 /*
 export async function giveFocus(c) {
-  let dispo = c.token?.data?.disposition;
+  let dispo = c.token?.system?.disposition;
   let actorName = "Temp Test Value";
   let updates = {};
   // Create Dialog Here, return selected actor
   setFocusName(c);
   // let actorName = new Dialog(info);
   // c.name = actorName;
-  // updates = game.combat.data.combatants.set(c.id, c).map(c => { return c });
-  // updates = game.combat.data.combatants.set(c.id, c).map(c => { return {_id: c.id} });
+  // updates = game.combat.combatants.set(c.id, c).map(c => { return c });
+  // updates = game.combat.combatants.set(c.id, c).map(c => { return {_id: c.id} });
 
 -----------------
-  updates = game.combat.data.combatants.map(cb => {
+  updates = game.combat.combatants.map(cb => {
     let newName = ( cb.id === c._id ) ? actorName : cb.name;
     // if ( cb.id === c._id ) { cb.name = actorName; }
     return { _id: cb.id, name: newName };
   });
 
   // { _id: c.id, name: actorName }
-  console.log(game.combat.data.combatants.set(c.id, c));
-  console.log(game.combat.data.combatants);
+  console.log(game.combat.combatants.set(c.id, c));
+  console.log(game.combat.combatants);
   console.log(updates);
-  console.log(game.combat.data.combatants.map(c => { return c }));
+  console.log(game.combat.combatants.map(c => { return c }));
   await game.combat.updateEmbeddedDocuments("Combatant", updates);
 ---------------
 }

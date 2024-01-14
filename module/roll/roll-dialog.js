@@ -7,7 +7,7 @@ export async function rollDialog(targetActor, rollData, event, force) {
 /*
   event = event || {};
   const element = event.currentTarget || {};
-  const dataset = element.dataset || {};
+  const dataset = element.systemset || {};
   var targetAttr = [];
   var targetSkill = [];
 */
@@ -31,11 +31,11 @@ export async function rollDialog(targetActor, rollData, event, force) {
   var itemList = [];
 
   for (let i of targetActor.items) {
-    if (i.type === 'attribute' && i.data.system.flags.isMain) { attributes.push(i); }
+    if (i.type === 'attribute' && i.system.flags.isMain) { attributes.push(i); }
     if (i.type === 'skill') { skills.push(i); }
-    if (i.type === 'attribute' && i.data.system.flags.isQuantum) { quantum.push(i); }
-    if (i.type === 'quantumPower' && i.data.system.flags.isDice) { powers.push(i); }
-    if (i.data.system.flags.isEnhancement) { enhancements.push(i); }
+    if (i.type === 'attribute' && i.system.flags.isQuantum) { quantum.push(i); }
+    if (i.type === 'quantumPower' && i.system.flags.isDice) { powers.push(i); }
+    if (i.system.flags.isEnhancement) { enhancements.push(i); }
   }
 
 

@@ -42,18 +42,6 @@ export class TrinityItemSheet extends ItemSheet {
     // Return a single sheet for all item types.
     return `${path}/item-sheet.html`;
 
-    // Temporary direction as "omni" sheet is developed for different
-    /*
-    let useTypes = ["attribute", "edge", "skill", "specialty", "path", "stunt", "gift", "trick", "contact", "bond", "action", "tag", "equipment", "condition"];
-    if (useTypes.indexOf(this.item.type) > -1) {
-      return `${path}/item-sheet.html`;
-    }
-    */
-
-
-    // Alternatively, you could use the following return statement to do a
-    // unique item sheet by type, like `weapon-sheet.html`.
-    // return `${path}/item-${this.item.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
@@ -61,22 +49,6 @@ export class TrinityItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
-
-    /* -- Moved to item.js
-    const itemData = data.item;
-    const stunts = [];
-    const tags = [];
-
-    for (let i of Object.keys(this.item.system.subItems)) {
-      let subItem = this.item.system.subItems[i];
-      if (subItem.type === 'stunt') { stunts.push(subItem); }
-      if (subItem.type === 'tag') { tags.push(subItem); }
-    }
-
-    // Assign and return
-    itemData.stunts = stunts;
-    itemData.tags = tags;
-    */
 
     return data;
   }
@@ -122,15 +94,10 @@ export class TrinityItemSheet extends ItemSheet {
             icon: '<i class="fa fa-check"></i>',
             label: "Yes",
             callback: dlg => {
-              // this.actor.deleteOwnedItem(li.data("itemId"));
-              // this.actor.deleteEmbeddedDocuments('Item',[li.data("itemId")]);
-              let liID = li.data("itemId");
+              let liID = li.system("itemId");
               console.log("li", li);
               console.log("liID", liID);
               console.log("ev", ev);
-              // This bit was working, not sure why it stopped working in all instances.
-              // Replaced it with code that nulls out the item, rather than deleting it.
-              // this.item.update({[`data.subItems.-=${liID}`] : null});
               this.item.update({[`data.subItems.${liID}`] : null});
               console.log("after delete", this);
               // li.slideUp(200, () => this.render(false));
@@ -148,9 +115,7 @@ export class TrinityItemSheet extends ItemSheet {
 
     html.find('.sub-item-chat').click(ev => {
       let li = $(ev.currentTarget).parents(".item");
-      let liID = li.data("itemId");
-      // let ownerItem =
-      // console.log("chat output:", this, ev, li, liID);
+      let liID = li.system("itemId");
       let ownerName = this.item.name;
       let addinfo = (this.item.system.subItems[liID].type === "stunt") ? this.item.system.subItems[liID].costDescription : this.item.system.subItems[liID].tagValue;
       let subItemName = this.item.system.subItems[liID].name+" ("+addinfo+")";
@@ -164,18 +129,6 @@ export class TrinityItemSheet extends ItemSheet {
       };
       console.log("chatData:", chatData);
       ChatMessage.create(chatData);
-      // let item = game.items.get(liID);
-      // console.log("chat item:", item);
-      /*
-      let chatData = {
-        user: game.user.id,
-        speaker: ChatMessage.getSpeaker(),
-        flavor: ("From "+item.name),
-        content: ("<h2>"+item.system.subItems[liID].name+"</h2>"+item.system.subItems[liID].description)
-      };
-      console.log("chatData:", chatData);
-      ChatMessage.create(chatData);
-      */
     });
 
     function getDescendantProp(obj, desc) {
@@ -189,9 +142,9 @@ export class TrinityItemSheet extends ItemSheet {
 // Remove value
 html.find('.sub-value').click(ev => {
   console.log("sub-value, ev:", ev);
-  let target = ev.currentTarget.dataset.target;
+  let target = ev.currentTarget.systemset.target;
   let negative = false;
-  if (ev.currentTarget.dataset.negative !== undefined && ev.currentTarget.dataset.negative === "true") {
+  if (ev.currentTarget.systemset.negative !== undefined && ev.currentTarget.systemset.negative === "true") {
     negative = true;
   }
   let current = getProperty(this.item, target);
@@ -206,7 +159,7 @@ html.find('.sub-value').click(ev => {
 
 // Add Value
 html.find('.add-value').click(ev => {
-  let target = ev.currentTarget.dataset.target;
+  let target = ev.currentTarget.systemset.target;
   let current = getProperty(this.item, target);
   console.log("Add Value:", ev);
   if (current === null || current < 0) {
@@ -216,8 +169,6 @@ html.find('.add-value').click(ev => {
   this.render(true);
 });
 
-    // html.find('.memorization-slot').on("drop", console.log("something dropped: ",this));
-
   }
 
   async _onDrop(event) {
@@ -225,7 +176,7 @@ html.find('.add-value').click(ev => {
     // Try to extract the data
     let data;
     try {
-      data = JSON.parse(event.dataTransfer.getData('text/plain'));
+      data = JSON.parse(event.systemTransfer.getData('text/plain'));
     } catch (err) {
       return false;
     }
@@ -234,10 +185,6 @@ html.find('.add-value').click(ev => {
     console.log(data);
 
     switch ( data.type ) {
-    /*  case "ActiveEffect":
-        return this._onDropActiveEffect(event, data);
-      case "Actor":
-        return this._onDropActor(event, data); */
       case "Item":
         return this._onDropItem(event, data);
       case "Folder":
@@ -249,9 +196,6 @@ html.find('.add-value').click(ev => {
     if ( !this.item.isOwner ) return false;
     const item = await Item.implementation.fromDropData(data);
     const itemData = item.toObject();
-
-    // Handle item sorting within the same Actor
-    // if ( await this._isFromSameActor(data) ) return this._onSortItem(event, itemData);
 
     // Create the owned item
     return this._onDropGetInfo(itemData);
@@ -267,24 +211,18 @@ html.find('.add-value').click(ev => {
 
   async _onDropGetInfo(itemData) {
     itemData = itemData instanceof Array ? itemData : [itemData];
-    // console.log("_onDropGetInfo itemData", itemData);
-    // console.log("_onDropGetInfo this", this);
-    // let destinationItem = game.items.get(this.object.id) || game.actors.get(this.object.actor).items.get(this.object.id).type
-    // console.log("_onDropGetInfo destinationItem", destinationItem);
     let updates = [];
     let subItems = {};
     for (var droppedItem of itemData) {
       switch (droppedItem.type) {
         case "stunt":
-          // console.log("_onDropGetInfo this-in-loop", this);
-          // console.log("_onDropGetInfo droppedItem-in-loop", droppedItem);
           subItems = this.item.system.subItems;
           subItems[droppedItem._id] = {
             id : droppedItem._id,
             name : droppedItem.name,
             type : droppedItem.type,
-            description : droppedItem.data.description,
-            costDescription : droppedItem.data.costDescription
+            description : droppedItem.system.description,
+            costDescription : droppedItem.system.costDescription
           };
           this.item.update({'data.subItems': subItems});
           break;
@@ -294,8 +232,8 @@ html.find('.add-value').click(ev => {
             id : droppedItem._id,
             name : droppedItem.name,
             type : droppedItem.type,
-            description : droppedItem.data.description,
-            tagValue : droppedItem.data.tagValue
+            description : droppedItem.system.description,
+            tagValue : droppedItem.system.tagValue
           };
           this.item.update({'data.subItems': subItems});
           break;
@@ -305,9 +243,9 @@ html.find('.add-value').click(ev => {
             id : droppedItem._id,
             name : droppedItem.name,
             type : droppedItem.type,
-            description : droppedItem.data.description,
-            costDescription : droppedItem.data.costDescription,
-            dotRequirement : droppedItem.data.dotRequirement
+            description : droppedItem.system.description,
+            costDescription : droppedItem.system.costDescription,
+            dotRequirement : droppedItem.system.dotRequirement
           };
           this.item.update({'data.subItems': subItems});
           break;

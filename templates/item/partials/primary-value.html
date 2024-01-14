@@ -99,7 +99,7 @@
         <select id="injury-level" name="data.injury.type" data-dtype="Number">
           {{#select data.system.injury.type}}
             <option value="">None</option>
-            {{#each item.parent.data.system.health.details as |healthtype id|}}
+            {{#each item.parent.system.health.details as |healthtype id|}}
             <option value="{{healthtype.type}}">{{healthtype.name}}</option>
             {{/each}}
           {{/select}}

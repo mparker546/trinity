@@ -15,7 +15,7 @@ export function gameHooks() {
     // Hook for roll dialog - perhaps better done with extening dialog class and using active listeners, but this seems earier for now:
   /* Hook off
     Hooks.on('renderDialog', (dialog, html, data, input) => {
-      if (dialog.data.id === "rdialog") {
+      if (dialog.id === "rdialog") {
         html.find(".attr").on('click', event => {
           console.log("Test: Attr Roller Hook");
           console.log(dialog);
@@ -87,10 +87,10 @@ export function gameHooks() {
             console.log("getCombatTrackerEntryContext hook fired");
             console.log(this);
             console.log(target);
-            console.log(target[0].dataset.combatantId);
-            let targetCombatant = target[0].dataset.combatantId;
-            console.log(game.combat.data.combatants);
-            let c = game.combat.data.combatants.get(targetCombatant);
+            console.log(target[0].systemset.combatantId);
+            let targetCombatant = target[0].systemset.combatantId;
+            console.log(game.combat.combatants);
+            let c = game.combat.combatants.get(targetCombatant);
             console.log(c);
             setFocusName(c);
           } else {

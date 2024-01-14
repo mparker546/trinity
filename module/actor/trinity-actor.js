@@ -46,7 +46,7 @@ export class TrinityActor extends Actor {
      {
        for (let i of Object.keys(pcAttribs) )
        {
-         //await actor.createEmbeddedDocuments("Item", [pcAttribs[i].data])
+         //await actor.createEmbeddedDocuments("Item", [pcAttribs[i].system])
          // data.items.push(pcAttribs[i]);
          data.items.push(game.items.fromCompendium(pcAttribs[i]));
        }
@@ -89,7 +89,7 @@ export class TrinityActor extends Actor {
     await setHealth(actorData);
     // setHealth doesn't trigger a redraw of token bars - this does it manually
     if (typeof canvas.tokens !== "undefined") {
-      let token = canvas.tokens.placeables.find(i => i.data.actorId === this.system._id);
+      let token = canvas.tokens.placeables.find(i => i.actorId === this.system._id);
       if (typeof token !== "undefined") {
         token.drawBars();
       }

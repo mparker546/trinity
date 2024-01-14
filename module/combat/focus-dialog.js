@@ -1,9 +1,9 @@
 export async function setFocusName(c) {
 
-  let dispo = c.token?.data?.disposition;
+  let dispo = c.token?.system?.disposition;
   let group = [];
-  game.combat.data.combatants.map(cb => {
-    if (cb.token?.data?.disposition === dispo) { group.push(cb.actor); }
+  game.combat.combatants.map(cb => {
+    if (cb.token?.system?.disposition === dispo) { group.push(cb.actor); }
   });
   console.log("group", group);
 
@@ -12,7 +12,7 @@ export async function setFocusName(c) {
       super.activateListeners(html);
       html.find('.combatant').click( event => {
         console.log("Clicked:", event);
-        let actorID = event.currentTarget.dataset.actorid;
+        let actorID = event.currentTarget.systemset.actorid;
         updateFocusName(c, game.actors.get(actorID));
         this.close();
       } );
@@ -44,10 +44,10 @@ export async function setFocusName(c) {
   async function updateFocusName(c, actor) {
     console.log("updateFocusName:", c, actor);
     let updates = {};
-    updates = game.combat.data.combatants.map(cb => {
+    updates = game.combat.combatants.map(cb => {
       // console.log("cb/b", cb, c);
       let newName = ( cb.id === c.id ) ? actor.name : cb.name;
-      let newToken = ( cb.id === c.id ) ? actor.data.token.img : cb.data.img;
+      let newToken = ( cb.id === c.id ) ? actor.token.img : cb.img;
       // console.log("newName:", newName);
       return {
         _id: cb.id,

@@ -13,16 +13,16 @@
     <label class="flex-child-fit" for="char-concept">Concept:</label>
       <input class="flex-child-fit" id="char-concept" name="data.concept" type="text" value="{{data.system.concept}}"/>
   </div>
-  {{#if actor.data.system.flags.isPsion}}
+  {{#if actor.system.flags.isPsion}}
   <div class="flex-parent">
     <label class="flex-child-fit" for="char-psiOrder">Psi Order:</label>
       <input class="flex-child-fit" id="char-psiOrder" name="data.psiOrder" type="text" value="{{data.system.psiOrder}}"/>
   </div>
   {{/if}}
-  {{#if actor.data.system.flags.isTalent}}
+  {{#if actor.system.flags.isTalent}}
   <div class="flex-parent">
     <label class="flex-child-fit" for="moment">Moment of Inspiration:</label>
-      <input class="flex-child-fit" id="moment" name="data.moment" type="text" value="{{actor.data.system.moment}}"/>
+      <input class="flex-child-fit" id="moment" name="data.moment" type="text" value="{{actor.system.moment}}"/>
   </div>
   {{/if}}
   <div class="flex-parent">
